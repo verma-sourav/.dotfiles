@@ -1,0 +1,13 @@
+{
+    "autosu": true,
+    "colorcolumn": 100,
+    "colorscheme": "one-dark",
+    "diffgutter": true,
+    "eofnewline": false,
+    "fastdirty": true,
+    "pluginchannels": [
+        "https://raw.githubusercontent.com/micro-editor/plugin-channel/master/channel.json"
+    ],
+    "pluginrepos": [],
+    "tabstospaces": true
+}
