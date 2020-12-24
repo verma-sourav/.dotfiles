@@ -1,0 +1,21 @@
+[include]
+    path = ~/.gitconfig.local
+[alias]
+    switch = checkout
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+    ui = true
+[core]
+    editor = code -w
+[apply]
+    whitespace = nowarn
+[mergetool]
+    keepBackup = false
+[difftool]
+    prompt = false
+[help]
+    autocorrect = 1
+[push]
+    default = simple
