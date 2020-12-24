@@ -138,6 +138,8 @@ install_dotfiles () {
 }
 
 setup_gitconfig
+# Make sure that the git submodules that are used for plugins are clones
+git submodule update --init --recursive
 install_dotfiles
 
 # If we're on a Mac, let's install and setup homebrew.
