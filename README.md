@@ -23,7 +23,7 @@ Any file named `path.zsh` is loaded first and is expected to setup `$PATH` or si
 #### `topic/completion.zsh`
 Any file named `completion.zsh` is loaded last and is expected to setup autocomplete.
 
-#### `topic/*.install`
+#### `topic/install.sh`
 Any file named `install.sh` is executed when you run `script/install`. To avoid being loaded automatically, its extension is `.sh` and not `.zsh`.
 
 ## Installation
