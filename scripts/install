@@ -13,18 +13,25 @@ function main() {
             # Ask the user if they want this installer run
             local char
             echo
-            echo "Found installer: $installer"
-            echo "Press RETURN to run or any other key to skip"
+            say "Found installer: $installer"
+            say "Press RETURN to run or any other key to skip"
             read -rsN1 char </dev/tty
             echo 
             if ! [[ "$char" == $'\n' || "$char" == $'\r' ]]
             then
-                echo "Skipped $installer"
+                say "Skipped $installer"
                 continue
             fi
             # If it wasn't skipped, run the installer
             sh -c "${installer}"
         done
+}
+
+function say() {
+    # Light Green
+    local output_color='\033[1;32m'
+    local no_color='\033[0m'
+    echo -e "${output_color}${1}${no_color}"
 }
 
 main "$@"
