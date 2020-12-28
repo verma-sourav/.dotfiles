@@ -32,8 +32,10 @@ Any file named `install.sh` is executed when you run `script/install`. To avoid 
 git clone https://github.com/cdevoogd/tilde.git ~/.dotfiles
 # Change into the now-cloned repo
 cd ~/.dotfiles
-# Install the dotfiles
+# Install dotfiles 
 scripts/bootstrap
+# Run topic install scripts
+scripts/install
 ```
 
 You may want to change the `zsh/zshrc.symlink` file. This file sets up a few paths that will be different on your particular machine.
