@@ -2,22 +2,25 @@
 # 
 # Bootstrap is used to quickly install and setup your machine. 
 
-function __info() {
-    printf "[INFO] %s\n" "$1"
+# Exit if any pipeline returns a non-zero exit code
+# https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#The-Set-Builtin
+set -e
+
+function main() {
+    echo ''
+    # This script will be inside of a folder, so change to the full dotfiles dir.
+    cd "$(dirname "$0")/.."
+    DOTFILES_ROOT=$(pwd -P)
+
+    # Now we can start installing things...
+    setup_gitconfig
+    clone_submodules
+    install_dotfiles
+
+    echo ''
+    echo 'Bootstrap script complete!'
 }
 
-function __success() {
-    printf "[SUCCESS] %s\n" "$1"
-}
-
-function _error() {
-    printf "[ERROR] %s\n" "$1"
-}
-
-function __user() {
-    printf "[QUESTION] %s\n" "$1"
-    printf "    > "
-}
 
 function setup_gitconfig() {
     if ! [ -f git/gitconfig.local.symlink ]
@@ -128,32 +131,22 @@ function install_dotfiles() {
     __success 'Successfully installed dotfiles'
 }   
 
-echo ''
+function __info() {
+    printf "[INFO] %s\n" "$1"
+}
 
-# Exit if any pipeline returns a non-zero exit code
-# https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#The-Set-Builtin
-set -e
+function __success() {
+    printf "[SUCCESS] %s\n" "$1"
+}
 
-# This script will be inside of a folder, so chagne to the full dotfiles dir.
-cd "$(dirname "$0")/.."
-DOTFILES_ROOT=$(pwd -P)
+function __error() {
+    printf "[ERROR] %s\n" "$1"
+}
 
-# Now we can start installing things...
-setup_gitconfig
-clone_submodules
-install_dotfiles
+function __user() {
+    printf "[QUESTION] %s\n" "$1"
+    printf "    > "
+}
 
-# If we are on a Mac, lets run our dot script
-if [ "$(uname -s)" == "Darwin" ]
-then
-  __info 'Script is running on macOS, installing dependencies using dot'
-  if source bin/dot | while read -r data; do info "$data"; done
-  then
-    __success "Successfully installed dependencies"
-  else
-    __error "An error occured when installing dependencies"
-  fi
-fi
+main "$@"
 
-echo ''
-echo 'Bootstrap script complete!'
