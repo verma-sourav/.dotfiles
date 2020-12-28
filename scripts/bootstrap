@@ -13,6 +13,7 @@ function main() {
     DOTFILES_ROOT=$(pwd -P)
 
     # Now we can start installing things...
+    download_starship
     setup_gitconfig
     clone_submodules
     install_dotfiles
@@ -21,6 +22,11 @@ function main() {
     echo 'Bootstrap script complete!'
 }
 
+function download_starship() {
+    __info 'Downloading starship prompt...'
+    curl -fsSL https://starship.rs/install.sh | bash -s  -- --force &> /dev/null
+    __success 'Successfully downloaded starship'
+}
 
 function setup_gitconfig() {
     if ! [ -f git/gitconfig.local.symlink ]
