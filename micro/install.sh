@@ -3,26 +3,19 @@
 # Micro
 #
 # This script installs the micro text editor: https://github.com/zyedidia/micro
+set -e
+cd "$(dirname "$0")"
+source ../scripts/common/checks.sh
+source ../scripts/common/logging.sh
 
-function main() {
-    if command -v micro &> /dev/null
-    then
-        say 'Micro is already installed'
-        exit 0
-    fi
+if ! cmd_exists micro; then
+    log_warn "Micro is already installed."
+    exit 0
+fi
 
-    say 'Installing micro using curl...'
-    curl https://getmic.ro | bash
-    say 'Moving micro to /usr/bin, your password may be required'
-    sudo mv micro /usr/bin
-    say 'Successfully installed micro'
-}
-
-function say() {
-    # Blue
-    local color='\033[0;34m'
-    local no_color='\033[0m'
-    echo -e "${color}${1}${no_color}"
-}
-
-main "$@"
+log_info "Installing micro..."
+curl -fsSL https://getmic.ro | bash &> /dev/null
+log_info "Moving micro to /usr/bin..."
+log_warn "This may require you to enter your password."
+sudo mv micro /usr/bin
+log_success "Successfully installed micro!"
