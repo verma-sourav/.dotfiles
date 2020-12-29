@@ -1,37 +1,27 @@
 #!/usr/bin/env bash
-#
-# Run all installers
+# ----------------------------------------------------------------------------------------------------------------------
+# install
+# Install is used to run all of the installers within the dotfiles repository. Any file named install.sh will be found
+# and run by this script.
+# ----------------------------------------------------------------------------------------------------------------------
 
+set -e 
+cd "$(dirname "$0")"/..
+source scripts/common/logging.sh
 
-function main() {
-    set -e 
-    cd "$(dirname "$0")"/..
-
-    # Find all installers and run them iteratively
-    find . -name install.sh | 
-        while read -r installer ; do 
-            # Ask the user if they want this installer run
-            local char
-            echo
-            say "Found installer: $installer"
-            say "Press RETURN to run or any other key to skip"
-            read -rsN1 char </dev/tty
-            echo 
-            if ! [[ "$char" == $'\n' || "$char" == $'\r' ]]
-            then
-                say "Skipped $installer"
-                continue
-            fi
-            # If it wasn't skipped, run the installer
-            sh -c "${installer}"
-        done
-}
-
-function say() {
-    # Light Green
-    local output_color='\033[1;32m'
-    local no_color='\033[0m'
-    echo -e "${output_color}${1}${no_color}"
-}
-
-main "$@"
+find . -name install.sh | 
+    while read -r installer ; do 
+        echo
+        log_warn "Found installer: $installer"
+        log_question "Press RETURN to run or any other key to skip..."
+        read -rsN1 char </dev/tty
+        if ! [[ "$char" == $'\n' || "$char" == $'\r' ]]; then
+            log_success "Skipped $installer"
+            continue
+        fi
+        
+        log_info "Running installer... ($installer)"
+        # The sed pipe adds tabs before output to separate it visually
+        sh -c "${installer}" 2>&1 | sed 's/^/    /'
+        log_success "Finished running installer."
+    done
