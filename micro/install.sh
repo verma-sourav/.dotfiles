@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
-#
-# Micro
-#
-# This script installs the micro text editor: https://github.com/zyedidia/micro
+# ----------------------------------------------------------------------------------------------------------------------
+# install.sh
+# This install script installs the micro text editor https://github.com/zyedidia/micro
+# ----------------------------------------------------------------------------------------------------------------------
+
 set -e
 cd "$(dirname "$0")"
 source ../scripts/common/checks.sh
