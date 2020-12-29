@@ -1,94 +1,98 @@
 #!/usr/bin/env bash
-# 
-# Bootstrap is used to quickly install and setup your machine. 
+# ----------------------------------------------------------------------------------------------------------------------
+# bootstrap
+# Bootstrap is used to quickly install and setup your machine.
+# Bootstrap creates symlinks to your home directory and sets up zsh dependencies.
+# ----------------------------------------------------------------------------------------------------------------------
 
-# Exit if any pipeline returns a non-zero exit code
-# https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#The-Set-Builtin
 set -e
+cd "$(dirname "$0")/.."
+DOTFILES_ROOT=$(pwd -P)
+source scripts/common/checks.sh
+source scripts/common/logging.sh
 
 function main() {
-    echo ''
-    # This script will be inside of a folder, so change to the full dotfiles dir.
-    cd "$(dirname "$0")/.."
-    DOTFILES_ROOT=$(pwd -P)
 
-    # Now we can start installing things...
-    download_starship
-    setup_gitconfig
-    clone_submodules
-    install_dotfiles
+    echo
+    setup_zsh
+    setup_git
+    setup_dotfiles
+    echo
 
-    echo ''
-    echo 'Bootstrap script complete!'
 }
 
-function download_starship() {
-    __info 'Downloading starship prompt...'
+function setup_zsh() {
+    log_info "Starting ZSH setup..."
+
+    log_info "Downloading Starship prompt..."
+    log_warn "This may require you to enter your password."
     curl -fsSL https://starship.rs/install.sh | bash -s  -- --force &> /dev/null
-    __success 'Successfully downloaded starship'
+    log_success "Successfully downloaded Starship!"
+
+    log_info "Downloading ZSH plugins..."
+    git submodule update --init --recursive &> /dev/null
+    log_success "Successfully downloaded ZSH plugins!"
+
+    log_success "Successfully set up ZSH!"
 }
 
-function setup_gitconfig() {
-    if ! [ -f git/gitconfig.local.symlink ]
-    then
-        __info 'Setting up .gitconfig...'
-        
-        # Make sure we use the correct Git Credential Helper for the current OS
-        local git_credential='cache'
-        if [ "$(uname -s)" == "Darwin" ]
-        then
-            git_credential='osxkeychain'
+function setup_git() {
+    log_info "Starting Git setup..."
+
+    if ! [[ -f git/gitconfig.local.symlink ]]; then
+        log_info "Setting up Git author information..."
+
+        local credential_helper="cache"
+        if running_on_mac; then
+            credential_helper="osxkeychain"
         fi
+        local name
+        local email
+        log_question "Enter your name: "
+        read -e -r name
+        log_question "Enter your email: "
+        read -e -r email 
+        sed -e "s/AUTHORNAME/$name/g" -e "s/AUTHOREMAIL/$email/g" -e "s/GIT_CREDENTIAL_HELPER/$credential_helper/g" git/gitconfig.local.symlink.example > git/gitconfig.local.symlink
 
-        # Get the user's name & email to add to the gitconfig file
-        __user "Git: What is your author name?"
-        read -e -r git_author_name
-        __user "Git: What is your author email?"
-        read -e -r git_author_email
-
-        # Use the previous information to replace the placeholders in the example gitconfig
-        sed -e "s/AUTHORNAME/$git_author_name/g" -e "s/AUTHOREMAIL/$git_author_email/g" -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" git/gitconfig.local.symlink.example > git/gitconfig.local.symlink
-
-        __success 'Successfully created .gitconfig'
+        log_success "Successfully set up Git author information!"
     fi
+
+    log_success "Successfully set up Git!"
 }
 
-function clone_submodules() {
-    # ZSH plugins are added to this repo using git submodules. Git submodules 
-    # are not cloned when this repo is cloned, so it has to be done seperately.
-    __info 'Cloning git submodules...'
-    git submodule update --init --recursive > /dev/null
-    __success 'Successfully cloned git submodules'
+function setup_dotfiles() {
+    log_info "Linking dotfiles to the home directory..."
 
+    local overwrite_all=false
+    local skip_all=false
+
+    for src in $(find -H "$DOTFILES_ROOT" -maxdepth 2 -name '*.symlink' -not -path '*.git*')
+    do
+        dst="$HOME/.$(basename "${src%.*}")"
+        _link_file "$src" "$dst"
+    done
+
+    log_success "Successfully linked dotfiles!"
 }
 
-function link_file() {
+function _link_file() {
     local source=$1 
     local destination=$2
-    # Declare variables for use when the destination file already exists
     local skip=
     local overwrite= 
     local action=
 
-    # Test if a file, dir, or link with the same name as `destination` exists
-    if [[ -f "$destination" || -d "$destination" || -L "$destination" ]]
-    then
-        if [ "$overwrite_all" == "false" ] && [ "$skip_all" == "false" ]
-        then
-            # Get the actual location of the file (in case it is a symlink)
+    if [[ -f "$destination" || -d "$destination" || -L "$destination" ]]; then
+        if [ "$overwrite_all" == "false" ] && [ "$skip_all" == "false" ]; then
             local existingSource="$(readlink $destination)"
-            # If the link is already pointing to the file we are working on, 
-            # then nothing needs to happen.
-            if [ "$existingSource" == "$source" ]
-            then
+
+            if [ "$existingSource" == "$source" ]; then
                 skip=true
             else
-                # If this file is not from our dotfiles, ask the user what to do
-                __info "File already exists: $destination"
-                __user "Resolution Options: [s]kip, [S]kip All, [o]verwrite, or [O]verwrite All"
+                log_warn "File already exists: $destination"
+                log_question "Resolution Options: [s]kip, [S]kip All, [o]verwrite, or [O]verwrite All"
                 read -n 1 action
-                # This read wont add a newline, so lets to it manually
-                printf '\n'
+                echo
                 
                 case "$action" in
                     s ) skip=true;;
@@ -103,56 +107,21 @@ function link_file() {
         overwrite=${overwrite:-$overwrite_all}
         skip=${skip:-$skip_all}
 
-        if [ "$overwrite" == "true" ]
-        then
+        if [ "$overwrite" == "true" ]; then
             rm -rf "$destination"
-            __info "Removed $destination"
+            log_info "Removed $destination"
         fi
 
-        if [ "$skip" == "true" ]
-        then
-            __success "Skipped $destination"
+        if [ "$skip" == "true" ]; then
+            log_info "Skipped $destination"
         fi
     fi
 
     # If skip is false or empty:
-    if [ "$skip" != "true" ]
-    then
+    if [ "$skip" != "true" ]; then
         ln -s "$source" "$destination"
-        __success "Linked $source to $destination"
+        log_info "Linked $source -> $destination"
     fi
 }
 
-function install_dotfiles() {
-    __info 'Installing dotfiles...'
-    local overwrite_all=false skip_all=false
-
-    # Loop through files found by the `find` function and attempt to link the file.
-    for src in $(find -H "$DOTFILES_ROOT" -maxdepth 2 -name '*.symlink' -not -path '*.git*')
-    do
-        dst="$HOME/.$(basename "${src%.*}")"
-        link_file "$src" "$dst"
-    done
-
-    __success 'Successfully installed dotfiles'
-}   
-
-function __info() {
-    printf "[INFO] %s\n" "$1"
-}
-
-function __success() {
-    printf "[SUCCESS] %s\n" "$1"
-}
-
-function __error() {
-    printf "[ERROR] %s\n" "$1"
-}
-
-function __user() {
-    printf "[QUESTION] %s\n" "$1"
-    printf "    > "
-}
-
 main "$@"
-
