@@ -1,89 +1,84 @@
 #!/usr/bin/env bash
-#
-# Homebrew
-#
-# This script installs homebrew, as well as a few common programs.
+# ----------------------------------------------------------------------------------------------------------------------
+# install.sh
+# This install script installs the homebrew package manager https://brew.sh/
+# ----------------------------------------------------------------------------------------------------------------------
 
 set -e
+cd "$(dirname "$0")"
+source ../scripts/common/checks.sh
+source ../scripts/common/logging.sh
+
+packages="git python3 wget tree"
 
 function main() {
-    if command_exists brew &> /dev/null
-    then
-        say 'Homebrew is already installed.'
-    else
-        say 'Homebrew is not currently installed.'
-        
-        # Make sure that the required dependencies are installed
-        say 'Installing Homebrew dependencies...'
-        install_dependencies
-        say 'Successfully installed dependencies'
-        
-        # Download Homebrew
-        say 'Downloading Homebrew...'
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        # If the install script returned an error, stop this script.
-        if [[ "${PIPESTATUS[0]}" != 0 ]]
-        then
-            say 'Error: Installation script exited with non-zero code - Homebrew installation aborted'
-            exit 1
-        fi
-        say 'Successfully downloaded Homebrew'
-
-        # Create a path.zsh file to add the brew install to PATH
-        say 'Adding Homebrew to PATH...'
-        create_path_file
-        say 'Successfully added Homebrew to PATH'
-
-        say 'Successfully installed Homebrew'
+    if cmd_exists brew; then 
+    log_warn "Homebrew is already installed."
+    exit 0
     fi
 
-    say 'Attempting to install or update common Homebrew packages...'
+    log_info "Installing Homebrew..."
+    install_dependencies
+    download_homebrew
+    create_path_file
     install_packages
-    say 'Successfully installed/updated Homebrew packages'
-    
-    exit 0
+    log_success "Successfully installed Homebrew!"
 }
 
-function say() {
-    # Blue
-    local color='\033[0;34m'
-    local no_color='\033[0m'
-    echo -e "${color}${1}${no_color}"
-}
-
-function command_exists() {
-    command -v "$1" 
-}
 
 function install_dependencies() {
-    if [ "$(uname -s)" == "Darwin" ]
+    log_info "Installing Homebrew dependencies..."
+
+    if running_on_mac; then
+        log_info "Installing Xcode Command Line Tools..."
+        xcode select --install
+    else
+        log_info "Installing build-essential, curl, file, and git..."
+        log_warn "This may require you to enter your password."
+        sudo apt-get -qq update > /dev/null 
+        sudo apt-get -qq upgrade > /dev/null
+        sudo apt-get -qq install build-essential curl file git > /dev/null
+        sudo apt-get -qq autoremove > /dev/null
+    fi
+
+    log_success "Successfully installed dependencies!"
+}
+
+function download_homebrew() {
+    log_info "Downloading Homebrew..."
+    
+    # Piping echo like this prevents homebrew from requiring the user to press enter.
+    echo | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)" &> /dev/null
+    # If the script returned an error, stop this script.
+    if [[ "${PIPESTATUS[1]}" != 0 ]]
     then
-        say 'Installing Xcode Command Line Tools'
-        xcode-select --install
-    elif [ "$(uname -s)" == "Linux" ]
-    then
-        say 'This may require you to enter your password.'
-        sudo apt-get install curl
-    else 
-        say 'Error: Unknown operating system - Exiting'
+        log_error "Error: Homebrew download script returned a non-zero exit code"
         exit 1
     fi
+
+    log_success "Homebrew downloaded successfully"
 }
 
 function create_path_file() {
-    if [ "$(uname -s)" == "Darwin" ]
-    then
+    log_info "Adding Homebrew to PATH..."
+
+    if running_on_mac; then
         echo 'export PATH="/usr/local/bin:$PATH"' > "$ZSH/homebrew/path.zsh"
     else
         echo 'export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"' > "$ZSH/homebrew/path.zsh"
     fi
-    # Since this was just created, we will need to source it for when we install packages.
     source $ZSH/homebrew/path.zsh
+
+    log_success "Successfully added Homebrew to your path"
 }
 
 function install_packages() {
-    brew install git python3 wget tree
-    brew cleanup
+    log_info 'Installing Homebrew packages...'
+    
+    brew install "$packages" &> /dev/null
+    brew cleanup &> /dev/null
+    
+    log_success 'Successfully installed Homebrew packages'
 }
 
 main "$@"
