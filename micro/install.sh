@@ -9,7 +9,7 @@ cd "$(dirname "$0")"
 source ../scripts/common/checks.sh
 source ../scripts/common/logging.sh
 
-if ! cmd_exists micro; then
+if cmd_exists micro; then
     log_warn "Micro is already installed."
     exit 0
 fi
