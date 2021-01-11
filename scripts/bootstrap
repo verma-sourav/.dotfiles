@@ -39,7 +39,7 @@ function setup_zsh() {
 function setup_git() {
     log_info "Starting Git setup..."
 
-    if ! [[ -f git/gitconfig.local.symlink ]]; then
+    if ! [[ -f git/symlink.gitconfig.local ]]; then
         log_info "Setting up Git author information..."
 
         local credential_helper="cache"
@@ -52,7 +52,7 @@ function setup_git() {
         read -e -r name
         log_question "Enter your email: "
         read -e -r email 
-        sed -e "s/AUTHORNAME/$name/g" -e "s/AUTHOREMAIL/$email/g" -e "s/GIT_CREDENTIAL_HELPER/$credential_helper/g" git/gitconfig.local.symlink.example > git/gitconfig.local.symlink
+        sed -e "s/AUTHORNAME/$name/g" -e "s/AUTHOREMAIL/$email/g" -e "s/GIT_CREDENTIAL_HELPER/$credential_helper/g" git/template.gitconfig.local > git/symlink.gitconfig.local
 
         log_success "Successfully set up Git author information!"
     fi
@@ -66,9 +66,11 @@ function setup_dotfiles() {
     local overwrite_all=false
     local skip_all=false
 
-    for src in $(find -H "$DOTFILES_ROOT" -maxdepth 2 -name '*.symlink' -not -path '*.git*')
+    for src in $(find -H "$DOTFILES_ROOT" -maxdepth 2 -name 'symlink.*')
     do
-        dst="$HOME/.$(basename "${src%.*}")"
+        filename=$(basename "${src}")
+        without_prefix="${filename##symlink}"
+        dst="$HOME/$without_prefix"
         _link_file "$src" "$dst"
     done
 

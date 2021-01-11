@@ -1,5 +1,5 @@
 # Repository-specific ignores
-git/gitconfig.local.symlink
+git/symlink.gitconfig.local
 homebrew/path.zsh
 
 # Because dotfiles tend to contain machine-specific or even sensitive information, ignore them by default.

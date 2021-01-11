@@ -34,8 +34,8 @@ For local changes and environment variables, you can create a file inside of you
 #### `bin/`
 Anything in the `bin/` directory will be added to your `$PATH` and made available everywhere.
 
-#### `topic/*.symlink`
-Any file ending in `.symlink` will be symlinked into your `$HOME`. This is so you can have your autoloaded files in your home directory, but keep the other files 
+#### `topic/symlink.*`
+Any file beginning with `symlink.` will be symlinked into your `$HOME`. This is so you can have your autoloaded files in your home directory, but keep the other files 
 inside of your dotfiles directory. These files will be symlinked when you run `scripts/bootstrap`.
 
 #### `topic/*.zsh`
