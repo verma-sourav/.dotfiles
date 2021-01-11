@@ -20,7 +20,6 @@ function main() {
     log_info "Installing Homebrew..."
     install_dependencies
     download_homebrew
-    create_path_file
     install_packages
     log_success "Successfully installed Homebrew!"
 }
@@ -57,19 +56,6 @@ function download_homebrew() {
     fi
 
     log_success "Homebrew downloaded successfully"
-}
-
-function create_path_file() {
-    log_info "Adding Homebrew to PATH..."
-
-    if running_on_mac; then
-        echo 'export PATH="/usr/local/bin:$PATH"' > "$ZSH/homebrew/path.zsh"
-    else
-        echo 'export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"' > "$ZSH/homebrew/path.zsh"
-    fi
-    source $ZSH/homebrew/path.zsh
-
-    log_success "Successfully added Homebrew to your path"
 }
 
 function install_packages() {
