@@ -61,6 +61,8 @@ function setup_git() {
 }
 
 function setup_dotfiles() {
+    confirm_hushlogin
+
     log_info "Linking dotfiles to the home directory..."
 
     local overwrite_all=false
@@ -75,6 +77,16 @@ function setup_dotfiles() {
     done
 
     log_success "Successfully linked dotfiles!"
+}
+
+function confirm_hushlogin() {
+    log_question "Would you like to add a .hushlogin to this machine?"
+    select yn in "Yes" "No"; do
+        case $yn in
+            Yes ) touch system/symlink.hushlogin; break;;
+            No ) break;;
+        esac
+    done
 }
 
 function _link_file() {
