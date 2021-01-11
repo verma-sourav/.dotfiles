@@ -18,11 +18,7 @@ Everything inside of the repo is organized by topic, and git submodules are used
 git clone https://github.com/cdevoogd/tilde.git ~/.dotfiles
 # Change into the new directory
 cd .dotfiles
-# Run bootstrap to install the dotfiles
-scripts/bootstrap
-# Rerun ZSH to make sure we are using the newly-installed dotfiles
-zsh
-# Run the install scripts
+# Run the installer
 scripts/install
 ```
 

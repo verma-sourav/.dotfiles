@@ -1,27 +1,211 @@
 #!/usr/bin/env bash
 # ----------------------------------------------------------------------------------------------------------------------
 # install
-# Install is used to run all of the installers within the dotfiles repository. Any file named install.sh will be found
-# and run by this script.
+# Install is used to setup all dotfiles and run all installers. You will be given prompts for each installer,
+# allowing you to choose what to put on your specific machine
 # ----------------------------------------------------------------------------------------------------------------------
 
 set -e 
-cd "$(dirname "$0")"/..
+cd "$(dirname "$0")/.."
+DOTFILES_ROOT=$(pwd -P)
+source scripts/common/checks.sh
 source scripts/common/logging.sh
+source scripts/common/prompts.sh
 
-find . -name install.sh | 
-    while read -r installer ; do 
+function main() {
+    echo
+    check_zsh
+    echo
+    setup_zsh
+    echo
+    setup_dotfiles
+    echo
+    run_installers
+    echo
+}
+
+function check_zsh() {
+    log_info "Checking that ZSH is installed and is the default shell..."
+    if cmd_exists "zsh"; then
+        log_info "ZSH is installed"
+    elif running_on_linux; then
+        log_info "ZSH is not installed"
+        log_info "Installing ZSH using apt"
+        sudo apt install zsh
+    else
+        # Macs come with ZSH preinstalled, this should never happen
+        log_error "ZSH is not installed on a macOS system, how? Exiting..."
+        exit 1
+    fi
+
+    if [ "$SHELL" == "/bin/zsh" ]; then
+        log_info "ZSH is already the default shell"
+    else
+        log_info "ZSH is not currently the default shell"
+        log_info "Updating ZSH to be the default shell using chsh"
+        chsh -s /bin/zsh
+    fi
+    log_success "Completed ZSH checks"
+}
+
+function setup_zsh() {
+    log_info "Setting up ZSH..."
+    download_starship
+    download_plugins
+    log_success "Completed ZSH setup"
+}
+
+function setup_git() {
+    log_info "Starting git setup..."
+    setup_gitconfig
+    log_success "Completed git setup"
+}
+
+function setup_dotfiles() {
+    log_info "Starting dotfiles setup..."
+    confirm_hushlogin
+    find_and_link_files
+    log_success "Completed dotfiles setup"
+}
+
+function run_installers() {
+    log_info "Running installers..."
+    find_and_run_installers
+    log_success "Completed running installers"
+}
+
+function download_starship() {
+    if cmd_exists "starship"; then
+        log_info "Starship is already installed - Skipping"
+        return
+    fi
+
+    log_info "Downloading Starship prompt..."
+    curl -fsSL https://starship.rs/install.sh | bash -s  -- --force &> /dev/null
+    if [[ "${PIPESTATUS[1]}" != 0 ]]; then
+        log_error "Starship install returned a non-zero exit code: ${PIPESTATUS[1]} - Exiting..."
+        exit 1
+    fi
+    log_success "Downloaded and installed Starship"
+}
+
+function download_plugins() {
+    log_info "Downloading ZSH plugins using git submodules..."
+    git submodule update --init --recursive &> /dev/null
+    local exitcode=$?
+    if [[ "$exitcode" != "0" ]]; then
+        log_error "ZSH plugin download returned a non-zero exit code: $exitcode - Exiting..."
+        exit 1
+    fi
+    log_success "Downloaded ZSH plugins"
+}
+
+function setup_gitconfig() {
+    if [[ -f git/symlink.gitconfig.local ]]; then
+        log_info "gitconfig.local already exists - Skipping"
+        return
+    fi
+
+    log_info "Setting up git author information..."
+    local credential_helper="cache"
+    if running_on_mac; then
+        credential_helper="osxkeychain"
+    fi
+
+    local name=prompt_for_string "Git - Enter your full name:"
+    local email=prompt_for_string "Git - Enter your email address:"
+    sed -e "s/AUTHORNAME/$name/g" -e "s/AUTHOREMAIL/$email/g" -e "s/GIT_CREDENTIAL_HELPER/$credential_helper/g" git/template.gitconfig.local > git/symlink.gitconfig.local
+    log_success "Completed git author information setup"
+}
+
+function confirm_hushlogin() {
+    if [[ -f "$DOTFILES_ROOT"/system/symlink.hushlogin ]]; then
+        log_info ".hushlogin already exists"
+        return
+    fi
+
+    if prompt_yes_or_no "Would you like to add a .hushlogin to this machine?"; then
+        touch "$DOTFILES_ROOT"/system/symlink.hushlogin
+        log_info "Created a hushlogin file to be linked to the home directory"
+    fi
+}
+
+function find_and_link_files() {
+    log_info "Linking files prefixed with 'symlink' to the home directory..."
+    local overwrite_all=false
+    local skip_all=false
+
+    for src in $(find -H "$DOTFILES_ROOT" -maxdepth 2 -name 'symlink.*')
+    do
+        filename=$(basename "${src}")
+        without_prefix="${filename##symlink}"
+        dst="$HOME/$without_prefix"
+        _link_file "$src" "$dst"
+    done
+    log_success "Completed dotfile linking"
+}
+
+function _link_file() {
+    local source=$1 
+    local destination=$2
+    local skip=
+    local overwrite= 
+    local action=
+
+    if [[ -f "$destination" || -d "$destination" || -L "$destination" ]]; then
+        if [ "$overwrite_all" == "false" ] && [ "$skip_all" == "false" ]; then
+            local existingSource="$(readlink "$destination")"
+
+            if [ "$existingSource" == "$source" ]; then
+                skip=true
+            else
+                log_warn "File already exists: $destination"
+                select action in "Skip" "Skip All" "Overwrite" "Overwrite All"; do
+                    case $action in
+                        "Skip" ) skip=true; break;;
+                        "Skip All" ) skip_all=true; break;;
+                        "Overwrite" ) overwrite=true; break;;
+                        "Overwrite All" ) overwrite_all=true; break;;
+                    esac
+                done
+            fi
+        fi
+
+        overwrite=${overwrite:-$overwrite_all}
+        skip=${skip:-$skip_all}
+
+        if [ "$overwrite" == "true" ]; then
+            rm -rf "$destination"
+            log_info "Removed $destination"
+        fi
+
+        if [ "$skip" == "true" ]; then
+            log_info "Skipped $destination"
+        fi
+    fi
+
+    # If skip is false or empty:
+    if [ "$skip" != "true" ]; then
+        ln -s "$source" "$destination"
+        log_info "Linked $source -> $destination"
+    fi
+}
+
+function find_and_run_installers() {
+    sleep 1s
+    for installer in $(find -H "$DOTFILES_ROOT" -maxdepth 2 -name 'install.sh')
+    do
         echo
         log_warn "Found installer: $installer"
-        log_question "Press RETURN to run or any other key to skip..."
-        read -rsN1 char </dev/tty
-        if ! [[ "$char" == $'\n' || "$char" == $'\r' ]]; then
-            log_success "Skipped $installer"
-            continue
+        if prompt_yes_or_no "Would you like to run this installer?"; then
+            log_info "Running installer... ($installer)"
+            # The sed pipe adds tabs before output to separate it visually
+            sh -c "${installer}" 2>&1 | sed 's/^/    /'
+            log_success "Finished running installer."
+        else
+            log_info "Skipped $installer"
         fi
-        
-        log_info "Running installer... ($installer)"
-        # The sed pipe adds tabs before output to separate it visually
-        sh -c "${installer}" 2>&1 | sed 's/^/    /'
-        log_success "Finished running installer."
     done
+}
+
+main "$@"
