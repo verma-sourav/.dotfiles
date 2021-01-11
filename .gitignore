@@ -1,2 +1,37 @@
+# Repository-specific ignores
 git/gitconfig.local.symlink
 homebrew/path.zsh
+
+# Because dotfiles tend to contain machine-specific or even sensitive information, ignore them by default.
+.*
+
+# Some dotfiles are important to commit
+!.gitignore
+!.gitattributes
+!.github
+
+# Logs and databases
+*.log
+**/logs
+*.sql
+*.sqlite
+
+# Operating system files
+ehthumbs.db
+Thumbs.db
+
+# Compiled and cached code
+__pycache__/
+build/
+dist/
+out/
+target/
+*.class
+*.o
+*.py[cod]
+
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
