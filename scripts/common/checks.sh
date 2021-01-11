@@ -23,7 +23,7 @@ function cmd_exists() {
 # Outputs:
 #     0 if root, 1 if not
 function running_as_root() {
-    [[ $(id -u) == 0 ]] 
+    [[ $(id -u) == "0" ]] 
 }
 
 # running_on_mac: Shorthand way of checking the current operating system
