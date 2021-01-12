@@ -34,10 +34,10 @@ function install_dependencies() {
     else
         log_info "Installing build-essential, curl, file, and git..."
         log_warn "This may require you to enter your password."
-        sudo apt-get -qq update > /dev/null 
-        sudo apt-get -qq upgrade > /dev/null
-        sudo apt-get -qq install build-essential curl file git > /dev/null
-        sudo apt-get -qq autoremove > /dev/null
+        sudo apt-get -y update 
+        sudo apt-get -y upgrade
+        sudo apt-get -y install build-essential curl file git
+        sudo apt-get -y autoremove
     fi
 
     log_success "Successfully installed dependencies!"
@@ -47,7 +47,7 @@ function download_homebrew() {
     log_info "Downloading Homebrew..."
     
     # Piping echo like this prevents homebrew from requiring the user to press enter.
-    echo | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)" &> /dev/null
+    echo | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
     # If the script returned an error, stop this script.
     if [[ "${PIPESTATUS[1]}" != 0 ]]
     then
@@ -61,8 +61,8 @@ function download_homebrew() {
 function install_packages() {
     log_info 'Installing Homebrew packages...'
     
-    brew install "$packages" &> /dev/null
-    brew cleanup &> /dev/null
+    brew install "$packages"
+    brew cleanup
     
     log_success 'Successfully installed Homebrew packages'
 }

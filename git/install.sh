@@ -27,7 +27,7 @@ function generate_ssh() {
     log_success "Successfully generated a new SSH key! (Location: $key_file)"
 
     log_info "Adding the SSH key to ssh-agent..."
-    eval $(ssh-agent -s) > /dev/null
+    eval $(ssh-agent -s)
     ssh-add $key_file
     log_success "Successfully added SSH key to ssh-agent!"
 
