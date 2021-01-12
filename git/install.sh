@@ -8,24 +8,18 @@ set -e
 cd "$(dirname "$0")"
 source ../scripts/common/checks.sh
 source ../scripts/common/logging.sh
+source ../scripts/common/prompts.sh
 
 function main() {
     generate_ssh
 }
 
 function generate_ssh() {    
-    log_question "Do you want to generate an SSH key for GitHub?"
-    log_question "Press RETURN to continue or any other key to skip..."
-    read -rsN1 char </dev/tty
-    if ! [[ "$char" == $'\n' || "$char" == $'\r' ]]; then
-        return
-    fi
-
-    sleep .5
+    prompt_yes_or_no "Do you want to generate an SSH key?"
 
     local email=$(git config user.email)
-    local key_file=~/.ssh/github_ed25519
-    local pubkey_file=~/.ssh/github_25519.pub
+    local key_file=~/.ssh/id_ed25519
+    local pubkey_file=~/.ssh/id_25519.pub
 
     log_info "Generating a new SSH key using ed25519..."
     log_info "Using email from git config: $email"
