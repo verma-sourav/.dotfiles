@@ -1,6 +1,6 @@
 # -- Variables -------------------------------------------------------------------------------------
 # Dotfiles path shortcut
-export ZSH=$HOME/.dotfiles
+export ZSH=$HOME/.config
 # Projects folder shortcut
 export PROJECTS=~/code
 # Local environment variables location

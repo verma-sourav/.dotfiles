@@ -7,15 +7,10 @@ think that is creates a really nice setup for clean, organized, dotfiles repo.
 Everything inside of the repo is organized by topic, and git submodules are used to keep track of things like ZSH plugins.
 
 ## Usage
-### Prerequisites
-- ZSH
-- Git
-- Curl
-
 ### Installation
 ```sh
 # CLone the repository to the .dotfiles directory
-git clone https://github.com/cdevoogd/tilde.git ~/.dotfiles
+git clone https://github.com/cdevoogd/tilde.git ~/.config
 # Change into the new directory
 cd .dotfiles
 # Run the installer
