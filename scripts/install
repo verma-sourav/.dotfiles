@@ -5,23 +5,19 @@
 # allowing you to choose what to put on your specific machine
 # ----------------------------------------------------------------------------------------------------------------------
 
-set -e 
-cd "$(dirname "$0")/.."
-DOTFILES_ROOT=$(pwd -P)
-source scripts/common/checks.sh
-source scripts/common/logging.sh
-source scripts/common/prompts.sh
-
 function main() {
     echo
     check_zsh
     echo
     setup_zsh
     echo
+    setup_git
+    echo
     setup_dotfiles
     echo
     run_installers
     echo
+    zsh
 }
 
 function check_zsh() {
@@ -112,8 +108,11 @@ function setup_gitconfig() {
         credential_helper="osxkeychain"
     fi
 
-    local name=prompt_for_string "Git - Enter your full name:"
-    local email=prompt_for_string "Git - Enter your email address:"
+    local name= email=
+    log_question "Git - Enter your full name:"
+    name=$(prompt_for_string)
+    log_question "Git - Enter your email address:"
+    email=$(prompt_for_string)
     sed -e "s/AUTHORNAME/$name/g" -e "s/AUTHOREMAIL/$email/g" -e "s/GIT_CREDENTIAL_HELPER/$credential_helper/g" git/template.gitconfig.local > git/symlink.gitconfig.local
     log_success "Completed git author information setup"
 }
@@ -208,4 +207,10 @@ function find_and_run_installers() {
     done
 }
 
+set -e 
+cd "$(dirname "$0")/.."
+DOTFILES_ROOT=$(pwd -P)
+source scripts/common/checks.sh
+source scripts/common/logging.sh
+source scripts/common/prompts.sh
 main "$@"
