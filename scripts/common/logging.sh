@@ -6,11 +6,12 @@
 # ----------------------------------------------------------------------------------------------------------------------
 
 NOCOLOR='\033[0m'
-DARKGRAY='\033[1;30m'
 LIGHTRED='\033[1;31m'
-LIGHTCYAN='\033[1;36m'
 LIGHTGREEN='\033[1;32m'
 YELLOW='\033[1;33m'
+LIGHTBLUE='\033[1;34m'
+LIGHTPURPLE='\033[1;35m'
+
 
 # log_question: Write out a question to the user
 # Arguments:
@@ -19,7 +20,7 @@ YELLOW='\033[1;33m'
 #     Writes formatted string to stdout
 function log_question() {
     local symbol="?"
-    echo -e "${LIGHTCYAN}${symbol} $1${NOCOLOR}"
+    echo -e "${LIGHTPURPLE}${symbol} $1${NOCOLOR}"
 }
 
 # log_info: Write out an INFO log
@@ -29,7 +30,7 @@ function log_question() {
 #     Writes formatted string to stdout
 function log_info() {
     local symbol=">"
-    echo -e "${DARKGRAY}${symbol}${NOCOLOR} $1"
+    echo -e "${LIGHTBLUE}${symbol} $1${NOCOLOR}"
 }
 
 # log_warn: Write out a WARN log
@@ -49,7 +50,7 @@ function log_warn() {
 #     Writes formatted string to stdout
 function log_success() {
     local symbol="✓"
-    echo -e "${LIGHTGREEN}${symbol}${NOCOLOR} $1"
+    echo -e "${LIGHTGREEN}${symbol} $1${NOCOLOR}"
 }
 
 # log_error: Write out an ERROR log
