@@ -54,15 +54,18 @@ function download_homebrew() {
         log_error "Error: Homebrew download script returned a non-zero exit code"
         exit 1
     fi
-
+    source path.zsh
+    
     log_success "Homebrew downloaded successfully"
 }
 
 function install_packages() {
     log_info 'Installing Homebrew packages...'
     
-    brew install "$packages"
-    brew cleanup
+    brew install git
+    brew install python3
+    brew install wget
+    brew install tree
     
     log_success 'Successfully installed Homebrew packages'
 }
