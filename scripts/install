@@ -97,7 +97,7 @@ function download_plugins() {
 }
 
 function setup_gitconfig() {
-    if [[ -f git/symlink.gitconfig.local ]]; then
+    if [[ -f git/symlink.gitconfig ]]; then
         log_info "gitconfig.local already exists - Skipping"
         return
     fi
@@ -113,7 +113,7 @@ function setup_gitconfig() {
     name=$(prompt_for_string)
     log_question "Git - Enter your email address:"
     email=$(prompt_for_string)
-    sed -e "s/AUTHORNAME/$name/g" -e "s/AUTHOREMAIL/$email/g" -e "s/GIT_CREDENTIAL_HELPER/$credential_helper/g" git/template.gitconfig.local > git/symlink.gitconfig.local
+    sed -e "s/AUTHORNAME/$name/g" -e "s/AUTHOREMAIL/$email/g" -e "s/GIT_CREDENTIAL_HELPER/$credential_helper/g" git/template.symlink.gitconfig > git/symlink.gitconfig
     log_success "Completed git author information setup"
 }
 

@@ -1,5 +1,8 @@
-[include]
-    path = ~/.gitconfig.local
+[user]
+    name = AUTHORNAME
+    email = AUTHOREMAIL
+[credential]
+    helper = GIT_CREDENTIAL_HELPER
 [alias]
     switch = checkout
 [color]
@@ -8,7 +11,7 @@
     branch = auto
     ui = true
 [core]
-    editor = code -w
+    editor = vim
 [apply]
     whitespace = nowarn
 [mergetool]
