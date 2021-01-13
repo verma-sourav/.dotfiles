@@ -19,7 +19,6 @@ function generate_ssh() {
 
     local email=$(git config user.email)
     local key_file=~/.ssh/id_ed25519
-    local pubkey_file=~/.ssh/id_25519.pub
 
     log_info "Generating a new SSH key using ed25519..."
     log_info "Using email from git config: $email"
@@ -35,7 +34,7 @@ function generate_ssh() {
     printf "Host github.com\n    User git\n    Hostname github.com\n    IdentityFile $key_file" > ~/.ssh/config
     log_success "Successfully added configuration for GitHub!"
 
-    log_warn "Add your public key ($pubkey_file) to your GitHub account: https://github.com/settings/keys"
+    log_warn "Add your public key ($key_file.pub) to your GitHub account: https://github.com/settings/keys"
     log_warn "Update your repositories to use SSH instead of HTTPS: git remote set-url origin git@github.com:USERNAME/REPOSITORY.git"
     log_success "Successfully generated a new SSH key for GitHub!"
 }
