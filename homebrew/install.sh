@@ -9,8 +9,6 @@ cd "$(dirname "$0")"
 source ../scripts/common/checks.sh
 source ../scripts/common/logging.sh
 
-packages="git python3 wget tree"
-
 function main() {
     if cmd_exists brew; then 
     log_warn "Homebrew is already installed."
@@ -23,7 +21,6 @@ function main() {
     install_packages
     log_success "Successfully installed Homebrew!"
 }
-
 
 function install_dependencies() {
     log_info "Installing Homebrew dependencies..."
@@ -63,6 +60,7 @@ function install_packages() {
     log_info 'Installing Homebrew packages...'
     
     brew install git
+    brew install go
     brew install python3
     brew install wget
     brew install tree
