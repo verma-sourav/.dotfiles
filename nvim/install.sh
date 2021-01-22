@@ -16,7 +16,7 @@ function main() {
     setup_neovim
 
 
-    log_success "Successfully installed Neovim!"
+    log_success "Successfully installed Neovim"
 }
 
 function install_neovim() {
@@ -37,18 +37,21 @@ function setup_neovim() {
 function create_dirs() {
     log_info "Creating undo directory"
     mkdir ~/.config/nvim/undo -p
+    log_success "Created undo directory"
 }
 
 function install_lsp_dependencies() {
     log_info "Installing language server dependencies"
     GO111MODULE=off go get golang.org/x/tools/gopls
     GO111MODULE=off go get golang.org/x/tools/cmd/goimports
+    log_success "Installed LSP dependencies"
 }
 
 function link_files() {
     log_info "Linking configuration files"
-    ln -sf ./nvim/init.vim ~/.config/nvim/init.vim
-    ln -sf ./nvim/after ~/.config/nvim/after
+    ln -sf $ZSH/nvim/init.vim ~/.config/nvim/init.vim
+    ln -sf $ZSH/nvim/after ~/.config/nvim/after
+    log_success "Linked config files"
 }
 
 main "$@"
