@@ -42,15 +42,23 @@ function create_dirs() {
 
 function install_lsp_dependencies() {
     log_info "Installing language server dependencies"
-    GO111MODULE=off go get golang.org/x/tools/gopls
-    GO111MODULE=off go get golang.org/x/tools/cmd/goimports
+    # gopls language server
+    GO111MODULE=off go get -u golang.org/x/tools/gopls
+    # goimports formatter
+    GO111MODULE=off go get -u golang.org/x/tools/cmd/goimports
+    # revive linter
+    GO111MODULE=off go get -u github.com/mgechev/revive
+    # diagnostic-languageserver (used for linters)
+    brew install yarn
+    yarn global add diagnostic-languageserver
     log_success "Installed LSP dependencies"
 }
 
 function link_files() {
     log_info "Linking configuration files"
-    ln -sf $ZSH/nvim/init.vim ~/.config/nvim/init.vim
-    ln -sf $ZSH/nvim/after ~/.config/nvim/after
+    ln -svf $ZSH/nvim/init.vim ~/.config/nvim/init.vim
+    ln -svf $ZSH/nvim/after ~/.config/nvim/after
+    ln -svf $ZSH/nvim/lua ~/.config/nvim/lua
     log_success "Linked config files"
 }
 
