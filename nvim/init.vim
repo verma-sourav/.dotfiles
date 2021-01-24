@@ -68,6 +68,9 @@ set colorcolumn=80,100          " Show colored bar ruler at n cols
 set formatoptions-=cro          " Don't automatically format text
 autocmd FileType * set formatoptions-=cro
 
+" Allows filetype-specific configs in ~/.config/nvim/after/ftplugin/language.vim
+filetype plugin on
+
 " ----- Lets ------------------------------------------------------------------
 " Netrw
 let g:netrw_liststyle=3         " Set list style to tree
@@ -80,7 +83,7 @@ set background=dark
 colorscheme vim-monokai-tasty
 
 " ----- Keymaps ---------------------------------------------------------------
-let mapleader = ' '
+let mapleader = "\<Space>"
 
 " Shortcuts for split navigation
 map <C-h> <C-w>h
@@ -92,19 +95,74 @@ map <C-l> <C-w>l
 nnoremap <F5> :UndotreeToggle<CR>
 
 " ----- Language Server -------------------------------------------------------
+" LSP
 set completeopt=menuone,noinsert,noselect
 let g:completion_matching_strategy_list = ['exact','substring', 'fuzzy']
 
 " Load LSP
 :lua << EOF
     local nvim_lsp = require('lspconfig')
-    local on_attach = function(_, bufnr)
-      require('completion').on_attach()
+
+    local map = function(type, key, value)
+        vim.fn.nvim_buf_set_keymap(0, type, key, value, {noremap = true, silent = true});
     end
-    local servers = {'gopls'}
-    for _, lsp in ipairs(servers) do
-      nvim_lsp[lsp].setup {
+
+    local on_attach = function(_, bufnr)
+        require('completion').on_attach()
+        map('n','gD','<cmd>lua vim.lsp.buf.declaration()<CR>')
+        map('n','gd','<cmd>lua vim.lsp.buf.definition()<CR>')
+        map('n','K','<cmd>lua vim.lsp.buf.hover()<CR>')
+        map('n','gr','<cmd>lua vim.lsp.buf.references()<CR>')
+        map('n','gs','<cmd>lua vim.lsp.buf.signature_help()<CR>')
+        map('n','gi','<cmd>lua vim.lsp.buf.implementation()<CR>')
+        map('n','gt','<cmd>lua vim.lsp.buf.type_definition()<CR>')
+        map('n','<leader>ah','<cmd>lua vim.lsp.buf.hover()<CR>')
+        map('n','<leader>af','<cmd>lua vim.lsp.buf.code_action()<CR>')
+        map('n','<leader>ar','<cmd>lua vim.lsp.buf.rename()<CR>')
+    end
+
+    nvim_lsp.gopls.setup {
+       on_attach = on_attach,
+    }
+
+    -- Linters using diagnostic language server https://github.com/iamcco/diagnostic-languageserver
+    nvim_lsp.diagnosticls.setup {
         on_attach = on_attach,
-      }
-   end
+        filetypes = { "go" },
+        init_options = {
+            linters = {
+                -- https://github.com/iamcco/diagnostic-languageserver/wiki/Linters#revive
+                revive = {
+                    command = "revive",
+                    args = { "-formatter", "json", "%file" },
+                    sourceName = "revive",
+                    rootPatterns = { ".git", "go.mod" },
+                    debounce = 100,
+                    parseJson = {
+                        line = "Position.Start.Line",
+                        column = "Position.Start.Column",
+                        endLine = "Position.End.Line",
+                        endColumn = "Position.End.Column",
+                        message = "[revive] ${Failure} [${RuleName}]",
+                        security = "Severity"
+                    },
+                    securities = {
+                        error = "error",
+                        warning = "warning",
+                    },
+                }
+            },
+            filetypes = {
+                go = "revive"
+            }
+        }
+    }
+
+    -- Diagnostics Settings, See :h vim.lsp.diagnostics
+    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+        vim.lsp.diagnostic.on_publish_diagnostics, {
+            underline = false,
+            update_in_insert = true,
+        }
+    )
 EOF
