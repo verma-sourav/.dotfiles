@@ -11,11 +11,8 @@ source ../scripts/common/logging.sh
 
 function main() {
     log_info "Installing Neovim..."
-
     install_neovim
     setup_neovim
-
-
     log_success "Successfully installed Neovim"
 }
 
@@ -28,31 +25,24 @@ function install_neovim() {
 
 function setup_neovim() {
     log_info "Setting up neovim..."
-    create_dirs
-    install_lsp_dependencies
+#    install_lsp_dependencies
     link_files
     log_success "Finished setting up neovim"
 }
 
-function create_dirs() {
-    log_info "Creating undo directory"
-    mkdir ~/.config/nvim/undo -p
-    log_success "Created undo directory"
-}
-
-function install_lsp_dependencies() {
-    log_info "Installing language server dependencies"
-    # gopls language server
-    GO111MODULE=off go get -u golang.org/x/tools/gopls
-    # goimports formatter
-    GO111MODULE=off go get -u golang.org/x/tools/cmd/goimports
-    # revive linter
-    GO111MODULE=off go get -u github.com/mgechev/revive
-    # diagnostic-languageserver (used for linters)
-    brew install yarn
-    yarn global add diagnostic-languageserver
-    log_success "Installed LSP dependencies"
-}
+# function install_lsp_dependencies() {
+#     log_info "Installing language server dependencies"
+#     # gopls language server
+#     GO111MODULE=off go get -u golang.org/x/tools/gopls
+#     # goimports formatter
+#     GO111MODULE=off go get -u golang.org/x/tools/cmd/goimports
+#     # revive linter
+#     GO111MODULE=off go get -u github.com/mgechev/revive
+#     # diagnostic-languageserver (used for linters)
+#     brew install yarn
+#     yarn global add diagnostic-languageserver
+#     log_success "Installed LSP dependencies"
+# }
 
 function link_files() {
     log_info "Linking configuration files"

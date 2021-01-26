@@ -95,6 +95,6 @@ map <C-l> <C-w>l
 nnoremap <F5> :UndotreeToggle<CR>
 
 " ----- Language Server -------------------------------------------------------
-set completeopt=menuone,noinsert,noselect
-let g:completion_matching_strategy_list = ['exact','substring', 'fuzzy']
-:lua require("language-servers")
+" set completeopt=menuone,noinsert,noselect
+" let g:completion_matching_strategy_list = ['exact','substring', 'fuzzy']
+" :lua require("language-servers")
