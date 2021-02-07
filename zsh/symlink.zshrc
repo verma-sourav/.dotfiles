@@ -33,7 +33,7 @@ done
 
 # Initialize ZSH autocomplete. This needs to be done before functions are loaded.
 autoload -U compinit
-compinit
+compinit -d ~/.cache/zsh_compdump
 
 # Load completion files after autocomplete is loads
 for file in ${(M)config_files:#*/completion.zsh}
@@ -44,7 +44,7 @@ done
 unset config_files
 
 # -- History Configuration -------------------------------------------------------------------------
-HISTFILE=~/.history_zsh
+HISTFILE=~/.cache/zsh_history
 HISTSIZE=1000
 SAVEHIST=1000
 setopt appendhistory
