@@ -12,6 +12,7 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 \| endif
 
 call plug#begin('~/.local/share/nvim/site/plugged')
+Plug 'kaicataldo/material.vim', { 'branch': 'main' }
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-fugitive'
 Plug 'mbbill/undotree'
@@ -62,6 +63,15 @@ filetype plugin on
 
 " ----- Colors/Color Scheme ---------------------------------------------------
 set background=dark
+
+"'default' | 'palenight' | 'ocean' | 'lighter' | 'darker' | 'default-community' | 'palenight-community' | 'ocean-community' | 'lighter-community' | 'darker-community'
+let g:material_theme_style = 'ocean-community'
+let g:material_terminal_italics = 1
+
+" Stop the color scheme from changing the background color
+" highlight Normal guibg=NONE ctermbg=NONE
+
+colorscheme material
 
 " ----- Keymaps ---------------------------------------------------------------
 let mapleader = "\<Space>"
