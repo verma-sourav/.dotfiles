@@ -27,7 +27,7 @@ function check_zsh() {
     elif running_on_linux; then
         log_info "ZSH is not installed"
         log_info "Installing ZSH using apt"
-        sudo apt install zsh
+        sudo apt install zsh -y
     else
         # Macs come with ZSH preinstalled, this should never happen
         log_error "ZSH is not installed on a macOS system, how? Exiting..."
@@ -145,10 +145,10 @@ function find_and_link_files() {
 }
 
 function _link_file() {
-    local source=$1 
+    local source=$1
     local destination=$2
     local skip=
-    local overwrite= 
+    local overwrite=
     local action=
 
     if [[ -f "$destination" || -d "$destination" || -L "$destination" ]]; then
@@ -207,7 +207,7 @@ function find_and_run_installers() {
     done
 }
 
-set -e 
+set -e
 cd "$(dirname "$0")/.."
 DOTFILES_ROOT=$(pwd -P)
 source scripts/common/checks.sh

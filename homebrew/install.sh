@@ -59,11 +59,12 @@ function download_homebrew() {
 function install_packages() {
     log_info 'Installing Homebrew packages...'
 
+    brew install coreutils
     brew install git
     brew install go
+    brew install neovim
     brew install python3
     brew install wget
-    brew install coreutils
 
     log_success 'Successfully installed Homebrew packages'
 }

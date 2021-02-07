@@ -12,20 +12,11 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 \| endif
 
 call plug#begin('~/.local/share/nvim/site/plugged')
-" Language Plugins
-Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim'
-Plug 'mattn/vim-goimports'
-
-" Addon Plugins
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-fugitive'
 Plug 'mbbill/undotree'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-
-" Scheme Plugins
-Plug 'patstockwell/vim-monokai-tasty'
 call plug#end()
 
 " ----- Vim Settings ----------------------------------------------------------
@@ -62,8 +53,6 @@ set nobackup                    " Dont create backups when overwriting files
 set undofile                    " Automatically save undo history to an undo file
 set undodir=~/.config/nvim/undo " Directory to store undo files
 set termguicolors               " Enable 24-bit color
-set signcolumn=yes              " Display the sign column on the left bar (used for errors and stuff)
-set colorcolumn=80,100          " Show colored bar ruler at n cols
 
 set formatoptions-=cro          " Don't automatically format text
 autocmd FileType * set formatoptions-=cro
@@ -71,16 +60,8 @@ autocmd FileType * set formatoptions-=cro
 " Allows filetype-specific configs in ~/.config/nvim/after/ftplugin/language.vim
 filetype plugin on
 
-" ----- Lets ------------------------------------------------------------------
-" Netrw
-let g:netrw_liststyle=3         " Set list style to tree
-let g:netrw_banner=0            " Remove the banner
-let g:netrw_winsize=25          " Set the width to 25% of the window
-
-
 " ----- Colors/Color Scheme ---------------------------------------------------
 set background=dark
-colorscheme vim-monokai-tasty
 
 " ----- Keymaps ---------------------------------------------------------------
 let mapleader = "\<Space>"
@@ -93,8 +74,3 @@ map <C-l> <C-w>l
 
 " Map F5 to open undotree
 nnoremap <F5> :UndotreeToggle<CR>
-
-" ----- Language Server -------------------------------------------------------
-" set completeopt=menuone,noinsert,noselect
-" let g:completion_matching_strategy_list = ['exact','substring', 'fuzzy']
-" :lua require("language-servers")
