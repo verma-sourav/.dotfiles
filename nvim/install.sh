@@ -17,6 +17,7 @@ function main() {
 
 function link_files() {
     log_info "Linking configuration files"
+    mkdir -p ~/.config/nvim
     ln -svf $ZSH/nvim/init.vim ~/.config/nvim/init.vim
     ln -svf $ZSH/nvim/after ~/.config/nvim/after
     log_success "Linked config files"
