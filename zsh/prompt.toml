@@ -1,0 +1,8 @@
+# Starship Configuration
+# https://starship.rs/config/
+
+# Dont add a new line at the start of the prompt
+add_newline = false
+
+# Replace the default "❯" symbol
+success_symbol = "[➜](bold green)"
