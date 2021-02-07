@@ -1,8 +1,6 @@
 # -- Variables -------------------------------------------------------------------------------------
 # Dotfiles path shortcut
-export ZSH=$HOME/.dotfiles
-# Projects folder shortcut
-export PROJECTS=~/code
+export DOTS=$HOME/.dotfiles
 # Local environment variables location
 LOCALENV=~/.localenv
 
@@ -19,7 +17,7 @@ fi
 # This is currently set to only go one level deep. This prevents the script from loading the
 # zsh/plguins directory
 typeset -U config_files
-config_files=($ZSH/*/*.zsh)
+config_files=($DOTS/*/*.zsh)
 
 # Load the path files
 for file in ${(M)config_files:#*/path.zsh}
