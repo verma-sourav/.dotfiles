@@ -11,7 +11,7 @@
     branch = auto
     ui = true
 [core]
-    editor = vim
+    editor = nvim
 [apply]
     whitespace = nowarn
 [mergetool]
