@@ -5,6 +5,9 @@
     helper = GIT_CREDENTIAL_HELPER
 [alias]
     switch = checkout
+    unstage = restore --unstaged
+    discard = checkout --
+    discard-untracked = clean
 [color]
     diff = auto
     status = auto
@@ -18,6 +21,10 @@
     keepBackup = false
 [difftool]
     prompt = false
+[diff]
+    tool = nvimdiff
+[difftool "nvimdiff"]
+    cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
 [help]
     autocorrect = 1
 [push]
