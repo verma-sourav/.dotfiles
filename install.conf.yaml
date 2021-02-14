@@ -1,0 +1,39 @@
+# https://github.com/anishathalye/dotbot#configuration
+
+- defaults:
+    link:
+      create: true
+      relink: true
+    shell:
+      stdin: true
+      stdout: true
+      stderr: true
+
+# Remove dead symlinks that point to the dotfiles directory
+- clean:
+    ~/:
+    ~/.config:
+      recursive: true
+
+# Run shell commands
+- shell:
+    - [chsh -s $(which zsh), Make ZSH the default shell]
+    - [git submodule update --init --recursive, Download git submodules]
+    - [curl -fsSL https://starship.rs/install.sh | bash -s  -- --yes, Install starship prompt for ZSH]
+    - [./git/replace-author.sh, Add git author information to gitconfig]
+
+# Create specific directories
+- create:
+    - ~/.config/nvim/undo
+
+# Specify the symlinks to make
+# DO NOT include a trailing slash if linking a directory
+- link:
+    ~/.zshrc:
+      path: zsh/zshrc
+      force: true
+    ~/.gitconfig: git/gitconfig
+    ~/.hushlogin: system/hushlogin
+    ~/.config/alacritty/alacritty.yml: alacritty/alacritty.yml
+    ~/.config/nvim/init.vim: nvim/init.vim
+    ~/.config/nvim/after: nvim/after

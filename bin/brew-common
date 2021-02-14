@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
 # --------------------------------------------------------------------------------------------------
-# e
-# A quick shortcut to your editor
-#
-# Usage:
-#   `e` -> opens the current directory in your editor
-#   `e /usr/local` -> opens the specified directory in your editor
+# brew-common
+# A script to install some commonly used homebrew packages
 # --------------------------------------------------------------------------------------------------
-exec "$EDITOR" "${1:-.}"
+
+brew install curl
+brew install wget
+brew install coreutils
+brew install git
+brew install go
+brew install python3
+brew install neovim
+
+brew cleanup

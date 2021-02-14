@@ -1,6 +1,5 @@
 # Repository-specific ignores
-git/symlink.gitconfig
-system/symlink.hushlogin
+git/gitconfig
 # Because dotfiles tend to contain machine-specific or even sensitive information, ignore them by default.
 .*
 
