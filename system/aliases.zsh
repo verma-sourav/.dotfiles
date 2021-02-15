@@ -8,3 +8,8 @@ fi
 if command -v nvim &> /dev/null; then
     alias vim=nvim
 fi
+
+# If we have code oss installed instead of regular vscode, alias it to the regular `code` command
+if command -v code-oss &> /dev/null; then
+    alias code=code-oss
+fi
