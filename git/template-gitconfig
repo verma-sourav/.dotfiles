@@ -4,7 +4,7 @@
 [credential]
     helper = GIT_CREDENTIAL_HELPER
 [alias]
-    switch = checkout
+    branches = !sh git-branch-descriptions
     unstage = restore --unstaged
     discard = checkout --
     discard-untracked = clean
