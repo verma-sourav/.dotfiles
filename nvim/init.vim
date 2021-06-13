@@ -65,7 +65,7 @@ filetype plugin on
 set background=dark
 
 "'default' | 'palenight' | 'ocean' | 'lighter' | 'darker' | 'default-community' | 'palenight-community' | 'ocean-community' | 'lighter-community' | 'darker-community'
-let g:material_theme_style = 'ocean-community'
+let g:material_theme_style = 'darker-community'
 let g:material_terminal_italics = 1
 
 " Stop the color scheme from changing the background color
