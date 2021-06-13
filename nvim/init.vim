@@ -1,4 +1,4 @@
-" ----- Plugin Management -----------------------------------------------------
+" ===== Plugin Management =====
 " Automatically install plug for neovim
 if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
     silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
@@ -12,15 +12,32 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 \| endif
 
 call plug#begin('~/.local/share/nvim/site/plugged')
+
+" Color Schemes
+" https://github.com/kaicataldo/material.vim
 Plug 'kaicataldo/material.vim', { 'branch': 'main' }
+
+" Automatically insert ending quotes, parentheses, braces, etc.
+" https://github.com/jiangmiao/auto-pairs
 Plug 'jiangmiao/auto-pairs'
-Plug 'tpope/vim-fugitive'
+
+" Visualize undo history, making it easier to browse and switch between different undo branches
+" https://github.com/mbbill/undotree
 Plug 'mbbill/undotree'
+
+" Fuzzy finder in Vim, used to quickly search files
+" https://github.com/junegunn/fzf.vim
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+
+" Lightweight status/tabline
+" https://github.com/vim-airline/vim-airline
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
 call plug#end()
 
-" ----- Vim Settings ----------------------------------------------------------
+" ===== General (Neo)Vim Settings =====
 syntax on
 set nohlsearch                  " No search highlighting
 set incsearch                   " Incremental searching
@@ -61,10 +78,14 @@ autocmd FileType * set formatoptions-=cro
 " Allows filetype-specific configs in ~/.config/nvim/after/ftplugin/language.vim
 filetype plugin on
 
-" ----- Colors/Color Scheme ---------------------------------------------------
+" ===== Theme / Color Scheme Settings =====
+
 set background=dark
 
-"'default' | 'palenight' | 'ocean' | 'lighter' | 'darker' | 'default-community' | 'palenight-community' | 'ocean-community' | 'lighter-community' | 'darker-community'
+" Options provided by the vim material theme:
+"   default, default-community, palenight, palenight-community,
+"   ocean, ocean-community, lighter, lighter-community,
+"   darker, darker-community
 let g:material_theme_style = 'darker-community'
 let g:material_terminal_italics = 1
 
@@ -72,6 +93,9 @@ let g:material_terminal_italics = 1
 " highlight Normal guibg=NONE ctermbg=NONE
 
 colorscheme material
+
+" Use the airline theme included with the vim material theme
+let g:airline_theme = 'material'
 
 " ----- Keymaps ---------------------------------------------------------------
 let mapleader = "\<Space>"
