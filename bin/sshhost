@@ -1,0 +1,58 @@
+#!/bin/bash
+# --------------------------------------------------------------------------------------------------
+# A small script to quickly add a new host to your SSH config (~/.ssh/config)
+# --------------------------------------------------------------------------------------------------
+
+set -eo pipefail
+
+SSH_CONFIG="$HOME/.ssh/config"
+
+clear
+
+if [ ! -f "$SSH_CONFIG" ]; then
+	echo "An SSH config file was not found"
+	touch "$SSH_CONFIG"
+	chmod 600 "$SSH_CONFIG"
+	echo "Created a new SSH config file ($SSH_CONFIG)"
+fi
+
+ALIAS=""
+read -rp "Enter a unique alias for the host: " ALIAS
+
+USERNAME=""
+read -rp "Enter the user name: " USERNAME
+
+HOST_NAME=""
+read -rp "Enter the IP address or host name: " HOST_NAME
+
+PORT=""
+read -rp "Enter the SSH port, or skip to use the default (22): " PORT
+PORT=${PORT:-22}
+
+echo "The following information will be added to your SSH configuration file:"
+echo "Host $ALIAS"
+echo -e "\tUser $USERNAME"
+echo -e "\tHostName $HOST_NAME"
+echo -e "\tPort $PORT"
+
+CONFIRMATION=""
+read -rp "Is this information correct? (y/n): " CONFIRMATION
+
+if [ "$CONFIRMATION" == "y" ]; then
+	{
+		echo -en '\n'
+		echo "Host $ALIAS"
+		echo -e "\tUser $USERNAME"
+		echo -e "\tHostName $HOST_NAME"
+		echo -e "\tPort $PORT"
+	} >> "$SSH_CONFIG"
+	echo "Your SSH config has been updated"
+	sleep 1
+	clear
+else
+	echo "SSH config update cancelled"
+	sleep 1
+	clear
+fi
+
+exit 0
