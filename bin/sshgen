@@ -13,6 +13,16 @@ KEYTYPE=
 KEYCOMMENT=
 KEYFILE=
 
+update_ssh_config() {
+    {
+		echo -en '\n'
+		echo "Host github.com"
+		echo -e "\tUser git"
+		echo -e "\tHostName github.com"
+		echo -e "\tIdentityFile $KEYFILE"
+	} >> "$HOME/.ssh/config"
+}
+
 main() {
     echo "Which key type would you like to generate?"
     select KEYTYPE in "ed25519" "ed25519-sk" "rsa" "dsa" "ecdsa" "ecdsa-sk"; do
@@ -22,7 +32,7 @@ main() {
     echo "Would you like to add a comment to this key?"
     select action in "Yes" "No" "Use git email"; do
         case $action in
-            "Yes" ) read -e -p "Enter your comment: " KEYCOMMENT; break;;
+            "Yes" ) read -rep "Enter your comment: " KEYCOMMENT; break;;
             "No" ) KEYCOMMENT=""; break;;
             "Use git email" ) KEYCOMMENT=$(git config user.email); break;;
         esac
@@ -34,16 +44,16 @@ main() {
     echo "    File: $KEYFILE"
     echo "    Type: $KEYTYPE"
     echo "    Comment: $KEYCOMMENT"
-    ssh-keygen -t $KEYTYPE -C $KEYCOMMENT -f $KEYFILE
+    ssh-keygen -t $KEYTYPE -C "$KEYCOMMENT" -f "$KEYFILE"
 
     echo "Adding the key to ssh-agent"
-    eval $(ssh-agent -s)
-    ssh-add $KEYFILE
+    eval "$(ssh-agent -s)"
+    ssh-add "$KEYFILE"
 
     echo "Add GitHub to ssh configuration?"
     select action in "Yes" "No"; do
         case $action in
-            "Yes" ) echo "Host github.com\n    User git\n    Hostname github.com\n    IdentityFile $key_file" > ~/.ssh/config; break;;
+            "Yes" ) update_ssh_config; break;;
             "No" ) break;;
         esac
     done
