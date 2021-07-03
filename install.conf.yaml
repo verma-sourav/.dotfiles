@@ -34,6 +34,5 @@
       force: true
     ~/.gitconfig: git/gitconfig
     ~/.hushlogin: system/hushlogin
-    ~/.config/alacritty/alacritty.yml: alacritty/alacritty.yml
     ~/.config/nvim/init.vim: nvim/init.vim
     ~/.config/nvim/after: nvim/after
