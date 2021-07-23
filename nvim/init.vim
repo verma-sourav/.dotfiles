@@ -14,26 +14,14 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 call plug#begin('~/.local/share/nvim/site/plugged')
 
 " Color Schemes
-" https://github.com/kaicataldo/material.vim
-Plug 'kaicataldo/material.vim', { 'branch': 'main' }
-
-" Automatically insert ending quotes, parentheses, braces, etc.
-" https://github.com/jiangmiao/auto-pairs
+Plug 'drewtempelmeyer/palenight.vim'
 Plug 'jiangmiao/auto-pairs'
-
-" Visualize undo history, making it easier to browse and switch between different undo branches
-" https://github.com/mbbill/undotree
 Plug 'mbbill/undotree'
-
-" Fuzzy finder in Vim, used to quickly search files
-" https://github.com/junegunn/fzf.vim
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-
-" Lightweight status/tabline
-" https://github.com/vim-airline/vim-airline
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
+Plug 'mhinz/vim-signify'
+Plug 'preservim/nerdtree'
 
 call plug#end()
 
@@ -81,21 +69,8 @@ filetype plugin on
 " ===== Theme / Color Scheme Settings =====
 
 set background=dark
-
-" Options provided by the vim material theme:
-"   default, default-community, palenight, palenight-community,
-"   ocean, ocean-community, lighter, lighter-community,
-"   darker, darker-community
-let g:material_theme_style = 'darker-community'
-let g:material_terminal_italics = 1
-
-" Stop the color scheme from changing the background color
-" highlight Normal guibg=NONE ctermbg=NONE
-
-colorscheme material
-
-" Use the airline theme included with the vim material theme
-let g:airline_theme = 'material'
+colorscheme palenight
+let g:lightline = { 'colorscheme': 'palenight' }
 
 " ----- Keymaps ---------------------------------------------------------------
 let mapleader = "\<Space>"
