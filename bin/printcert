@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ "$1" == "--help" ] || [ "$1" == "" ]; then
+    echo "Print out a certificate's information using OpenSSL"
+    echo "Usage: printcert [cert-file]"
+    exit
+fi
+
+openssl x509 -in "$1" -text
