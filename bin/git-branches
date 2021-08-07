@@ -1,0 +1,113 @@
+#!/usr/bin/env python3
+
+'''
+A script to show git branches side-by-side with their descriptions. It is recommended that this
+script be aliased to `git branches`. There are two methods to do so:
+
+    1. If you add this script to your PATH, and keep it named as `git-branches`, you will
+       automatically be able to run it using `git branches`.
+
+    2. If you add the script to your PATH, you can add a git alias using the following command:
+        git config --global alias.branches '! git-branches'
+
+The script will output in the format:
+    branch | description
+
+Example:
+                develop |
+  fix/broke-build-again | Fix build errors due to go module not found errors
+                * gh-12 | Improve DEBUG-level logging
+                 master |
+'''
+
+from enum import Enum
+import subprocess
+from typing import List, Tuple
+
+class Colors:
+    CYAN = '\033[96m'
+    GREEN = '\033[92m'
+    RESET = '\033[0m'
+
+class BranchType(Enum):
+    NORMAL = 0
+    CURRENT = 1
+    WORKTREE = 2
+
+class Branch:
+    # Per the documentation for `git branch`:
+    #   Current Branch: Prefixed with '*' and displayed in green
+    #   Worktree: Prefixed with '+' and displayed in cyan
+    currentPrefix = '* '
+    worktreePrefix = '+ '
+
+    def __init__(self, branch: str) -> None:
+        branchType = BranchType.NORMAL
+
+        if Branch.isCurrent(branch):
+            branch = branch.lstrip(Branch.currentPrefix)
+            branchType = BranchType.CURRENT
+        elif Branch.isWorktree(branch):
+            branch = branch.lstrip(Branch.worktreePrefix)
+            branchType = BranchType.WORKTREE
+
+        self.name = branch.strip()
+        self.type = branchType
+
+    @staticmethod
+    def isCurrent(branch: str) -> bool:
+        return branch.startswith(Branch.currentPrefix)
+
+    @staticmethod
+    def isWorktree(branch: str) -> bool:
+        return branch.startswith(Branch.worktreePrefix)
+
+    @property
+    def description(self) -> str:
+        cmd = subprocess.run(['git', 'config', '--get', f'branch.{self.name}.description'], capture_output=True, text=True)
+        return cmd.stdout.strip() if cmd.returncode == 0 else ''
+
+    def printFormatted(self, colWidth: int) -> None:
+        # Because the ANSI color sequences are added to the names before they are printed out, we
+        # can't use normal padding methods. The sequences change the length of the string in in
+        # code which causes less padding to be added, but since the sequences do not change the
+        # actual displayed length, it will be output with less padding than the rest.
+        padding = colWidth - len(self.name)
+        name = self.name
+
+        if self.type == BranchType.CURRENT:
+            padding -= len(Branch.currentPrefix)
+            name = f'{Branch.currentPrefix}{Colors.GREEN}{self.name}{Colors.RESET}'
+        elif self.type == BranchType.WORKTREE:
+            padding -= len(Branch.worktreePrefix)
+            name = f'{Branch.worktreePrefix}{Colors.CYAN}{self.name}{Colors.RESET}'
+
+        print(f'{" "* padding}{name} | {self.description}')
+
+def inGitRepo() -> bool:
+    cmd = subprocess.run(['git', 'branch'], capture_output=True)
+    return cmd.returncode == 0
+
+def getBranchesInfo() -> Tuple[List[Branch], int]:
+    cmd = subprocess.run(['git', 'branch', '--list'], capture_output=True, check=True, text=True)
+    branches = cmd.stdout.splitlines()
+
+    output = []
+    longest = 0
+    for b in branches:
+        longest = max(longest, len(b))
+        output.append(Branch(b))
+
+    return output, longest
+
+def main():
+    if not inGitRepo():
+        print("Fatal: Not currently in a git repository")
+        exit(1)
+
+    branches, colWidth = getBranchesInfo()
+    for branch in branches:
+        branch.printFormatted(colWidth)
+
+if __name__ == '__main__':
+    main()
