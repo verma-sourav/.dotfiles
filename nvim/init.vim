@@ -63,6 +63,10 @@ set termguicolors               " Enable 24-bit color
 set formatoptions-=cro          " Don't automatically format text
 autocmd FileType * set formatoptions-=cro
 
+" Spell-check Markdown files and Git Commit Messages
+autocmd FileType markdown setlocal spell
+autocmd FileType gitcommit setlocal spell
+
 " Allows filetype-specific configs in ~/.config/nvim/after/ftplugin/language.vim
 filetype plugin on
 
