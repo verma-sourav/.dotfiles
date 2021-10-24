@@ -6,6 +6,8 @@
 	<false/>
 	<key>Default Bookmark Guid</key>
 	<string>48E7BF64-3478-4018-AA7A-1327F7B346DF</string>
+	<key>EnableAPIServer</key>
+	<false/>
 	<key>HapticFeedbackForEsc</key>
 	<false/>
 	<key>HotkeyMigratedFromSingleToMulti</key>
