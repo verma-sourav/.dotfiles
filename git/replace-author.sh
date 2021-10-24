@@ -12,8 +12,8 @@ set -e
 echo "Setting up git author information"
 
 if [[ -f git/gitconfig ]]; then
-        echo "A customized gitconfig has already been created"
-        exit
+    echo "A customized gitconfig has already been created"
+    exit
 fi
 
 if [[ "$(uname -s)" == "Darwin" ]]; then
