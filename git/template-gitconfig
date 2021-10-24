@@ -5,7 +5,7 @@
     helper = GIT_CREDENTIAL_HELPER
 [alias]
     branches = !sh git-branch-descriptions
-    unstage = restore --unstaged
+    unstage = restore --staged
     discard = checkout --
     discard-untracked = clean
 [color]

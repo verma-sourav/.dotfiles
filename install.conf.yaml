@@ -1,14 +1,5 @@
 # https://github.com/anishathalye/dotbot#configuration
 
-- defaults:
-    link:
-      create: true
-      relink: true
-    shell:
-      stdin: true
-      stdout: true
-      stderr: true
-
 # Remove dead symlinks that point to the dotfiles directory
 - clean:
     ~/:
@@ -16,11 +7,28 @@
       recursive: true
 
 # Run shell commands
+- defaults:
+    shell:
+      stdin: true
+      stdout: true
+      stderr: true
+
 - shell:
-    - [chsh -s $(which zsh), Make ZSH the default shell]
-    - [git submodule update --init --recursive, Download git submodules]
-    - [curl -fsSL https://starship.rs/install.sh | bash -s  -- --yes, Install starship prompt for ZSH]
-    - [./git/replace-author.sh, Add git author information to gitconfig]
+    -
+      command: chsh -s $(which zsh)
+      description: Make ZSH the default shell
+    -
+      command: git submodule update --init --recursive
+      description: Download git submodules
+    -
+      command: curl -fsSL https://starship.rs/install.sh | bash -s  -- --yes
+      description: Download and install the Starship prompt for ZSH
+    -
+      command: ./git/replace-author.sh
+      description: Add git author information to gitconfig
+    -
+      command: touch $HOME/.hushlogin
+      description: Create a .hushlogin file, because who likes those login messages anyways
 
 # Create specific directories
 - create:
@@ -28,11 +36,15 @@
 
 # Specify the symlinks to make
 # DO NOT include a trailing slash if linking a directory
+- defaults:
+    link:
+      create: true
+      relink: true
+
 - link:
     ~/.zshrc:
-      path: zsh/zshrc
+      path: zsh/main.zsh
       force: true
     ~/.gitconfig: git/gitconfig
-    ~/.hushlogin: system/hushlogin
     ~/.config/nvim/init.vim: nvim/init.vim
     ~/.config/nvim/after: nvim/after
