@@ -7,3 +7,6 @@
 [submodule "submodules/zsh-autosuggestions"]
 	path = submodules/zsh-autosuggestions
 	url = https://github.com/zsh-users/zsh-autosuggestions.git
+[submodule "submodules/dotbot-brew"]
+	path = submodules/dotbot-brew
+	url = https://github.com/d12frosted/dotbot-brew.git

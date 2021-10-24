@@ -48,3 +48,25 @@
     ~/.gitconfig: git/gitconfig
     ~/.config/nvim/init.vim: nvim/init.vim
     ~/.config/nvim/after: nvim/after
+
+# Install homebrew packages and casks
+- tap:
+    - homebrew/cask-fonts
+- brew:
+    - coreutils
+    - curl
+    - gh
+    - git
+    - go
+    - neovim
+    - node
+    - python3
+    - wget
+- cask:
+    - docker
+    - iterm2
+    - font-jetbrains-mono
+    - font-sf-mono-for-powerline
+    - raycast
+    - spotify
+    - visual-studio-code
