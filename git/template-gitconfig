@@ -1,31 +1,55 @@
-[user]
-    name = AUTHORNAME
-    email = AUTHOREMAIL
-[credential]
-    helper = GIT_CREDENTIAL_HELPER
 [alias]
     branches = !sh git-branch-descriptions
     unstage = restore --staged
     discard = checkout --
     discard-untracked = clean
+
+[apply]
+    whitespace = nowarn
+
 [color]
     diff = auto
     status = auto
     branch = auto
     ui = true
+
 [core]
     editor = nvim
-[apply]
-    whitespace = nowarn
-[mergetool]
-    keepBackup = false
-[difftool]
-    prompt = false
+
+[credential]
+    helper = GIT_CREDENTIAL_HELPER
+
+[delta]
+    features = decorations
+    line-numbers = true
+    side-by-side = true
+
+[delta "interactive"]
+    keep-plus-minus-markers = false
+
 [diff]
     tool = nvimdiff
+
+[difftool]
+    prompt = false
+
 [difftool "nvimdiff"]
     cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
-[help]
-    autocorrect = 1
+
+[interactive]
+    diffFilter = delta --color-only --features=interactive
+
+[mergetool]
+    keepBackup = false
+
+[pager]
+    diff = delta
+    log = delta
+    reflog = delta
+    show = delta
 [push]
     default = simple
+
+[user]
+    name = AUTHORNAME
+    email = AUTHOREMAIL

@@ -57,7 +57,9 @@
     - curl
     - gh
     - git
+    - git-delta
     - go
+    - less
     - neovim
     - node
     - python3
