@@ -13,48 +13,13 @@
       stdout: true
       stderr: true
 
-- shell:
-    -
-      command: chsh -s $(which zsh)
-      description: Make ZSH the default shell
-    -
-      command: git submodule update --init --recursive
-      description: Download git submodules
-    -
-      command: curl -fsSL https://starship.rs/install.sh | bash -s  -- --yes
-      description: Download and install the Starship prompt for ZSH
-    -
-      command: ./git/replace-author.sh
-      description: Add git author information to gitconfig
-    -
-      command: touch $HOME/.hushlogin
-      description: Create a .hushlogin file, because who likes those login messages anyways
-
-# Create specific directories
-- create:
-    - ~/.config/nvim/undo
-
-# Specify the symlinks to make
-# DO NOT include a trailing slash if linking a directory
-- defaults:
-    link:
-      create: true
-      relink: true
-
-- link:
-    ~/.zshrc:
-      path: zsh/main.zsh
-      force: true
-    ~/.gitconfig: git/gitconfig
-    ~/.config/nvim/init.vim: nvim/init.vim
-    ~/.config/nvim/after: nvim/after
-
 # Install homebrew packages and casks
 - tap:
     - homebrew/cask-fonts
 - brew:
     - coreutils
     - curl
+    - fish
     - gh
     - git
     - git-delta
@@ -72,3 +37,41 @@
     - raycast
     - spotify
     - visual-studio-code
+
+- shell:
+    -
+      command: sudo sh -c 'echo $(which fish) >> /etc/shells'
+      description: Add fish to the list of shells
+    -
+      command: sh -c 'chsh -s $(which fish)'
+      description: Make fish the default shell
+    -
+      command: git submodule update --init --recursive
+      description: Download git submodules
+    -
+      command: curl -fsSL https://starship.rs/install.sh | bash -s  -- --yes
+      description: Download and install the Starship prompt
+    -
+      command: ./git/replace-author.sh
+      description: Add git author information to gitconfig
+    -
+      command: touch $HOME/.hushlogin
+      description: Create a .hushlogin file, because who likes those login messages anyways
+
+# Create specific directories
+- create:
+    - ~/.config/nvim/undo
+
+# Specify the symlinks to make
+# DO NOT include a trailing slash if linking a directory
+- defaults:
+    link:
+      create: true
+      force: true
+      relink: true
+
+- link:
+    ~/.gitconfig: git/gitconfig
+    ~/.config/fish/config.fish: fish/config.fish
+    ~/.config/nvim/init.vim: nvim/init.vim
+    ~/.config/nvim/after: nvim/after

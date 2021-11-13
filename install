@@ -2,14 +2,17 @@
 
 set -e
 
-CONFIG="install.conf.yaml"
-DOTBOT_DIR="submodules/dotbot"
-
-DOTBOT_BIN="bin/dotbot"
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DOTBOT_DIR="submodules/dotbot"
+DOTBOT_BIN="bin/dotbot"
 
-cd "${BASEDIR}"
-git -C "${DOTBOT_DIR}" submodule sync --quiet --recursive
-git submodule update --init --recursive "${DOTBOT_DIR}"
+CONFIG="install.conf.yaml"
 
-"${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" --plugin-dir submodules/dotbot-brew -c "${CONFIG}" "${@}"
+cd "$BASEDIR"
+git -C "$DOTBOT_DIR" submodule sync --quiet --recursive
+git submodule update --init --recursive "$DOTBOT_DIR"
+
+"$BASEDIR/$DOTBOT_DIR/$DOTBOT_BIN" \
+    -d "$BASEDIR" \
+    --plugin-dir submodules/dotbot-brew \
+    -c "$CONFIG" "$@"

@@ -3,7 +3,7 @@
 ## Installation
 
 ### Prerequisites
-- ZSH
+- Fish
 - Git
 - Curl
 
