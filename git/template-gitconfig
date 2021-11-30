@@ -3,6 +3,7 @@
     unstage = restore --staged
     discard = checkout --
     discard-untracked = clean
+    desc = branch --edit-description
 
 [apply]
     whitespace = nowarn
