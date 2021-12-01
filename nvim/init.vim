@@ -14,7 +14,7 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 call plug#begin('~/.local/share/nvim/site/plugged')
 
 " Color Schemes
-Plug 'drewtempelmeyer/palenight.vim'
+Plug 'phanviet/vim-monokai-pro'
 Plug 'jiangmiao/auto-pairs'
 Plug 'mbbill/undotree'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -22,6 +22,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'mhinz/vim-signify'
 Plug 'preservim/nerdtree'
+Plug 'sheerun/vim-polyglot'
 
 call plug#end()
 
@@ -73,8 +74,8 @@ filetype plugin on
 " ===== Theme / Color Scheme Settings =====
 
 set background=dark
-colorscheme palenight
-let g:lightline = { 'colorscheme': 'palenight' }
+colorscheme monokai_pro
+let g:lightline = { 'colorscheme': 'monokai_pro' }
 
 " ----- Keymaps ---------------------------------------------------------------
 let mapleader = "\<Space>"
