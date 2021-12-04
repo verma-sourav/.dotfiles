@@ -17,8 +17,8 @@
 - tap:
     - homebrew/cask-fonts
 - brew:
-    - coreutils
     - curl
+    - exa
     - fish
     - gh
     - git

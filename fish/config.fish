@@ -12,15 +12,15 @@ if test -e "$localenv"
     source "$localenv"
 end
 
-if type -q gls
-    alias ls="gls --group-directories-first --color=auto"
-    alias la="ls -A"
-    alias ll="ls -l -h"
-    alias lla="la -l -h"
+if type -q exa
+    alias ls="exa --group-directories-first"
+    alias la="exa --group-directories-first --all"
+    alias ll="exa --group-directories-first --long"
+    alias lla="exa --group-directories-first --long --all"
 end
 
 # Set color scheme
-# This is currently set to Ayu Dark, using the config lines printed in the terminal by setting the 
+# This is currently set to Ayu Dark, using the config lines printed in the terminal by setting the
 # theme from `fish_config`.
 set -U fish_color_normal B3B1AD
 set -U fish_color_command 39BAE6
