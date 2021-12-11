@@ -46,9 +46,6 @@
       command: sh -c 'chsh -s $(which fish)'
       description: Make fish the default shell
     -
-      command: git submodule update --init --recursive
-      description: Download git submodules
-    -
       command: curl -fsSL https://starship.rs/install.sh | bash -s  -- --yes
       description: Download and install the Starship prompt
     -
