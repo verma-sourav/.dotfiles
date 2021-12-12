@@ -6,13 +6,6 @@
     ~/.config:
       recursive: true
 
-# Run shell commands
-- defaults:
-    shell:
-      stdin: true
-      stdout: true
-      stderr: true
-
 # Install homebrew packages and casks
 - tap:
     - homebrew/cask-fonts
@@ -38,6 +31,13 @@
     - spotify
     - visual-studio-code
 
+# Run shell commands
+- defaults:
+    shell:
+      stdin: true
+      stdout: true
+      stderr: true
+
 - shell:
     -
       command: sudo sh -c 'echo $(which fish) >> /etc/shells'
@@ -55,20 +55,14 @@
       command: touch $HOME/.hushlogin
       description: Create a .hushlogin file, because who likes those login messages anyways
 
-# Create specific directories
-- create:
-    - ~/.config/nvim/undo
-
 # Specify the symlinks to make
 # DO NOT include a trailing slash if linking a directory
 - defaults:
     link:
       create: true
-      force: true
       relink: true
 
 - link:
     ~/.gitconfig: git/gitconfig
     ~/.config/fish/config.fish: fish/config.fish
-    ~/.config/nvim/init.vim: nvim/init.vim
-    ~/.config/nvim/after: nvim/after
+    ~/.config/nvim: nvim

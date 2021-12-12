@@ -1,31 +1,7 @@
-" Automatically install plug for neovim
-if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
-    silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
-        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
+source ~/.config/nvim/plugins.vim
+source ~/.config/nvim/keybinds.vim
+source ~/.config/nvim/styles.vim
 
-" Automatically install missing plugins
-autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
-  \| PlugInstall --sync | source $MYVIMRC
-\| endif
-
-call plug#begin('~/.local/share/nvim/site/plugged')
-
-" Color Schemes
-Plug 'phanviet/vim-monokai-pro'
-Plug 'jiangmiao/auto-pairs'
-Plug 'mbbill/undotree'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'itchyny/lightline.vim'
-Plug 'mhinz/vim-signify'
-Plug 'preservim/nerdtree'
-Plug 'sheerun/vim-polyglot'
-
-call plug#end()
-
-" ===== General (Neo)Vim Settings =====
 syntax on
 set nohlsearch                  " No search highlighting
 set incsearch                   " Incremental searching
@@ -56,9 +32,13 @@ set backspace=indent,eol,start  " Allow backspacing over indentation, line break
 set confirm                     " Show a confirmation dialog when closing an unsaved file
 set noswapfile                  " Disable swap file
 set nobackup                    " Dont create backups when overwriting files
-set undofile                    " Automatically save undo history to an undo file
-set undodir=~/.config/nvim/undo " Directory to store undo files
 set termguicolors               " Enable 24-bit color
+set undofile                    " Automatically save undo history to an undo file
+set undodir='/tmp/nvim-undo'
+
+if !isdirectory('/tmp/nvim-undo')
+    call mkdir('/tmp/nvim-undo', '', 0700)
+endif
 
 set formatoptions-=cro          " Don't automatically format text
 autocmd FileType * set formatoptions-=cro
@@ -74,19 +54,3 @@ augroup highlight_yank
     autocmd!
     autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank({timeout = 200})
 augroup END
-
-set background=dark
-colorscheme monokai_pro
-let g:lightline = { 'colorscheme': 'monokai_pro' }
-
-" ----- Keymaps ---------------------------------------------------------------
-let mapleader = "\<Space>"
-
-" Shortcuts for split navigation
-map <C-h> <C-w>h
-map <C-j> <C-w>j
-map <C-k> <C-w>k
-map <C-l> <C-w>l
-
-" Map F5 to open undotree
-nnoremap <F5> :UndotreeToggle<CR>
