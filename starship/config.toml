@@ -1,6 +1,41 @@
 # Starship Configuration
 # https://starship.rs/config/
 
+# This is just the `$all` prompt but without the language plugins in it.
+format = """
+$username\
+$hostname\
+$shlvl\
+$singularity\
+$kubernetes\
+$directory\
+$vcsh\
+$git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
+$git_status\
+$hg_branch\
+$docker_context\
+$package\
+$java\
+$nix_shell\
+$conda\
+$memory_usage\
+$aws\
+$gcloud\
+$openstack\
+$env_var\
+$custom\
+$cmd_duration\
+$line_break\
+$jobs\
+$battery\
+$time\
+$status\
+$shell\
+$character"""
+
 [character]
 success_symbol = "[❯](green)"
 error_symbol = "[✖](red)"
