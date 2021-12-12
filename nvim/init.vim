@@ -1,4 +1,3 @@
-" ===== Plugin Management =====
 " Automatically install plug for neovim
 if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
     silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
@@ -71,7 +70,10 @@ autocmd FileType gitcommit setlocal spell
 " Allows filetype-specific configs in ~/.config/nvim/after/ftplugin/language.vim
 filetype plugin on
 
-" ===== Theme / Color Scheme Settings =====
+augroup highlight_yank
+    autocmd!
+    autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank({timeout = 200})
+augroup END
 
 set background=dark
 colorscheme monokai_pro
