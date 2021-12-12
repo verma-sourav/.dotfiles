@@ -34,7 +34,7 @@ set noswapfile                  " Disable swap file
 set nobackup                    " Dont create backups when overwriting files
 set termguicolors               " Enable 24-bit color
 set undofile                    " Automatically save undo history to an undo file
-set undodir='/tmp/nvim-undo'
+set undodir=/tmp/nvim-undo
 
 if !isdirectory('/tmp/nvim-undo')
     call mkdir('/tmp/nvim-undo', '', 0700)
