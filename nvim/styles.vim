@@ -1,3 +1,3 @@
 set background=dark
-colorscheme monokai_pro
-let g:lightline = { 'colorscheme': 'monokai_pro' }
+colorscheme onehalfdark
+let g:lightline = { 'colorscheme': 'onehalfdark' }

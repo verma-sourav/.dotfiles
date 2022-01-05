@@ -12,7 +12,7 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 
 call plug#begin('~/.local/share/nvim/site/plugged')
 
-Plug 'phanviet/vim-monokai-pro'
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'jiangmiao/auto-pairs'
 Plug 'mbbill/undotree'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
