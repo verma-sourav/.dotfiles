@@ -21,6 +21,8 @@
     - neovim
     - node
     - python3
+    - ripgrep
+    - virtualenv
     - wget
 - cask:
     - docker

@@ -1,3 +1,4 @@
+nnoremap <SPACE> <Nop>
 let mapleader = "\<Space>"
 
 " Shortcuts for split navigation
@@ -6,5 +7,9 @@ map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
 
-" Map F5 to open undotree
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
 nnoremap <F5> :UndotreeToggle<CR>

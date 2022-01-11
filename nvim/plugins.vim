@@ -12,14 +12,33 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 
 call plug#begin('~/.local/share/nvim/site/plugged')
 
+" Themes and styles
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
-Plug 'jiangmiao/auto-pairs'
-Plug 'mbbill/undotree'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
 Plug 'itchyny/lightline.vim'
-Plug 'mhinz/vim-signify'
-Plug 'preservim/nerdtree'
-Plug 'sheerun/vim-polyglot'
+
+" Language server and parsing 
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'neovim/nvim-lspconfig'
+
+" Code navigation improvements
+Plug 'lewis6991/gitsigns.nvim'             
+Plug 'ray-x/guihua.lua', {'do': 'cd lua/fzy && make' }      
+Plug 'ray-x/navigator.lua'                 
+Plug 'simrat39/symbols-outline.nvim'      
+
+" Telescope (fuzzy finder) and dependencies
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
+
+" One day I will make neovim work for me and Go
+Plug 'ray-x/go.nvim'
 
 call plug#end()
+
+lua <<EOF
+require'navigator'.setup()
+require('gitsigns').setup()
+EOF
+
