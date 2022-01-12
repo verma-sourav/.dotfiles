@@ -1,19 +1,133 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2155
 
-set -e
-
+set -euo pipefail
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-DOTBOT_DIR="submodules/dotbot"
-DOTBOT_BIN="bin/dotbot"
 
-CONFIG="install.conf.yaml"
+main() {
+    cd "$BASEDIR"
 
-cd "$BASEDIR"
-git -C "$DOTBOT_DIR" submodule sync --quiet --recursive
-echo "Downloading all git submodules"
-git submodule update --init --recursive
+    echo "Downloading all git submodules"
+    git submodule update --init --recursive
 
-"$BASEDIR/$DOTBOT_DIR/$DOTBOT_BIN" \
-    -d "$BASEDIR" \
-    --plugin-dir submodules/dotbot-brew \
-    -c "$CONFIG" "$@"
+    run_gitconfig_setup
+    run_dotbot
+
+    # Past this point is all macOS specific.
+    # TODO: Add support for linux (specifically ubuntu?)
+    if ! on_macos; then
+        echo "The rest of the install script is currently macOS-specific. Ending here for now..."
+    fi
+
+    install_packages
+    setup_shell
+}
+
+# Run the gitconfig setup script. This should be run prior to linking the gitconfig, as it creates
+# the actual gitconfig file that is going to be linked.
+run_gitconfig_setup() {
+    "$BASEDIR/git/replace-author.sh"
+}
+
+# Use dotbot to clean dead links and symlink the dotfiles.
+run_dotbot() {
+    local dotbot_dir="submodules/dotbot"
+    local dotbot_bin="$BASEDIR/$dotbot_dir/bin/dotbot"
+    local dotbot_config="install.conf.yaml"
+
+    git -C "$dotbot_dir" submodule sync --quiet --recursive
+    "$dotbot_bin" --base-directory "$BASEDIR" --config-file "$dotbot_config"
+}
+
+# Install packages and apps. These may be packages that are requirements for other programs (e.g.
+# some neovim plugins require ripgrep), or they may be things that I commonly use.
+install_packages() {
+    # TODO: Automatically install homebrew if on macOS
+    if ! cmd_exists "brew"; then
+        echo "Homebrew is not installed"
+        exit 1
+    fi
+
+    brew tap homebrew/cask
+    brew tap homebrew/cask-fonts
+
+    local formulae=(
+        "curl" "exa" "fish" "gh" "git" "git-delta" "go" "less" "neovim" "node" "python3" "ripgrep"
+        "virtualenv" "wget"
+    )
+
+    local casks=(
+        "docker" "iterm2" "font-jetbrains-mono" "font-sf-mono-for-powerline" "raycast" "spotify"
+        "visual-studio-code"
+    )
+
+    echo "Installing any missing formulae"
+    for formula in "${formulae[@]}"; do
+        brew list "$formula" &> /dev/null || brew install "$formula"
+    done
+
+
+
+    echo "Installing any missing casks"
+    for cask in "${casks[@]}"; do
+        brew list --cask "$cask" &> /dev/null || brew install --cask "$cask"
+    done
+}
+
+# Make sure the proper shell is the default and all dependencies are installed.
+setup_shell() {
+    local fish_bin=$(command -v fish)
+    local shells_file="/etc/shells"
+
+    if ! pattern_exists "$fish_bin" "$shells_file"; then
+        echo "Adding fish ($fish_bin) to the list of allowed shells"
+        sudo sh -c "echo $fish_bin >> $shells_file"
+    fi
+
+    if ! default_shell_is "$fish_bin"; then
+        echo "Fish is not currently the default shell. Setting fish to be the default..."
+        chsh -s "$fish_bin"
+    fi
+
+    if ! cmd_exists "starship"; then
+        echo "Starship prompt is not installed. Installing..."
+        curl -fsSL https://starship.rs/install.sh | bash -s  -- --yes
+    fi
+
+    local hushfile="$HOME/.hushlogin"
+    if ! file_exists "$hushfile" ; then
+        echo "Creating a hushlogin file"
+        touch "$hushfile"
+    fi
+}
+
+# Helper Funcs
+
+# Returns 0 if the given command ($1) is installed/exists.
+cmd_exists() {
+    command -v "$1" &> /dev/null
+}
+
+# Returns 0 if the passed shell ($1) is the user's current default shell.
+default_shell_is() {
+    # dscl is macOS-specific
+    # https://stackoverflow.com/a/41553295
+    [ "$(dscl . -read "$HOME" UserShell | sed 's/UserShell: //')" == "$1" ]
+}
+
+# Returns 0 if a file exists at the given path ($1) and is a regular file.
+file_exists() {
+    [ -f "$1" ]
+}
+
+# Returns 0 if the script is running on macOS/Darwin.
+on_macos() {
+    [ "$(uname -s)" == "Darwin" ]
+}
+
+# Returns 0 if the given pattern ($1) exists in the file ($2).
+pattern_exists() {
+    grep -q "$1" "$2"
+}
+
+main "$@"
