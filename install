@@ -52,8 +52,8 @@ install_packages() {
     brew tap homebrew/cask-fonts
 
     local formulae=(
-        "curl" "exa" "fish" "gh" "git" "git-delta" "go" "less" "neovim" "node" "python3" "ripgrep"
-        "virtualenv" "wget"
+        "curl" "bat" "exa" "fish" "gh" "git" "git-delta" "go" "less" "neovim" "node" "python3" 
+        "ripgrep" "virtualenv" "wget"
     )
 
     local casks=(
