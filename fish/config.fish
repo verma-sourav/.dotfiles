@@ -12,6 +12,8 @@ if test -e "$localenv"
     source "$localenv"
 end
 
+alias dots="cd $DOTS"
+
 if type -q exa
     alias ls="exa --group-directories-first"
     alias la="exa --group-directories-first --all"
