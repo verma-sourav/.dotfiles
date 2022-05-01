@@ -13,7 +13,7 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 call plug#begin('~/.local/share/nvim/site/plugged')
 
 " Themes and styles
-Plug 'sonph/onehalf', { 'rtp': 'vim' }
+Plug 'gruvbox-community/gruvbox'
 Plug 'itchyny/lightline.vim'
 
 " Language server and parsing 

@@ -1,3 +1,3 @@
 set background=dark
-colorscheme onehalfdark
-let g:lightline = { 'colorscheme': 'onehalfdark' }
+colorscheme gruvbox
+let g:lightline = { 'colorscheme': 'gruvbox' }
