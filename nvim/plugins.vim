@@ -25,6 +25,7 @@ Plug 'lewis6991/gitsigns.nvim'
 Plug 'ray-x/guihua.lua', {'do': 'cd lua/fzy && make' }      
 Plug 'ray-x/navigator.lua'                 
 Plug 'simrat39/symbols-outline.nvim'      
+Plug 'karb94/neoscroll.nvim'
 
 " Telescope (fuzzy finder) and dependencies
 Plug 'nvim-lua/popup.nvim'
@@ -38,7 +39,8 @@ Plug 'ray-x/go.nvim'
 call plug#end()
 
 lua <<EOF
-require'navigator'.setup()
+require('navigator').setup()
 require('gitsigns').setup()
+require('neoscroll').setup()
 EOF
 
