@@ -89,3 +89,5 @@ hi def link gitcommitArrow		gitcommitComment
 hi def link gitcommitBlank		Error
 
 let b:current_syntax = "gitcommit"
+
+setlocal colorcolumn=50,72
