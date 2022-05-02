@@ -14,6 +14,10 @@ end
 
 alias dots="cd $DOTS"
 
+alias gb="git branches"
+alias gs="git status"
+alias gc="git commit"
+
 if type -q exa
     alias ls="exa --group-directories-first"
     alias la="exa --group-directories-first --all"
