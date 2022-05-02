@@ -53,8 +53,8 @@ if vim.fn.isdirectory(undoDirectory) == 0 then
 end
 
 vim.opt.background = 'dark'
-vim.cmd('colorscheme gruvbox')
-vim.g.lightline = { colorscheme = 'gruvbox' }
+vim.cmd('colorscheme tokyonight')
+vim.g.lightline = { colorscheme = 'tokyonight' }
 
 -- Allows filetype-specific configs in ~/.config/nvim/after/ftplugin/language.vim
 vim.cmd('filetype plugin on')

@@ -21,7 +21,7 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 vim.call('plug#begin', pluginDirectory)
 
 -- Theme and style improvements
-Plug 'gruvbox-community/gruvbox'
+Plug ('folke/tokyonight.nvim', {branch = 'main'})
 Plug 'itchyny/lightline.vim'
 
 -- Language server and parsing
