@@ -20,25 +20,24 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 
 vim.call('plug#begin', pluginDirectory)
 
--- Theme and style improvements
+Plug 'nvim-telescope/telescope.nvim'            -- Highly extensible fuzzy finder
+Plug 'nvim-telescope/telescope-fzy-native.nvim' -- Native sorter to speed up telescope
+Plug 'itchyny/lightline.vim'                    -- Configurable statusline/tabline plugin
+Plug 'lewis6991/gitsigns.nvim'                  -- Git decorations in buffer sidebars
+Plug 'karb94/neoscroll.nvim'                    -- Smooth scrolling
+Plug 'nvim-lua/plenary.nvim'                    -- Lua library used by a lot of plugins
+
+-- Colorschemes
 Plug ('folke/tokyonight.nvim', {branch = 'main'})
-Plug 'itchyny/lightline.vim'
 
--- Language server and parsing
+-- LSP & Parsers
+Plug 'neovim/nvim-lspconfig' -- Collection of configurations for the built-in LSP client
+
+-- Treesitter (abstraction layer for tree-sitter parser)
 Plug ('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'})
-Plug 'neovim/nvim-lspconfig'
-
--- Code navigation improvements
-Plug 'lewis6991/gitsigns.nvim'
-Plug 'karb94/neoscroll.nvim'
-
--- Telescope (fuzzy finder) and dependencies
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-telescope/telescope-fzy-native.nvim'
 
 vim.call('plug#end')
 
 require('gitsigns').setup()
 require('neoscroll').setup()
+require('telescope').load_extension('fzy_native')
