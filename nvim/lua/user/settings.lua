@@ -15,6 +15,8 @@ vim.opt.ruler = true            -- Display the current cursor position
 vim.opt.scrolloff = 8           -- Keep at least n lines above and below the cursor
 vim.opt.sidescrolloff = 5       -- Keep at least n columns to the side of the cursor
 vim.opt.showmatch = true        -- Show matching brackets
+vim.opt.splitright = true       -- When splitting veritcally, place new file on the right
+vim.opt.splitbelow = true       -- When splitting horizaontally, place new file on the bottom
 vim.opt.termguicolors = true    -- Enable 24-bit color
 
 -- Search

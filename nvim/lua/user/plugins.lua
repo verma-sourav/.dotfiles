@@ -26,7 +26,8 @@ Plug 'itchyny/lightline.vim'                    -- Configurable statusline/tabli
 Plug 'lewis6991/gitsigns.nvim'                  -- Git decorations in buffer sidebars
 Plug 'karb94/neoscroll.nvim'                    -- Smooth scrolling
 Plug 'nvim-lua/plenary.nvim'                    -- Lua library used by a lot of plugins
-
+Plug 'kyazdani42/nvim-tree.lua'                 -- File tree explorer
+Plug 'kyazdani42/nvim-web-devicons'             -- File type icons for nvim-tree
 -- Colorschemes
 Plug ('folke/tokyonight.nvim', {branch = 'main'})
 
