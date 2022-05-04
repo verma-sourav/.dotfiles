@@ -50,6 +50,8 @@ install_packages() {
 
     brew tap homebrew/cask
     brew tap homebrew/cask-fonts
+    # Needed for font-sf-mono-nerd-font
+    brew tap epk/epk 
 
     local formulae=(
         "curl" "bat" "exa" "fish" "gh" "git" "git-delta" "go" "less" "neovim" "node" "python3" 
@@ -57,7 +59,7 @@ install_packages() {
     )
 
     local casks=(
-        "docker" "iterm2" "font-jetbrains-mono" "font-sf-mono-for-powerline" "raycast" "spotify"
+        "docker" "iterm2" "font-jetbrains-mono" "font-sf-mono-nerd-font" "raycast" "spotify"
         "visual-studio-code"
     )
 
