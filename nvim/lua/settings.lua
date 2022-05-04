@@ -47,11 +47,6 @@ vim.opt.wildignore = {
     '*.swp', '*.jpg','*.png','*.gif','*.out'
 }
 
--- Make sure the undo directory exists so it can be used by neovim
-if vim.fn.isdirectory(undoDirectory) == 0 then
-    vim.call('mkdir', undoDirectory, '', 0700)
-end
-
 vim.opt.background = 'dark'
 vim.cmd('colorscheme tokyonight')
 vim.g.lightline = { colorscheme = 'tokyonight' }
