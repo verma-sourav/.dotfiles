@@ -51,10 +51,10 @@ install_packages() {
     brew tap homebrew/cask
     brew tap homebrew/cask-fonts
     # Needed for font-sf-mono-nerd-font
-    brew tap epk/epk 
+    brew tap epk/epk
 
     local formulae=(
-        "curl" "bat" "exa" "fish" "gh" "git" "git-delta" "go" "less" "neovim" "node" "python3" 
+        "curl" "bat" "exa" "fish" "gh" "git" "git-delta" "go" "less" "neovim" "node" "python3"
         "ripgrep" "virtualenv" "wget"
     )
 

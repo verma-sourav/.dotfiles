@@ -19,8 +19,15 @@ local function packer_startup(use)
   -- Have packer manage itself
   use 'wbthomason/packer.nvim'
 
+  use 'folke/tokyonight.nvim'
   use 'itchyny/lightline.vim'
+  use 'neovim/nvim-lspconfig'
 
+  use {
+    'cappyzawa/trim.nvim',
+    config = "require('plugins.trim')"
+  }
+  
   use {
     'lewis6991/gitsigns.nvim',
     config = "require('plugins.gitsigns')"
@@ -53,12 +60,6 @@ local function packer_startup(use)
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
   }
-
-  -- LSP
-  use 'neovim/nvim-lspconfig'
-
-  -- Colorschemes
-  use 'folke/tokyonight.nvim'
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

@@ -132,10 +132,20 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/cam/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
     url = "https://github.com/folke/tokyonight.nvim"
+  },
+  ["trim.nvim"] = {
+    config = { "require('plugins.trim')" },
+    loaded = true,
+    path = "/Users/cam/.local/share/nvim/site/pack/packer/start/trim.nvim",
+    url = "https://github.com/cappyzawa/trim.nvim"
   }
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: nvim-tree.lua
+time([[Config for nvim-tree.lua]], true)
+require('plugins.nvim-tree')
+time([[Config for nvim-tree.lua]], false)
 -- Config for: telescope.nvim
 time([[Config for telescope.nvim]], true)
 require('plugins.telescope')
@@ -148,10 +158,10 @@ time([[Config for neoscroll.nvim]], false)
 time([[Config for gitsigns.nvim]], true)
 require('plugins.gitsigns')
 time([[Config for gitsigns.nvim]], false)
--- Config for: nvim-tree.lua
-time([[Config for nvim-tree.lua]], true)
-require('plugins.nvim-tree')
-time([[Config for nvim-tree.lua]], false)
+-- Config for: trim.nvim
+time([[Config for trim.nvim]], true)
+require('plugins.trim')
+time([[Config for trim.nvim]], false)
 if should_profile then save_profiles() end
 
 end)
