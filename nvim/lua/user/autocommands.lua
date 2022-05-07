@@ -1,26 +1,23 @@
-local groupMarkdown = vim.api.nvim_create_augroup('Markdown', { clear = true })
-
+local markdown = vim.api.nvim_create_augroup('markdown', { clear = true })
 vim.api.nvim_create_autocmd("FileType", {
-    group = groupMarkdown,
-    pattern = 'markdown',
-    command = 'setlocal spell',
-    desc = 'Enable spell checking'
+  group = markdown,
+  pattern = 'markdown',
+  command = 'setlocal spell',
+  desc = 'Enable spell checking'
 })
 
-local groupGitCommit = vim.api.nvim_create_augroup('Git Commit', { clear = true })
-
+local gitcommit = vim.api.nvim_create_augroup('gitcommit', { clear = true })
 vim.api.nvim_create_autocmd("FileType", {
-    group = groupGitCommit,
-    pattern = 'gitcommit',
-    command = 'setlocal spell',
-    desc = 'Enable spell checking'
+  group = gitcommit,
+  pattern = 'gitcommit',
+  command = 'setlocal spell',
+  desc = 'Enable spell checking'
 })
 
-local groupHighlightYank = vim.api.nvim_create_augroup('Highlight Yank', { clear = true })
-
+local highlight_yank = vim.api.nvim_create_augroup('highlight_yank', { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
-    group = groupHighlightYank,
-    pattern = '*',
-    command = "silent! lua require'vim.highlight'.on_yank({timeout = 200})",
-    desc = 'Highlight text when yanked'
+  group = highlight_yank,
+  pattern = '*',
+  command = "silent! lua require'vim.highlight'.on_yank({timeout = 200})",
+  desc = 'Highlight text when yanked'
 })

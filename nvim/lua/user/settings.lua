@@ -32,15 +32,15 @@ vim.opt.tabstop = 4         -- 1 tab = n spaces
 vim.opt.textwidth = 0       -- Set the width that text is hard wrapped (0 is disabled)
 
 -- Backups
-vim.opt.autowrite = true            -- Automatically save files when switching buffers
-vim.opt.backup = false              -- Don't create backups when overwriting files
-vim.opt.swapfile = false            -- Disable use of a swap file
-vim.opt.undofile = true             -- Automatically save undo history to a file
+vim.opt.autowrite = true  -- Automatically save files when switching buffers
+vim.opt.backup = false    -- Don't create backups when overwriting files
+vim.opt.swapfile = false  -- Disable use of a swap file
+vim.opt.undofile = true   -- Automatically save undo history to a file
 
 -- Ignore
 vim.opt.wildignore = {
-    'deps','.svn','CVS','.git','.DS_Store', '*.o','*.a','*.class','*.mo','*.la','*.so','*.obj',
-    '*.swp', '*.jpg','*.png','*.gif','*.out'
+  'deps','.svn','CVS','.git','.DS_Store', '*.o','*.a','*.class','*.mo','*.la','*.so','*.obj',
+  '*.swp', '*.jpg','*.png','*.gif','*.out'
 }
 
 vim.cmd('colorscheme tokyonight')

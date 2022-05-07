@@ -1,5 +1,5 @@
 local function map(mode, shortcut, command)
-    vim.api.nvim_set_keymap(mode, shortcut, command, { noremap = true, silent = true })
+  vim.api.nvim_set_keymap(mode, shortcut, command, { noremap = true })
 end
 
 map('', '<Space>', '<Nop>')
@@ -7,7 +7,7 @@ vim.g.mapleader = ' '
 
 -- Normal --
 local function nmap(shortcut, command)
-    map('n', shortcut, command)
+  map('n', shortcut, command)
 end
 
 -- Faster buffer navigation
@@ -38,7 +38,7 @@ nmap('<leader>fh', '<cmd>Telescope live_grep<cr>')
 
 -- Visual --
 local function vmap(shortcut, command)
-    map('v', shortcut, command)
+  map('v', shortcut, command)
 end
 
 -- Stay in indent mode
@@ -54,7 +54,7 @@ vmap('p', '"_dP')
 
 -- Visual Block --
 local function xmap(shortcut, command)
-    map('x', shortcut, command)
+  map('x', shortcut, command)
 end
 
 -- Move text up and down
