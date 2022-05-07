@@ -8,9 +8,10 @@ vim.opt.title = true                    -- Apply the titlestring above
 
 -- Display
 vim.opt.cursorline = true       -- Highlight the current cursor line
-vim.opt.laststatus = 2          -- Always display the status bar
+vim.opt.laststatus = 3          -- Always display the status bar
 vim.opt.wrap = false            -- Don't wrap text, let it go off screen
 vim.opt.number = true           -- Display line numbers
+vim.opt.relativenumber = true   -- Display relative line numbers
 vim.opt.ruler = true            -- Display the current cursor position
 vim.opt.scrolloff = 8           -- Keep at least n lines above and below the cursor
 vim.opt.sidescrolloff = 5       -- Keep at least n columns to the side of the cursor

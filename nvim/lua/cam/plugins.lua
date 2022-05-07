@@ -16,49 +16,29 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 })
 
 local function packer_startup(use)
-  -- Have packer manage itself
   use 'wbthomason/packer.nvim'
-
+  -- Display
   use 'folke/tokyonight.nvim'
   use 'itchyny/lightline.vim'
+  use 'rcarriga/nvim-notify'
+  use 'lewis6991/gitsigns.nvim'
+  use 'karb94/neoscroll.nvim'
+  use {'kyazdani42/nvim-tree.lua', requires = 'kyazdani42/nvim-web-devicons'}
+  -- Misc
+  use 'cappyzawa/trim.nvim'
+  use 'numToStr/Comment.nvim'
+  -- Language Server & Parsing
+  use 'williamboman/nvim-lsp-installer'
   use 'neovim/nvim-lspconfig'
-
-  use {
-    'cappyzawa/trim.nvim',
-    config = "require('plugins.trim')"
-  }
-  
-  use {
-    'lewis6991/gitsigns.nvim',
-    config = "require('plugins.gitsigns')"
-  }
-
-  use {
-    'karb94/neoscroll.nvim',
-    config = "require('plugins.neoscroll')"
-  }
-
-  use {
-    'kyazdani42/nvim-tree.lua',
-    config = "require('plugins.nvim-tree')",
-    requires = {
-      'kyazdani42/nvim-web-devicons'
-    }
-  }
-
+  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
+  -- Telescope
   use {
     'nvim-telescope/telescope.nvim',
-    config = "require('plugins.telescope')",
     requires = {
       'nvim-lua/plenary.nvim',
       'kyazdani42/nvim-web-devicons',
       'nvim-telescope/telescope-fzy-native.nvim'
     }
-  }
-
-  use {
-    'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate',
   }
 
   -- Automatically set up your configuration after cloning packer.nvim

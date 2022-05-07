@@ -69,8 +69,12 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  ["Comment.nvim"] = {
+    loaded = true,
+    path = "/Users/cam/.local/share/nvim/site/pack/packer/start/Comment.nvim",
+    url = "https://github.com/numToStr/Comment.nvim"
+  },
   ["gitsigns.nvim"] = {
-    config = { "require('plugins.gitsigns')" },
     loaded = true,
     path = "/Users/cam/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
     url = "https://github.com/lewis6991/gitsigns.nvim"
@@ -81,18 +85,26 @@ _G.packer_plugins = {
     url = "https://github.com/itchyny/lightline.vim"
   },
   ["neoscroll.nvim"] = {
-    config = { "require('plugins.neoscroll')" },
     loaded = true,
     path = "/Users/cam/.local/share/nvim/site/pack/packer/start/neoscroll.nvim",
     url = "https://github.com/karb94/neoscroll.nvim"
+  },
+  ["nvim-lsp-installer"] = {
+    loaded = true,
+    path = "/Users/cam/.local/share/nvim/site/pack/packer/start/nvim-lsp-installer",
+    url = "https://github.com/williamboman/nvim-lsp-installer"
   },
   ["nvim-lspconfig"] = {
     loaded = true,
     path = "/Users/cam/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
   },
+  ["nvim-notify"] = {
+    loaded = true,
+    path = "/Users/cam/.local/share/nvim/site/pack/packer/start/nvim-notify",
+    url = "https://github.com/rcarriga/nvim-notify"
+  },
   ["nvim-tree.lua"] = {
-    config = { "require('plugins.nvim-tree')" },
     loaded = true,
     path = "/Users/cam/.local/share/nvim/site/pack/packer/start/nvim-tree.lua",
     url = "https://github.com/kyazdani42/nvim-tree.lua"
@@ -123,7 +135,6 @@ _G.packer_plugins = {
     url = "https://github.com/nvim-telescope/telescope-fzy-native.nvim"
   },
   ["telescope.nvim"] = {
-    config = { "require('plugins.telescope')" },
     loaded = true,
     path = "/Users/cam/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
@@ -134,7 +145,6 @@ _G.packer_plugins = {
     url = "https://github.com/folke/tokyonight.nvim"
   },
   ["trim.nvim"] = {
-    config = { "require('plugins.trim')" },
     loaded = true,
     path = "/Users/cam/.local/share/nvim/site/pack/packer/start/trim.nvim",
     url = "https://github.com/cappyzawa/trim.nvim"
@@ -142,26 +152,6 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: nvim-tree.lua
-time([[Config for nvim-tree.lua]], true)
-require('plugins.nvim-tree')
-time([[Config for nvim-tree.lua]], false)
--- Config for: telescope.nvim
-time([[Config for telescope.nvim]], true)
-require('plugins.telescope')
-time([[Config for telescope.nvim]], false)
--- Config for: neoscroll.nvim
-time([[Config for neoscroll.nvim]], true)
-require('plugins.neoscroll')
-time([[Config for neoscroll.nvim]], false)
--- Config for: gitsigns.nvim
-time([[Config for gitsigns.nvim]], true)
-require('plugins.gitsigns')
-time([[Config for gitsigns.nvim]], false)
--- Config for: trim.nvim
-time([[Config for trim.nvim]], true)
-require('plugins.trim')
-time([[Config for trim.nvim]], false)
 if should_profile then save_profiles() end
 
 end)
