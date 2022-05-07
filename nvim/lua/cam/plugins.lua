@@ -17,20 +17,36 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 
 local function packer_startup(use)
   use 'wbthomason/packer.nvim'
+
   -- Display
   use 'folke/tokyonight.nvim'
   use 'itchyny/lightline.vim'
   use 'rcarriga/nvim-notify'
   use 'lewis6991/gitsigns.nvim'
   use 'karb94/neoscroll.nvim'
+  use 'onsails/lspkind.nvim'
   use {'kyazdani42/nvim-tree.lua', requires = 'kyazdani42/nvim-web-devicons'}
+
   -- Misc
   use 'cappyzawa/trim.nvim'
   use 'numToStr/Comment.nvim'
+  use 'windwp/nvim-autopairs'
+
+  -- Completion
+  use 'hrsh7th/nvim-cmp'
+  use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/cmp-nvim-lua'
+  use 'hrsh7th/cmp-path'
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/cmp-cmdline'
+  use 'L3MON4D3/LuaSnip'
+  use 'saadparwaiz1/cmp_luasnip'
+
   -- Language Server & Parsing
   use 'williamboman/nvim-lsp-installer'
   use 'neovim/nvim-lspconfig'
   use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
+
   -- Telescope
   use {
     'nvim-telescope/telescope.nvim',

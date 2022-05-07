@@ -11,10 +11,6 @@ map('n', '<C-j>', '<C-w>j')
 map('n', '<C-k>', '<C-w>k')
 map('n', '<C-l>', '<C-w>l')
 
--- Navigate buffers
-map('n', '<S-l>', ':bnext<CR>')
-map('n', '<S-h>', ':bprevious<CR>')
-
 -- Telescope mappings
 map('n', '<leader>ff', '<cmd>Telescope find_files<cr>')
 map('n', '<leader>fg', '<cmd>Telescope live_grep<cr>')
