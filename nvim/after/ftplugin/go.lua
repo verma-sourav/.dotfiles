@@ -1,6 +1,4 @@
-local setlocal = vim.opt_local
-
-setlocal.colorcolumn = '100'
-setlocal.expandtab = false
-setlocal.tabstop = 4
-setlocal.shiftwidth = 4
+vim.opt_local.colorcolumn = '100'
+vim.opt_local.expandtab = false
+vim.opt_local.tabstop = 4
+vim.opt_local.shiftwidth = 4
