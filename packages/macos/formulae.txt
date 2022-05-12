@@ -1,0 +1,17 @@
+curl
+bat
+exa
+fd
+fish
+gh
+git
+git-delta
+go
+jq
+less
+neovim
+node
+python3
+ripgrep
+virtualenv
+wget
