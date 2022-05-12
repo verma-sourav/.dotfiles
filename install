@@ -174,7 +174,7 @@ setup_shell() {
 
     if ! cmd_exists "starship"; then
         echo "Starship prompt is not installed. Installing..."
-        curl -fsSL https://starship.rs/install.sh | bash -s  -- --yes
+        curl -fsSL https://starship.rs/install.sh | sh -s  -- --yes
     fi
 
     local hushfile="$HOME/.hushlogin"
