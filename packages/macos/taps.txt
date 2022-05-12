@@ -1,0 +1,4 @@
+homebrew/cask
+homebrew/cask-fonts
+# Needed for font-sf-mono-nerd-font
+epk/epk

@@ -1,0 +1,12 @@
+curl
+bat
+exa
+fd-find
+fish
+git
+jq
+less
+python3
+ripgrep
+virtualenv
+wget
