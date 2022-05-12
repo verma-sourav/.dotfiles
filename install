@@ -10,15 +10,15 @@ main() {
         return 1
     fi
 
+    install_packages
+    setup_shell
+
     cd "$BASEDIR"
     echo "Downloading all git submodules"
     git submodule update --init --recursive
 
     run_gitconfig_setup
     run_dotbot
-
-    install_packages
-    setup_shell
 }
 
 # Run the gitconfig setup script. This should be run prior to linking the gitconfig, as it creates
