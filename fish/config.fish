@@ -5,7 +5,7 @@ set -x DOTS "$HOME/.dotfiles"
 set -x EDITOR nvim
 set -x GOPATH "$HOME/.go"
 set -x STARSHIP_CONFIG "$DOTS/starship/config.toml"
-set -x PATH "$DOTS/bin" "/opt/homebrew/bin" "/usr/local/bin" "$PATH" "$GOPATH/bin"
+set -x PATH "$DOTS/bin" "/opt/homebrew/bin" "/usr/local/go/bin" "/usr/local/bin" "$PATH" "$GOPATH/bin"
 
 set -l localenv "$HOME/.localenv"
 if test -e "$localenv"
