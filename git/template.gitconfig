@@ -4,6 +4,7 @@
     discard = checkout --
     discard-untracked = clean
     desc = branch --edit-description
+    sm = submodule
 
 [apply]
     whitespace = nowarn
@@ -16,9 +17,6 @@
 
 [core]
     editor = nvim
-
-[credential]
-    helper = GIT_CREDENTIAL_HELPER
 
 [delta]
     features = decorations
@@ -50,7 +48,3 @@
     show = delta
 [push]
     default = simple
-
-[user]
-    name = AUTHORNAME
-    email = AUTHOREMAIL

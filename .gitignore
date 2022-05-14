@@ -1,5 +1,6 @@
 # Repository-specific ignores
 git/gitconfig
+
 # Because dotfiles tend to contain machine-specific or even sensitive information, ignore them by default.
 .*
 

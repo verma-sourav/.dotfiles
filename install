@@ -17,14 +17,14 @@ main() {
     echo "Downloading all git submodules"
     git submodule update --init --recursive
 
-    run_gitconfig_setup
+    run_git_setup
     run_dotbot
 }
 
 # Run the gitconfig setup script. This should be run prior to linking the gitconfig, as it creates
 # the actual gitconfig file that is going to be linked.
-run_gitconfig_setup() {
-    "$BASEDIR/git/replace-author.sh"
+run_git_setup() {
+    "$BASEDIR/git/setup.sh"
 }
 
 # Use dotbot to clean dead links and symlink the dotfiles.
