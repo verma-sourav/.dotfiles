@@ -12,3 +12,4 @@ ripgrep
 shellcheck
 virtualenv
 wget
+xsel
