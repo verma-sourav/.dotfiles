@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-'''
+"""
 A script to show git branches side-by-side with their descriptions. It is recommended that this
 script be aliased to `git branches`. There are two methods to do so:
 
@@ -18,28 +18,31 @@ Example:
   fix/broke-build-again | Fix build errors due to go module not found errors
                 * gh-12 | Improve DEBUG-level logging
                  master |
-'''
+"""
 
 from enum import Enum
 import subprocess
 from typing import List, Tuple
 
+
 class Colors:
-    CYAN = '\033[96m'
-    GREEN = '\033[92m'
-    RESET = '\033[0m'
+    CYAN = "\033[96m"
+    GREEN = "\033[92m"
+    RESET = "\033[0m"
+
 
 class BranchType(Enum):
     NORMAL = 0
     CURRENT = 1
     WORKTREE = 2
 
+
 class Branch:
     # Per the documentation for `git branch`:
     #   Current Branch: Prefixed with '*' and displayed in green
     #   Worktree: Prefixed with '+' and displayed in cyan
-    currentPrefix = '* '
-    worktreePrefix = '+ '
+    currentPrefix = "* "
+    worktreePrefix = "+ "
 
     def __init__(self, branch: str) -> None:
         branchType = BranchType.NORMAL
@@ -64,8 +67,12 @@ class Branch:
 
     @property
     def description(self) -> str:
-        cmd = subprocess.run(['git', 'config', '--get', f'branch.{self.name}.description'], capture_output=True, text=True)
-        return cmd.stdout.strip() if cmd.returncode == 0 else ''
+        cmd = subprocess.run(
+            ["git", "config", "--get", f"branch.{self.name}.description"],
+            capture_output=True,
+            text=True,
+        )
+        return cmd.stdout.strip() if cmd.returncode == 0 else ""
 
     def printFormatted(self, colWidth: int) -> None:
         # Because the ANSI color sequences are added to the names before they are printed out, we
@@ -77,19 +84,23 @@ class Branch:
 
         if self.type == BranchType.CURRENT:
             padding -= len(Branch.currentPrefix)
-            name = f'{Branch.currentPrefix}{Colors.GREEN}{self.name}{Colors.RESET}'
+            name = f"{Branch.currentPrefix}{Colors.GREEN}{self.name}{Colors.RESET}"
         elif self.type == BranchType.WORKTREE:
             padding -= len(Branch.worktreePrefix)
-            name = f'{Branch.worktreePrefix}{Colors.CYAN}{self.name}{Colors.RESET}'
+            name = f"{Branch.worktreePrefix}{Colors.CYAN}{self.name}{Colors.RESET}"
 
         print(f'{" "* padding}{name} | {self.description}')
 
+
 def inGitRepo() -> bool:
-    cmd = subprocess.run(['git', 'branch'], capture_output=True)
+    cmd = subprocess.run(["git", "branch"], capture_output=True)
     return cmd.returncode == 0
 
+
 def getBranchesInfo() -> Tuple[List[Branch], int]:
-    cmd = subprocess.run(['git', 'branch', '--list'], capture_output=True, check=True, text=True)
+    cmd = subprocess.run(
+        ["git", "branch", "--list"], capture_output=True, check=True, text=True
+    )
     branches = cmd.stdout.splitlines()
 
     output = []
@@ -100,6 +111,7 @@ def getBranchesInfo() -> Tuple[List[Branch], int]:
 
     return output, longest
 
+
 def main():
     if not inGitRepo():
         print("Fatal: Not currently in a git repository")
@@ -109,5 +121,6 @@ def main():
     for branch in branches:
         branch.printFormatted(colWidth)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
