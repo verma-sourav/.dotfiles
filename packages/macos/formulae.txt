@@ -1,5 +1,6 @@
 curl
 bat
+black
 exa
 fd
 fish
@@ -13,5 +14,6 @@ neovim
 node
 python3
 ripgrep
+shellcheck
 virtualenv
 wget

@@ -46,6 +46,7 @@ local function packer_startup(use)
   use 'williamboman/nvim-lsp-installer'
   use 'neovim/nvim-lspconfig'
   use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
+  use {'jose-elias-alvarez/null-ls.nvim', requires = { 'nvim-lua/plenary.nvim' }}
 
   -- Telescope
   use {

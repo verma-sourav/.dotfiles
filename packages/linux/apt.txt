@@ -1,5 +1,6 @@
 curl
 bat
+black
 exa
 fd-find
 fish
@@ -8,5 +9,6 @@ jq
 less
 python3
 ripgrep
+shellcheck
 virtualenv
 wget
