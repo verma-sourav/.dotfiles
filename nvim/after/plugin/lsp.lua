@@ -15,14 +15,14 @@ local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-local opts = { noremap=true, silent=true }
+local opts = { noremap = true, silent = true }
 vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
 vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
 vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 vim.api.nvim_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
 
 local on_attach = function(client, bufnr)
-    -- Map buffer local keybindings when the language server attaches
+  -- Map buffer local keybindings when the language server attaches
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
@@ -67,9 +67,9 @@ lspconfig.sumneko_lua.setup({
   on_attach = on_attach,
   capabilities = capabilities,
   settings = {
-      Lua = {
-          diagnostics = { globals = { 'vim' } }
-      }
+    Lua = {
+      diagnostics = { globals = { 'vim' } }
+    }
   }
 })
 
@@ -77,7 +77,6 @@ null_ls.setup({
   on_attach = on_attach,
   capabilities = capabilities,
   sources = {
-    null_ls.builtins.code_actions.shellcheck,
     null_ls.builtins.formatting.black.with({ extra_args = { "--fast" } })
   }
 })
