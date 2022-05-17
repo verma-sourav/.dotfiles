@@ -1,0 +1,97 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+SSH_CONFIG="$HOME/.ssh/config"
+REMOTE_ALIAS=""
+REMOTE_HOST=""
+REMOTE_USER="$USER"
+REMOTE_PORT="22"
+SKIP_CONFIRMATION=false
+
+print_usage() {
+    echo "Usage: $(basename "$0") ALIAS ADDRESS [OPTIONS]"
+    echo
+    echo "Quickly add a new host configuration to your SSH config"
+    echo
+    echo "Options:"
+    echo "  -h, --help        Print this help message"
+    echo "  -u, --user string Set the user that should be connected to on the host (default: $USER)"
+    echo "  -p, --port int    Set the port that should be used to connect to the host (default: 22)"
+    echo "  -y, --yes         Skip the confirmation message"
+}
+
+parse_arguments() {
+    if [ $# -lt 2 ]; then
+        print_usage
+        exit 1
+    fi
+
+    REMOTE_ALIAS="$1"
+    REMOTE_HOST="$2"
+    shift 2
+
+    while [ $# -ne 0 ] && [ "$1" != "" ]; do
+        case $1 in
+        -h | --help)
+            print_usage
+            exit 0
+            ;;
+        -u | --user)
+            shift
+            REMOTE_USER="$1"
+            ;;
+        -p | --port)
+            shift
+            REMOTE_PORT="$1"
+            ;;
+        -y | --yes)
+            SKIP_CONFIRMATION=true
+            ;;
+        *)
+            echo "Unknown flag: $1"
+            print_usage
+            exit 1
+            ;;
+        esac
+        shift
+    done
+}
+
+confirm() {
+    # If $1 is provided, use that. Otherwise use a default.
+    local prompt="${1:-Are you sure?}"
+    read -r -p "$prompt [y/N] " response
+    case "$response" in
+        [yY][eE][sS]|[yY])
+            return 0
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+}
+
+parse_arguments "$@"
+
+echo "Environment:"
+echo "         SSH_CONFIG: $SSH_CONFIG"
+echo "       REMOTE_ALIAS: $REMOTE_ALIAS"
+echo "        REMOTE_HOST: $REMOTE_HOST"
+echo "        REMOTE_USER: $REMOTE_USER"
+echo "        REMOTE_PORT: $REMOTE_PORT"
+echo "  SKIP_CONFIRMATION: $SKIP_CONFIRMATION"
+echo
+
+if [ "$SKIP_CONFIRMATION" == false ] && ! confirm "Continue?"; then
+    echo "Exiting..."
+    exit 1
+fi
+
+echo "Updating SSH config..."
+{
+    echo "Host $REMOTE_ALIAS"
+    echo "  User $REMOTE_USER"
+    echo "  HostName $REMOTE_HOST"
+    echo "  Port $REMOTE_PORT"
+} >> "$SSH_CONFIG"
