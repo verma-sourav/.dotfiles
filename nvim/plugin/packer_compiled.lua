@@ -70,6 +70,7 @@ time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
   ["Comment.nvim"] = {
+    config = { "require('plugin.comment')" },
     loaded = true,
     path = "/Users/cam/.local/share/nvim/site/pack/packer/start/Comment.nvim",
     url = "https://github.com/numToStr/Comment.nvim"
@@ -110,6 +111,7 @@ _G.packer_plugins = {
     url = "https://github.com/saadparwaiz1/cmp_luasnip"
   },
   ["gitsigns.nvim"] = {
+    config = { "require('plugin.gitsigns')" },
     loaded = true,
     path = "/Users/cam/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
     url = "https://github.com/lewis6991/gitsigns.nvim"
@@ -125,6 +127,7 @@ _G.packer_plugins = {
     url = "https://github.com/onsails/lspkind.nvim"
   },
   ["neoscroll.nvim"] = {
+    config = { "require('plugin.neoscroll')" },
     loaded = true,
     path = "/Users/cam/.local/share/nvim/site/pack/packer/start/neoscroll.nvim",
     url = "https://github.com/karb94/neoscroll.nvim"
@@ -135,13 +138,20 @@ _G.packer_plugins = {
     url = "https://github.com/jose-elias-alvarez/null-ls.nvim"
   },
   ["nvim-autopairs"] = {
+    config = { "require('plugin.autopairs')" },
+    load_after = {},
     loaded = true,
-    path = "/Users/cam/.local/share/nvim/site/pack/packer/start/nvim-autopairs",
+    needs_bufread = false,
+    path = "/Users/cam/.local/share/nvim/site/pack/packer/opt/nvim-autopairs",
     url = "https://github.com/windwp/nvim-autopairs"
   },
   ["nvim-cmp"] = {
+    after = { "nvim-autopairs" },
+    config = { "require('plugin.cmp')" },
+    load_after = {},
     loaded = true,
-    path = "/Users/cam/.local/share/nvim/site/pack/packer/start/nvim-cmp",
+    needs_bufread = false,
+    path = "/Users/cam/.local/share/nvim/site/pack/packer/opt/nvim-cmp",
     url = "https://github.com/hrsh7th/nvim-cmp"
   },
   ["nvim-lsp-installer"] = {
@@ -150,21 +160,25 @@ _G.packer_plugins = {
     url = "https://github.com/williamboman/nvim-lsp-installer"
   },
   ["nvim-lspconfig"] = {
+    config = { "require('plugin.lsp')" },
     loaded = true,
     path = "/Users/cam/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
   },
   ["nvim-notify"] = {
+    config = { "require('plugin.notify')" },
     loaded = true,
     path = "/Users/cam/.local/share/nvim/site/pack/packer/start/nvim-notify",
     url = "https://github.com/rcarriga/nvim-notify"
   },
   ["nvim-tree.lua"] = {
+    config = { "require('plugin.nvim-tree')" },
     loaded = true,
     path = "/Users/cam/.local/share/nvim/site/pack/packer/start/nvim-tree.lua",
     url = "https://github.com/kyazdani42/nvim-tree.lua"
   },
   ["nvim-treesitter"] = {
+    config = { "require('plugin.treesitter')" },
     loaded = true,
     path = "/Users/cam/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
     url = "https://github.com/nvim-treesitter/nvim-treesitter"
@@ -195,11 +209,15 @@ _G.packer_plugins = {
     url = "https://github.com/nvim-telescope/telescope.nvim"
   },
   ["tokyonight.nvim"] = {
+    config = { "require('plugin.colorscheme')" },
+    load_after = {},
     loaded = true,
-    path = "/Users/cam/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
+    needs_bufread = false,
+    path = "/Users/cam/.local/share/nvim/site/pack/packer/opt/tokyonight.nvim",
     url = "https://github.com/folke/tokyonight.nvim"
   },
   ["trim.nvim"] = {
+    config = { "require('plugin.trim')" },
     loaded = true,
     path = "/Users/cam/.local/share/nvim/site/pack/packer/start/trim.nvim",
     url = "https://github.com/cappyzawa/trim.nvim"
@@ -207,6 +225,58 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: Comment.nvim
+time([[Config for Comment.nvim]], true)
+require('plugin.comment')
+time([[Config for Comment.nvim]], false)
+-- Config for: neoscroll.nvim
+time([[Config for neoscroll.nvim]], true)
+require('plugin.neoscroll')
+time([[Config for neoscroll.nvim]], false)
+-- Config for: nvim-tree.lua
+time([[Config for nvim-tree.lua]], true)
+require('plugin.nvim-tree')
+time([[Config for nvim-tree.lua]], false)
+-- Config for: nvim-notify
+time([[Config for nvim-notify]], true)
+require('plugin.notify')
+time([[Config for nvim-notify]], false)
+-- Config for: gitsigns.nvim
+time([[Config for gitsigns.nvim]], true)
+require('plugin.gitsigns')
+time([[Config for gitsigns.nvim]], false)
+-- Config for: nvim-treesitter
+time([[Config for nvim-treesitter]], true)
+require('plugin.treesitter')
+time([[Config for nvim-treesitter]], false)
+-- Config for: nvim-lspconfig
+time([[Config for nvim-lspconfig]], true)
+require('plugin.lsp')
+time([[Config for nvim-lspconfig]], false)
+-- Config for: trim.nvim
+time([[Config for trim.nvim]], true)
+require('plugin.trim')
+time([[Config for trim.nvim]], false)
+-- Load plugins in order defined by `after`
+time([[Sequenced loading]], true)
+vim.cmd [[ packadd LuaSnip ]]
+vim.cmd [[ packadd nvim-cmp ]]
+
+-- Config for: nvim-cmp
+require('plugin.cmp')
+
+vim.cmd [[ packadd nvim-autopairs ]]
+
+-- Config for: nvim-autopairs
+require('plugin.autopairs')
+
+vim.cmd [[ packadd lightline.vim ]]
+vim.cmd [[ packadd tokyonight.nvim ]]
+
+-- Config for: tokyonight.nvim
+require('plugin.colorscheme')
+
+time([[Sequenced loading]], false)
 if should_profile then save_profiles() end
 
 end)

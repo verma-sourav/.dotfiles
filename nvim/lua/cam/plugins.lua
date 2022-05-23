@@ -1,5 +1,5 @@
 -- Automatically install packer
-local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   PACKER_BOOTSTRAP = vim.fn.system({
     'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path
@@ -18,37 +18,59 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 local function packer_startup(use)
   use 'wbthomason/packer.nvim'
 
-  -- Display
-  use 'folke/tokyonight.nvim'
   use 'itchyny/lightline.vim'
-  use 'rcarriga/nvim-notify'
-  use 'lewis6991/gitsigns.nvim'
-  use 'karb94/neoscroll.nvim'
-  use 'onsails/lspkind.nvim'
-  use {'kyazdani42/nvim-tree.lua', requires = 'kyazdani42/nvim-web-devicons'}
+  use {
+    'folke/tokyonight.nvim',
+    after = 'lightline.vim',
+    config = "require('plugin.colorscheme')"
+  }
+
+  use { 'rcarriga/nvim-notify', config = "require('plugin.notify')" }
+  use { 'lewis6991/gitsigns.nvim', config = "require('plugin.gitsigns')" }
+  use { 'karb94/neoscroll.nvim', config = "require('plugin.neoscroll')" }
+  use {
+    'kyazdani42/nvim-tree.lua',
+    config = "require('plugin.nvim-tree')",
+    requires = 'kyazdani42/nvim-web-devicons'
+  }
 
   -- Misc
-  use 'cappyzawa/trim.nvim'
-  use 'numToStr/Comment.nvim'
-  use 'windwp/nvim-autopairs'
+  use { 'cappyzawa/trim.nvim', config = "require('plugin.trim')" }
+  use { 'numToStr/Comment.nvim', config = "require('plugin.comment')" }
 
   -- Completion
-  use 'hrsh7th/nvim-cmp'
-  use 'hrsh7th/cmp-nvim-lsp'
-  use 'hrsh7th/cmp-nvim-lua'
-  use 'hrsh7th/cmp-path'
-  use 'hrsh7th/cmp-buffer'
-  use 'hrsh7th/cmp-cmdline'
   use 'L3MON4D3/LuaSnip'
-  use 'saadparwaiz1/cmp_luasnip'
+  use {
+    'hrsh7th/nvim-cmp',
+    after = 'LuaSnip',
+    config = "require('plugin.cmp')",
+    requires = {
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-nvim-lua',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-cmdline',
+      'saadparwaiz1/cmp_luasnip',
+      'onsails/lspkind.nvim',
+    }
+  }
 
-  -- Language Server & Parsing
-  use 'williamboman/nvim-lsp-installer'
-  use 'neovim/nvim-lspconfig'
-  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
-  use {'jose-elias-alvarez/null-ls.nvim', requires = { 'nvim-lua/plenary.nvim' }}
+  use {
+    'windwp/nvim-autopairs',
+    after = 'nvim-cmp',
+    config = "require('plugin.autopairs')"
+  }
 
-  -- Telescope
+  use {
+    'neovim/nvim-lspconfig',
+    config = "require('plugin.lsp')",
+    requires = {
+      'williamboman/nvim-lsp-installer',
+      { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = "require('plugin.treesitter')" },
+      { 'jose-elias-alvarez/null-ls.nvim', requires = { 'nvim-lua/plenary.nvim' } }
+    }
+  }
+
   use {
     'nvim-telescope/telescope.nvim',
     requires = {
