@@ -44,6 +44,3 @@ vim.opt.wildignore = {
   'deps', '.svn', 'CVS', '.git', '.DS_Store', '*.o', '*.a', '*.class', '*.mo', '*.la', '*.so', '*.obj',
   '*.swp', '*.jpg', '*.png', '*.gif', '*.out'
 }
-
-vim.cmd('colorscheme tokyonight')
-vim.g.lightline = { colorscheme = 'tokyonight' }
