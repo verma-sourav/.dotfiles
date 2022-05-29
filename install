@@ -19,6 +19,7 @@ main() {
 
     run_git_setup
     run_dotbot
+    bootstrap_neovim
 }
 
 # Run the gitconfig setup script. This should be run prior to linking the gitconfig, as it creates
@@ -180,6 +181,12 @@ setup_shell() {
 
     echo "Making sure that fish is set to be the default shell"
     chsh -s "$fish_bin"
+}
+
+bootstrap_neovim() {
+    echo "Bootstrapping neovim..."
+    # https://github.com/junegunn/vim-plug/wiki/tips#install-plugins-on-the-command-line
+    nvim -es -u "$DOTS/nvim/init.lua" -i NONE -c "PlugInstall" -c "qa"
 }
 
 # Helper Funcs

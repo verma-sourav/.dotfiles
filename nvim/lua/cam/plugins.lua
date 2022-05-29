@@ -1,98 +1,81 @@
--- Automatically install packer
-local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  PACKER_BOOTSTRAP = vim.fn.system({
-    'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path
-  })
-  vim.cmd('packadd packer.nvim')
+local install_path = vim.fn.stdpath('data') .. '/site/plugged'
+local Plug = vim.fn['plug#']
+
+-- https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
+-- Install vim-plug if it is not already installed
+vim.cmd([[
+if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+    silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+]])
+
+-- Automatically install any missing plugins
+vim.cmd([[
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+    \| PlugInstall --sync | source $MYVIMRC
+\| endif
+]])
+
+vim.call('plug#begin', install_path)
+
+-- Colorschemes and style plugins
+Plug ('folke/tokyonight.nvim', {branch = 'main'})
+Plug 'itchyny/lightline.vim'
+
+-- File Explorer
+Plug 'kyazdani42/nvim-tree.lua'
+Plug 'kyazdani42/nvim-web-devicons'
+
+Plug 'cappyzawa/trim.nvim'
+Plug 'numToStr/Comment.nvim'
+Plug 'windwp/nvim-autopairs'
+Plug 'rcarriga/nvim-notify'
+Plug 'lewis6991/gitsigns.nvim'
+Plug 'karb94/neoscroll.nvim'
+
+-- Snippets and Completion
+Plug 'L3MON4D3/LuaSnip'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-nvim-lua'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'onsails/lspkind.nvim'
+
+-- Language Server & Parsing
+Plug 'neovim/nvim-lspconfig'
+Plug 'williamboman/nvim-lsp-installer'
+Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'nvim-treesitter/nvim-treesitter'
+
+-- Telescope
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
+
+-- Common Dependencies
+Plug 'nvim-lua/plenary.nvim'
+
+vim.call('plug#end')
+
+local config_files = {
+  'autopairs',
+  'cmp',
+  'colorscheme',
+  'comment',
+  'gitsigns',
+  'lsp',
+  'neoscroll',
+  'notify',
+  'nvim-tree',
+  'telescope',
+  'treesitter',
+  'trim'
+}
+
+for _, file in pairs(config_files) do
+  require('cam.plugins.' .. file)
 end
-
-local groupPacker = vim.api.nvim_create_augroup('packer_config', { clear = true })
-vim.api.nvim_create_autocmd('BufWritePost', {
-  group = groupPacker,
-  pattern = 'plugins.lua',
-  command = 'source <afile> | PackerSync',
-  desc = 'Automatically reload neovim when you save the plugins.lua file'
-})
-
-local function packer_startup(use)
-  use 'wbthomason/packer.nvim'
-
-  use 'itchyny/lightline.vim'
-  use {
-    'folke/tokyonight.nvim',
-    after = 'lightline.vim',
-    config = "require('plugin.colorscheme')"
-  }
-
-  use { 'rcarriga/nvim-notify', config = "require('plugin.notify')" }
-  use { 'lewis6991/gitsigns.nvim', config = "require('plugin.gitsigns')" }
-  use { 'karb94/neoscroll.nvim', config = "require('plugin.neoscroll')" }
-  use {
-    'kyazdani42/nvim-tree.lua',
-    config = "require('plugin.nvim-tree')",
-    requires = 'kyazdani42/nvim-web-devicons'
-  }
-
-  -- Misc
-  use { 'cappyzawa/trim.nvim', config = "require('plugin.trim')" }
-  use { 'numToStr/Comment.nvim', config = "require('plugin.comment')" }
-
-  -- Completion
-  use 'L3MON4D3/LuaSnip'
-  use {
-    'hrsh7th/nvim-cmp',
-    after = 'LuaSnip',
-    config = "require('plugin.cmp')",
-    requires = {
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-nvim-lua',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-cmdline',
-      'saadparwaiz1/cmp_luasnip',
-      'onsails/lspkind.nvim',
-    }
-  }
-
-  use {
-    'windwp/nvim-autopairs',
-    after = 'nvim-cmp',
-    config = "require('plugin.autopairs')"
-  }
-
-  use {
-    'neovim/nvim-lspconfig',
-    config = "require('plugin.lsp')",
-    requires = {
-      'williamboman/nvim-lsp-installer',
-      { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = "require('plugin.treesitter')" },
-      { 'jose-elias-alvarez/null-ls.nvim', requires = { 'nvim-lua/plenary.nvim' } }
-    }
-  }
-
-  use {
-    'nvim-telescope/telescope.nvim',
-    requires = {
-      'nvim-lua/plenary.nvim',
-      'kyazdani42/nvim-web-devicons',
-      'nvim-telescope/telescope-fzy-native.nvim'
-    }
-  }
-
-  -- Automatically set up your configuration after cloning packer.nvim
-  -- Put this at the end after all plugins
-  if PACKER_BOOTSTRAP then
-    require('packer').sync()
-  end
-end
-
-local packer = require('packer')
-
-packer.init({
-  display = {
-    open_fn = function() return require('packer.util').float { border = 'rounded' } end
-  }
-})
-
-return packer.startup(packer_startup)

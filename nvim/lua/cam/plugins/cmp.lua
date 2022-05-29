@@ -1,5 +1,12 @@
-local cmp = require('cmp')
-local lspkind = require('lspkind')
+local ok, cmp = pcall(require, 'cmp')
+if not ok then
+  return
+end
+
+local lspk_ok, lspkind = pcall(require, 'lspkind')
+if not lspk_ok then
+  return
+end
 
 cmp.setup({
 

@@ -5,4 +5,9 @@ Would like to potentially add smooth scolling to { and }
   https://github.com/karb94/neoscroll.nvim/issues/55
 --]]
 
-require('neoscroll').setup()
+local ok, neoscroll = pcall(require, 'neoscroll')
+if not ok then
+  return
+end
+
+neoscroll.setup()

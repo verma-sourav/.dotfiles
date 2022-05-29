@@ -1,14 +1,31 @@
-local lspconfig = require('lspconfig')
-local null_ls = require('null-ls')
+local ok, lspconfig = pcall(require, 'lspconfig')
+if not ok then
+  return
+end
 
-require("nvim-lsp-installer").setup {
+local nls_ok, null_ls = pcall(require, 'null-ls')
+if not nls_ok then
+  return
+end
+
+local nli_ok, lsp_installer = pcall(require, 'nvim-lsp-installer')
+if not nli_ok then
+  return
+end
+
+local cmp_ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
+if not cmp_ok then
+  return
+end
+
+lsp_installer.setup {
   -- Detect which servers to install based on which servers are set up via lspconfig
   automatic_installation = true
 }
 
 -- nvim-cmp-lsp needs to be a client of LSPs to provde completion
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
 
 -- https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Formatting-on-save#code
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
