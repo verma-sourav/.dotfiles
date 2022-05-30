@@ -20,4 +20,7 @@
 - link:
     ~/.gitconfig: git/.gitconfig
     ~/.config/fish/config.fish: fish/config.fish
-    ~/.config/nvim: nvim
+    ~/.config/nvim/init.lua: nvim/init.lua
+    ~/.config/nvim/after: nvim/after
+    ~/.config/nvim/lua: nvim/lua
+    ~/.local/share/nvim/site/pack/cam/start: nvim/plugins

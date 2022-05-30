@@ -1,3 +1,81 @@
 [submodule "submodules/dotbot"]
 	path = submodules/dotbot
 	url = https://github.com/anishathalye/dotbot
+[submodule "nvim/plugins/tokyonight.nvim"]
+	path = nvim/plugins/tokyonight.nvim
+	url = https://github.com/folke/tokyonight.nvim
+[submodule "nvim/plugins/lightline.vim"]
+	path = nvim/plugins/lightline.vim
+	url = https://github.com/itchyny/lightline.vim
+[submodule "nvim/plugins/nvim-tree.lua"]
+	path = nvim/plugins/nvim-tree.lua
+	url = https://github.com/kyazdani42/nvim-tree.lua
+[submodule "nvim/plugins/nvim-web-devicons"]
+	path = nvim/plugins/nvim-web-devicons
+	url = https://github.com/kyazdani42/nvim-web-devicons
+[submodule "nvim/plugins/trim.nvim"]
+	path = nvim/plugins/trim.nvim
+	url = https://github.com/cappyzawa/trim.nvim
+[submodule "nvim/plugins/Comment.nvim"]
+	path = nvim/plugins/Comment.nvim
+	url = https://github.com/numToStr/Comment.nvim
+[submodule "nvim/plugins/nvim-autopairs"]
+	path = nvim/plugins/nvim-autopairs
+	url = https://github.com/windwp/nvim-autopairs
+[submodule "nvim/plugins/nvim-notify"]
+	path = nvim/plugins/nvim-notify
+	url = https://github.com/rcarriga/nvim-notify
+[submodule "nvim/plugins/gitsigns.nvim"]
+	path = nvim/plugins/gitsigns.nvim
+	url = https://github.com/lewis6991/gitsigns.nvim
+[submodule "nvim/plugins/neoscroll.nvim"]
+	path = nvim/plugins/neoscroll.nvim
+	url = https://github.com/karb94/neoscroll.nvim
+[submodule "nvim/plugins/LuaSnip"]
+	path = nvim/plugins/LuaSnip
+	url = https://github.com/L3MON4D3/LuaSnip
+[submodule "nvim/plugins/nvim-cmp"]
+	path = nvim/plugins/nvim-cmp
+	url = https://github.com/hrsh7th/nvim-cmp
+[submodule "nvim/plugins/cmp-nvim-lsp"]
+	path = nvim/plugins/cmp-nvim-lsp
+	url = https://github.com/hrsh7th/cmp-nvim-lsp
+[submodule "nvim/plugins/cmp-nvim-lua"]
+	path = nvim/plugins/cmp-nvim-lua
+	url = https://github.com/hrsh7th/cmp-nvim-lua
+[submodule "nvim/plugins/cmp-path"]
+	path = nvim/plugins/cmp-path
+	url = https://github.com/hrsh7th/cmp-path
+[submodule "nvim/plugins/cmp-buffer"]
+	path = nvim/plugins/cmp-buffer
+	url = https://github.com/hrsh7th/cmp-buffer
+[submodule "nvim/plugins/cmp-cmdline"]
+	path = nvim/plugins/cmp-cmdline
+	url = https://github.com/hrsh7th/cmp-cmdline
+[submodule "nvim/plugins/cmp_luasnip"]
+	path = nvim/plugins/cmp_luasnip
+	url = https://github.com/saadparwaiz1/cmp_luasnip
+[submodule "nvim/plugins/lspkind.nvim"]
+	path = nvim/plugins/lspkind.nvim
+	url = https://github.com/onsails/lspkind.nvim
+[submodule "nvim/plugins/nvim-lspconfig"]
+	path = nvim/plugins/nvim-lspconfig
+	url = https://github.com/neovim/nvim-lspconfig
+[submodule "nvim/plugins/nvim-lsp-installer"]
+	path = nvim/plugins/nvim-lsp-installer
+	url = https://github.com/williamboman/nvim-lsp-installer
+[submodule "nvim/plugins/null-ls.nvim"]
+	path = nvim/plugins/null-ls.nvim
+	url = https://github.com/jose-elias-alvarez/null-ls.nvim
+[submodule "nvim/plugins/nvim-treesitter"]
+	path = nvim/plugins/nvim-treesitter
+	url = https://github.com/nvim-treesitter/nvim-treesitter
+[submodule "nvim/plugins/telescope.nvim"]
+	path = nvim/plugins/telescope.nvim
+	url = https://github.com/nvim-telescope/telescope.nvim
+[submodule "nvim/plugins/telescope-fzy-native.nvim"]
+	path = nvim/plugins/telescope-fzy-native.nvim
+	url = https://github.com/nvim-telescope/telescope-fzy-native.nvim
+[submodule "nvim/plugins/plenary.nvim"]
+	path = nvim/plugins/plenary.nvim
+	url = https://github.com/nvim-lua/plenary.nvim
