@@ -45,6 +45,8 @@ install_packages() {
     elif on_linux; then
         install_linux_packages
     fi
+
+    go install golang.org/x/tools/cmd/goimports@latest
 }
 
 install_macos_packages() {

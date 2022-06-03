@@ -80,6 +80,17 @@ for _, lsp in pairs(servers) do
   }
 end
 
+lspconfig.gopls.setup({
+  on_attach = function(client, bufnr)
+    -- Make it so that gopls doesn't support formatting
+    -- This is so that goimports (from null-ls) can be the formatter
+    -- Without this neovim asks to pick a formatter on each save
+    client.resolved_capabilities.document_formatting = false
+    -- Run the function that I use for all the other ones
+    on_attach(client, bufnr)
+  end
+})
+
 lspconfig.sumneko_lua.setup({
   on_attach = on_attach,
   capabilities = capabilities,
@@ -94,6 +105,7 @@ null_ls.setup({
   on_attach = on_attach,
   capabilities = capabilities,
   sources = {
-    null_ls.builtins.formatting.black.with({ extra_args = { "--fast" } })
+    null_ls.builtins.formatting.black.with({ extra_args = { "--fast" } }),
+    null_ls.builtins.formatting.goimports
   }
 })
