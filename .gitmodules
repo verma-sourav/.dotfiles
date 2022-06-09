@@ -4,9 +4,6 @@
 [submodule "nvim/plugins/tokyonight.nvim"]
 	path = nvim/plugins/tokyonight.nvim
 	url = https://github.com/folke/tokyonight.nvim
-[submodule "nvim/plugins/lightline.vim"]
-	path = nvim/plugins/lightline.vim
-	url = https://github.com/itchyny/lightline.vim
 [submodule "nvim/plugins/nvim-tree.lua"]
 	path = nvim/plugins/nvim-tree.lua
 	url = https://github.com/kyazdani42/nvim-tree.lua
@@ -28,9 +25,6 @@
 [submodule "nvim/plugins/gitsigns.nvim"]
 	path = nvim/plugins/gitsigns.nvim
 	url = https://github.com/lewis6991/gitsigns.nvim
-[submodule "nvim/plugins/neoscroll.nvim"]
-	path = nvim/plugins/neoscroll.nvim
-	url = https://github.com/karb94/neoscroll.nvim
 [submodule "nvim/plugins/LuaSnip"]
 	path = nvim/plugins/LuaSnip
 	url = https://github.com/L3MON4D3/LuaSnip
@@ -79,3 +73,18 @@
 [submodule "nvim/plugins/plenary.nvim"]
 	path = nvim/plugins/plenary.nvim
 	url = https://github.com/nvim-lua/plenary.nvim
+[submodule "nvim/plugins/nvim-treesitter-context"]
+	path = nvim/plugins/nvim-treesitter-context
+	url = https://github.com/nvim-treesitter/nvim-treesitter-context
+[submodule "nvim/plugins/kanagawa.nvim"]
+	path = nvim/plugins/kanagawa.nvim
+	url = https://github.com/rebelot/kanagawa.nvim
+[submodule "nvim/plugins/lualine.nvim"]
+	path = nvim/plugins/lualine.nvim
+	url = https://github.com/nvim-lualine/lualine.nvim
+[submodule "nvim/plugins/indent-blankline.nvim"]
+	path = nvim/plugins/indent-blankline.nvim
+	url = https://github.com/lukas-reineke/indent-blankline.nvim
+[submodule "nvim/plugins/bufferline.nvim"]
+	path = nvim/plugins/bufferline.nvim
+	url = https://github.com/akinsho/bufferline.nvim

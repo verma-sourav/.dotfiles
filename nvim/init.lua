@@ -1,4 +1,4 @@
-require('cam.plugins')
-require('cam.settings')
-require('cam.autocommands')
-require('cam.keymaps')
+require('core.plugins')
+require('core.settings')
+require('core.autocommands')
+require('core.keymaps')
