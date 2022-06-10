@@ -2,4 +2,4 @@
 -- kanagawa: https://github.com/rebelot/kanagawa.nvim
 -- tokyonight: https://github.com/folke/tokyonight.nvim
 vim.cmd("colorscheme kanagawa")
-require('lualine').setup()
+require("lualine").setup()

@@ -1,4 +1,4 @@
-local ok, trim = pcall(require, 'trim')
+local ok, trim = pcall(require, "trim")
 if not ok then
   return
 end

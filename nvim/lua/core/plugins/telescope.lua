@@ -1,4 +1,4 @@
-local ok, telescope = pcall(require, 'telescope')
+local ok, telescope = pcall(require, "telescope")
 if not ok then
   return
 end
@@ -26,4 +26,4 @@ telescope.setup({
     use_less = true,
   },
 })
-telescope.load_extension('fzy_native')
+telescope.load_extension("fzy_native")

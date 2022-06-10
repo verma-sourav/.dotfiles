@@ -1,4 +1,4 @@
-local ok, treesitter_configs = pcall(require, 'nvim-treesitter.configs')
+local ok, treesitter_configs = pcall(require, "nvim-treesitter.configs")
 if not ok then
   return
 end
@@ -6,10 +6,45 @@ end
 treesitter_configs.setup({
   -- Can be "all" or a list of parsers.
   ensure_installed = {
-    'bash', 'c', 'cmake', 'comment', 'cpp', 'css', 'dart', 'dockerfile', 'fish', 'go', 'gomod',
-    'gowork', 'help', 'hjson', 'html', 'http', 'java', 'javascript', 'jsdoc', 'json', 'jsonc',
-    'kotlin', 'latex', 'lua', 'make', 'perl', 'proto', 'python', 'regex', 'rst', 'ruby', 'rust',
-    'scss', 'todotxt', 'toml', 'tsx', 'typescript', 'vim', 'yaml'
+    "bash",
+    "c",
+    "cmake",
+    "comment",
+    "cpp",
+    "css",
+    "dart",
+    "dockerfile",
+    "fish",
+    "go",
+    "gomod",
+    "gowork",
+    "help",
+    "hjson",
+    "html",
+    "http",
+    "java",
+    "javascript",
+    "jsdoc",
+    "json",
+    "jsonc",
+    "kotlin",
+    "latex",
+    "lua",
+    "make",
+    "perl",
+    "proto",
+    "python",
+    "regex",
+    "rst",
+    "ruby",
+    "rust",
+    "scss",
+    "todotxt",
+    "toml",
+    "tsx",
+    "typescript",
+    "vim",
+    "yaml",
   },
 
   highlight = {
@@ -23,6 +58,6 @@ treesitter_configs.setup({
   },
   indent = {
     enable = true,
-    disable = { 'yaml' }
+    disable = { "yaml" },
   },
 })

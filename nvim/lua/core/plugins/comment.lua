@@ -1,4 +1,4 @@
-local ok, comment = pcall(require, 'Comment')
+local ok, comment = pcall(require, "Comment")
 if not ok then
   return
 end
@@ -28,23 +28,23 @@ comment.setup({
 
   ---LHS of toggle mappings in NORMAL + VISUAL mode
   toggler = {
-    line = 'gcc',
-    block = 'gbc',
+    line = "gcc",
+    block = "gbc",
   },
 
   ---LHS of operator-pending mappings in NORMAL + VISUAL mode
   opleader = {
-    line = 'gc',
-    block = 'gb',
+    line = "gc",
+    block = "gb",
   },
 
   ---LHS of extra mappings
   extra = {
     ---Add comment on the line above
-    above = 'gcO',
+    above = "gcO",
     ---Add comment on the line below
-    below = 'gco',
+    below = "gco",
     ---Add comment at the end of line
-    eol = 'gcA',
+    eol = "gcA",
   },
 })

@@ -1,10 +1,10 @@
 -- Basic Settings
-vim.opt.backspace = 'indent,eol,start' -- Allow backspacing over indentation, line breaks, and insertion start
-vim.opt.clipboard = 'unnamedplus' -- Copy to the clipboard instead of the register
+vim.opt.backspace = "indent,eol,start" -- Allow backspacing over indentation, line breaks, and insertion start
+vim.opt.clipboard = "unnamedplus" -- Copy to the clipboard instead of the register
 vim.opt.confirm = true -- Show a confirmation dialog when closing an unsaved file
-vim.opt.mouse = 'a' -- Allow the mouse to be used in all modes
+vim.opt.mouse = "a" -- Allow the mouse to be used in all modes
 vim.opt.errorbells = false -- No bells
-vim.opt.titlestring = '%t' -- Use the name of the file as the window title
+vim.opt.titlestring = "%t" -- Use the name of the file as the window title
 vim.opt.title = true -- Apply the titlestring above
 
 -- Display
@@ -42,6 +42,21 @@ vim.opt.undofile = true -- Automatically save undo history to a file
 
 -- Ignore
 vim.opt.wildignore = {
-  'deps', '.svn', 'CVS', '.git', '.DS_Store', '*.o', '*.a', '*.class', '*.mo', '*.la', '*.so', '*.obj',
-  '*.swp', '*.jpg', '*.png', '*.gif', '*.out'
+  "deps",
+  ".svn",
+  "CVS",
+  ".git",
+  ".DS_Store",
+  "*.o",
+  "*.a",
+  "*.class",
+  "*.mo",
+  "*.la",
+  "*.so",
+  "*.obj",
+  "*.swp",
+  "*.jpg",
+  "*.png",
+  "*.gif",
+  "*.out",
 }

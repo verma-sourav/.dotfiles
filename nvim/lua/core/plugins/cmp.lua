@@ -1,9 +1,9 @@
-local ok, cmp = pcall(require, 'cmp')
+local ok, cmp = pcall(require, "cmp")
 if not ok then
   return
 end
 
-local lspk_ok, lspkind = pcall(require, 'lspkind')
+local lspk_ok, lspkind = pcall(require, "lspkind")
 if not lspk_ok then
   return
 end
@@ -16,11 +16,11 @@ cmp.setup({
   },
 
   mapping = cmp.mapping.preset.insert({
-    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.abort(),
-    ['<Tab>'] = cmp.mapping.confirm({ select = true }),
+    ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+    ["<C-Space>"] = cmp.mapping.complete(),
+    ["<C-e>"] = cmp.mapping.abort(),
+    ["<Tab>"] = cmp.mapping.confirm({ select = true }),
   }),
 
   experimental = {
@@ -43,21 +43,21 @@ cmp.setup({
 
   snippet = {
     expand = function(args)
-      require('luasnip').lsp_expand(args.body)
+      require("luasnip").lsp_expand(args.body)
     end,
   },
 
   sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-    { name = 'nvim_lua' },
-    { name = 'luasnip' },
-    { name = 'path' },
-    { name = 'buffer', keyword_length = 4 },
+    { name = "nvim_lsp" },
+    { name = "nvim_lua" },
+    { name = "luasnip" },
+    { name = "path" },
+    { name = "buffer", keyword_length = 4 },
   }),
 })
 
-cmp.setup.cmdline(':', {
+cmp.setup.cmdline(":", {
   sources = {
-    { name = 'cmdline', keyword_length = 3 }
-  }
+    { name = "cmdline", keyword_length = 3 },
+  },
 })

@@ -1,8 +1,8 @@
 -- When closing buffers, I don't want it to switch to the open nvim tree buffer
 -- https://github.com/akinsho/bufferline.nvim/issues/140#issuecomment-888245325
 local function closeBuffer()
-  local treeView = require('nvim-tree.view')
-  local bufferline = require('bufferline')
+  local treeView = require("nvim-tree.view")
+  local bufferline = require("bufferline")
 
   -- check if NvimTree window was open
   local explorerWindow = treeView.get_winnr()
@@ -10,13 +10,13 @@ local function closeBuffer()
 
   local bufferToDelete = vim.api.nvim_get_current_buf()
 
-  if (wasExplorerOpen) then
+  if wasExplorerOpen then
     -- switch to previous buffer (tracked by bufferline)
     bufferline.cycle(-1)
   end
 
   -- delete initially open buffer
-  vim.cmd('bdelete! ' .. bufferToDelete)
+  vim.cmd("bdelete! " .. bufferToDelete)
 end
 
 require("bufferline").setup({
@@ -31,8 +31,8 @@ require("bufferline").setup({
         filetype = "NvimTree",
         -- text = "File Explorer",
         highlight = "Directory",
-        text_align = "left"
-      }
-    }
-  }
+        text_align = "left",
+      },
+    },
+  },
 })
