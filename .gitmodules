@@ -19,9 +19,6 @@
 [submodule "nvim/plugins/nvim-autopairs"]
 	path = nvim/plugins/nvim-autopairs
 	url = https://github.com/windwp/nvim-autopairs
-[submodule "nvim/plugins/nvim-notify"]
-	path = nvim/plugins/nvim-notify
-	url = https://github.com/rcarriga/nvim-notify
 [submodule "nvim/plugins/gitsigns.nvim"]
 	path = nvim/plugins/gitsigns.nvim
 	url = https://github.com/lewis6991/gitsigns.nvim
@@ -88,3 +85,9 @@
 [submodule "nvim/plugins/bufferline.nvim"]
 	path = nvim/plugins/bufferline.nvim
 	url = https://github.com/akinsho/bufferline.nvim
+[submodule "nvim/plugins/which-key.nvim"]
+	path = nvim/plugins/which-key.nvim
+	url = https://github.com/folke/which-key.nvim
+[submodule "nvim/plugins/move.nvim"]
+	path = nvim/plugins/move.nvim
+	url = https://github.com/fedepujol/move.nvim

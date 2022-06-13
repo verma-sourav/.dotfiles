@@ -7,7 +7,6 @@ local function closeBuffer()
   -- check if NvimTree window was open
   local explorerWindow = treeView.get_winnr()
   local wasExplorerOpen = vim.api.nvim_win_is_valid(explorerWindow)
-
   local bufferToDelete = vim.api.nvim_get_current_buf()
 
   if wasExplorerOpen then

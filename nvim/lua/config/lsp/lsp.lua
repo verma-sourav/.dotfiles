@@ -1,27 +1,10 @@
-local ok, lspconfig = pcall(require, "lspconfig")
-if not ok then
-  return
-end
+local lspconfig = require("lspconfig")
+local null_ls = require("null-ls")
+local lsp_installer = require("nvim-lsp-installer")
+local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
-local nls_ok, null_ls = pcall(require, "null-ls")
-if not nls_ok then
-  return
-end
-
-local nli_ok, lsp_installer = pcall(require, "nvim-lsp-installer")
-if not nli_ok then
-  return
-end
-
-local cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-if not cmp_ok then
-  return
-end
-
-lsp_installer.setup({
-  -- Detect which servers to install based on which servers are set up via lspconfig
-  automatic_installation = true,
-})
+-- Detect which servers to install based on which servers are set up via lspconfig
+lsp_installer.setup({ automatic_installation = true })
 
 -- nvim-cmp-lsp needs to be a client of LSPs to provde completion
 local capabilities = vim.lsp.protocol.make_client_capabilities()

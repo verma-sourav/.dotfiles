@@ -1,3 +1,5 @@
+vim.g.mapleader = " "
+
 -- Basic Settings
 vim.opt.backspace = "indent,eol,start" -- Allow backspacing over indentation, line breaks, and insertion start
 vim.opt.clipboard = "unnamedplus" -- Copy to the clipboard instead of the register
@@ -12,7 +14,7 @@ vim.opt.cursorline = true -- Highlight the current cursor line
 vim.opt.laststatus = 3 -- Always display the status bar
 vim.opt.wrap = false -- Don't wrap text, let it go off screen
 vim.opt.number = true -- Display line numbers
-vim.opt.relativenumber = true -- Display relative line numbers
+vim.opt.relativenumber = false -- Display relative line numbers
 vim.opt.ruler = true -- Display the current cursor position
 vim.opt.scrolloff = 8 -- Keep at least n lines above and below the cursor
 vim.opt.sidescrolloff = 5 -- Keep at least n columns to the side of the cursor
@@ -60,3 +62,25 @@ vim.opt.wildignore = {
   "*.gif",
   "*.out",
 }
+
+local highlight_yank = vim.api.nvim_create_augroup("highlight_yank", { clear = true })
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = highlight_yank,
+  desc = "Highlight text when yanked",
+  pattern = "*",
+  command = "silent! lua require'vim.highlight'.on_yank({timeout = 200})",
+})
+
+local format_options = vim.api.nvim_create_augroup("format_options", { clear = true })
+vim.api.nvim_create_autocmd("FileType", {
+  group = format_options,
+  desc = "Set format options for all file types",
+  pattern = "*",
+  callback = function()
+    vim.opt.formatoptions = vim.opt.formatoptions
+      + "c" -- Comments respect textwidth
+      + "j" -- Auto-remove comments when joining together two lines
+      - "r" -- Don't automatically continue comment when I hit ender
+      - "o" -- Don't automatically continue comment when using o/O
+  end,
+})

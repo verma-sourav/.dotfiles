@@ -1,13 +1,13 @@
 local config_files = {
   "autopairs",
   "bufferline",
-  "cmp",
+  "lsp.cmp",
   "colorscheme",
   "comment",
   "gitsigns",
   "indent-blankline",
-  "lsp",
-  "notify",
+  "keys",
+  "lsp.lsp",
   "nvim-tree",
   "telescope",
   "treesitter",
@@ -16,5 +16,5 @@ local config_files = {
 }
 
 for _, file in pairs(config_files) do
-  require("core.plugins." .. file)
+  require("config." .. file)
 end
