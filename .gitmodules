@@ -91,3 +91,12 @@
 [submodule "nvim/plugins/move.nvim"]
 	path = nvim/plugins/move.nvim
 	url = https://github.com/fedepujol/move.nvim
+[submodule "nvim/plugins/gruvbox-material"]
+	path = nvim/plugins/gruvbox-material
+	url = https://github.com/sainnhe/gruvbox-material
+[submodule "nvim/plugins/onedark.vim"]
+	path = nvim/plugins/onedark.vim
+	url = https://github.com/joshdick/onedark.vim
+[submodule "nvim/plugins/sonokai"]
+	path = nvim/plugins/sonokai
+	url = https://github.com/sainnhe/sonokai
