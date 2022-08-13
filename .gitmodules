@@ -100,3 +100,6 @@
 [submodule "nvim/plugins/sonokai"]
 	path = nvim/plugins/sonokai
 	url = https://github.com/sainnhe/sonokai
+[submodule "nvim/plugins/bufdelete.nvim"]
+	path = nvim/plugins/bufdelete.nvim
+	url = https://github.com/famiu/bufdelete.nvim
