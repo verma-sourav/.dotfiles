@@ -4,5 +4,5 @@
 -- gruvbox-material: https://github.com/sainnhe/gruvbox-material
 -- onedark: https://github.com/joshdick/onedark.vim
 -- sonokai: https://github.com/sainnhe/sonokai
-vim.cmd("colorscheme onedark")
+vim.cmd("colorscheme kanagawa")
 require("lualine").setup()
