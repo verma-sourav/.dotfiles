@@ -8,12 +8,6 @@ wk.setup({
   key_labels = { ["<leader>"] = "SPC" },
 })
 
--- Force myself to not use arrow keys
-util.nnoremap("<up>", "<nop>")
-util.nnoremap("<down>", "<nop>")
-util.nnoremap("<left>", "<nop>")
-util.nnoremap("<right>", "<nop>")
-
 -- Faster buffer navigation
 util.nnoremap("<C-h>", "<C-w>h")
 util.nnoremap("<C-j>", "<C-w>j")
