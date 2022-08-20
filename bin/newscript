@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+print_usage() {
+    local cmd
+    cmd=$(basename "$0")
+
+    echo "Usage: $cmd <program> <path>"
+    echo
+    echo "<program> is the name of the program that will be used to run the script."
+    echo "<path> is the path that you would like the script to be created at."
+    echo
+    echo "Example:"
+    echo "'$cmd bash example.sh' would create a bash script named example.sh in the current directory."
+    echo "The script would contain the shebang (#!/usr/bin/env bash) and be executable."
+}
+
+missing_arg() {
+    local arg_name="$1"
+    echo "Missing argument: $arg_name"
+    print_usage
+    exit 1
+}
+
+main() {
+    if [ $# -lt 1 ]; then
+        missing_arg "program"
+    fi
+
+    if [ $# -lt 2 ]; then
+        missing_arg "path"
+    fi
+
+    local program="$1"
+    local script_path="$2"
+    echo "#!/usr/bin/env $program" > "$script_path"
+    chmod +x "$script_path"
+}
+
+main "$@"
