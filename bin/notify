@@ -1,0 +1,100 @@
+#!/usr/bin/env python3
+
+import argparse
+import os
+import shutil
+import subprocess
+import sys
+
+PHONE_NUMBER_ENV = "NOTIFY_PHONE_NUMBER"
+OSASCRIPT_CMD = "osascript"
+
+
+def log(s: str):
+    print("notify: " + s)
+
+
+def check_prerequisites():
+    if sys.platform != "darwin":
+        sys.exit("iMessage notifications are only available on macOS")
+    if shutil.which(OSASCRIPT_CMD) is None:
+        sys.exit(f"The {OSASCRIPT_CMD} command is not available on the system")
+
+
+def handle_arguments() -> argparse.Namespace:
+    p = argparse.ArgumentParser(
+        description="Send an iMessage to your phone when your program has finished running.",
+        epilog=f"""
+        The first time that you use the script, you will most likely be prompted to
+        allow the script to have automation access to the Messages app before the script
+        is allowed to send messages.
+
+        Note that the {PHONE_NUMBER_ENV} environment variable must be set with your phone
+        number for the script to function (e.g. {PHONE_NUMBER_ENV}=1234567890).
+        """,
+    )
+    p.add_argument("-v", "--verbose", action="store_true")
+    p.add_argument(
+        "-m",
+        "--message",
+        metavar="msg",
+        help="""
+        Specify a custom message to send. The return code will be appended to this
+        message.
+        """,
+    )
+    p.add_argument(
+        "command",
+        nargs="+",
+        help="""
+        The command (including any of its arguments) that you want to run and be
+        notified about. If you are running the command using its own flags, make sure to
+        add '--' before the command to prevent notify from parsing that commands flags.
+        """,
+    )
+    return p.parse_args()
+
+
+def get_phone_number() -> str:
+    phone = os.environ.get(PHONE_NUMBER_ENV)
+    if phone is None or phone == "":
+        sys.exit(f"The {PHONE_NUMBER_ENV} environment variable is not set.")
+    return phone
+
+
+def send_message(phone: str, msg: str):
+    apple_script = f'tell application "Messages" to send "{msg}" to buddy "{phone}"'
+    cmd = [OSASCRIPT_CMD, "-e", apple_script]
+
+    try:
+        subprocess.run(cmd, check=True, capture_output=True, text=True)
+    except subprocess.CalledProcessError as e:
+        log(f"{OSASCRIPT_CMD} exited with a non-zero code: {e.returncode}")
+        log(f"stdout: {e.stdout}")
+        log(f"stderr: {e.stderr}")
+        sys.exit(1)
+
+
+def main():
+    check_prerequisites()
+    args = handle_arguments()
+    phone = get_phone_number()
+
+    if args.verbose:
+        log(f"Phone: {phone}")
+        log(f"Command: {args.command}")
+
+    proc = subprocess.run(args.command)
+    rc = proc.returncode
+
+    msg = f"Execution of `{args.command[0]}` has finished (return code: {rc})"
+    if args.message:
+        msg = f"{args.message} (return code: {rc})"
+
+    if args.verbose:
+        log(f"Sending message to {phone} - '{msg}'")
+    send_message(phone, msg)
+
+
+if __name__ == "__main__":
+    main()
