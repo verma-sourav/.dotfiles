@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 
 import argparse
+from datetime import datetime, timedelta
 import os
 import shutil
 import subprocess
 import sys
+from typing import List
 
 PHONE_NUMBER_ENV = "NOTIFY_PHONE_NUMBER"
 OSASCRIPT_CMD = "osascript"
@@ -73,6 +75,33 @@ def get_phone_number() -> str:
     return phone
 
 
+def pretty_time_delta(td: timedelta):
+    # The precision of this is seconds, not milliseconds.
+    # https://gist.github.com/thatalextaylor/7408395
+    seconds = int(td.total_seconds())
+    days, seconds = divmod(seconds, 86400)
+    hours, seconds = divmod(seconds, 3600)
+    minutes, seconds = divmod(seconds, 60)
+    if days > 0:
+        return "%dd%dh%dm%ds" % (days, hours, minutes, seconds)
+    elif hours > 0:
+        return "%dh%dm%ds" % (hours, minutes, seconds)
+    elif minutes > 0:
+        return "%dm%ds" % (minutes, seconds)
+    else:
+        return "%ds" % (seconds)
+
+
+def run_command(command: List[str]) -> str:
+    start_time = datetime.now()
+    proc = subprocess.run(command)
+
+    duration = datetime.now() - start_time
+    elapsed = pretty_time_delta(duration)
+
+    return f"rc: {proc.returncode}, time: {elapsed}"
+
+
 def send_message(phone: str, msg: str) -> None:
     apple_script = f'tell application "Messages" to send "{msg}" to buddy "{phone}"'
     cmd = [OSASCRIPT_CMD, "-e", apple_script]
@@ -93,12 +122,11 @@ def main() -> None:
         log(f"Phone: {phone}")
         log(f"Command: {args.command}")
 
-    proc = subprocess.run(args.command)
-    rc = proc.returncode
+    run_details = run_command(args.command)
 
-    msg = f"Execution of `{args.command[0]}` has finished (return code: {rc})"
+    msg = f"Execution of `{args.command[0]}` has finished ({run_details})"
     if args.message:
-        msg = f"{args.message} (return code: {rc})"
+        msg = f"{args.message} ({run_details})"
 
     if args.verbose:
         log(f"Sending message to {phone} - '{msg}'")
