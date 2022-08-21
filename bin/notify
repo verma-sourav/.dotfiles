@@ -10,15 +10,20 @@ PHONE_NUMBER_ENV = "NOTIFY_PHONE_NUMBER"
 OSASCRIPT_CMD = "osascript"
 
 
-def log(s: str):
+def log(s: str) -> None:
     print("notify: " + s)
 
 
-def check_prerequisites():
+def fatal(msg: str, exitcode: int = 1) -> None:
+    log(msg)
+    sys.exit(exitcode)
+
+
+def check_prerequisites() -> None:
     if sys.platform != "darwin":
-        sys.exit("iMessage notifications are only available on macOS")
+        fatal("iMessage notifications are only available on macOS")
     if shutil.which(OSASCRIPT_CMD) is None:
-        sys.exit(f"The {OSASCRIPT_CMD} command is not available on the system")
+        fatal(f"The {OSASCRIPT_CMD} command is not available on the system")
 
 
 def handle_arguments() -> argparse.Namespace:
@@ -58,24 +63,22 @@ def handle_arguments() -> argparse.Namespace:
 def get_phone_number() -> str:
     phone = os.environ.get(PHONE_NUMBER_ENV)
     if phone is None or phone == "":
-        sys.exit(f"The {PHONE_NUMBER_ENV} environment variable is not set.")
+        fatal(f"The {PHONE_NUMBER_ENV} environment variable is not set.")
     return phone
 
 
-def send_message(phone: str, msg: str):
+def send_message(phone: str, msg: str) -> None:
     apple_script = f'tell application "Messages" to send "{msg}" to buddy "{phone}"'
     cmd = [OSASCRIPT_CMD, "-e", apple_script]
 
     try:
         subprocess.run(cmd, check=True, capture_output=True, text=True)
     except subprocess.CalledProcessError as e:
-        log(f"{OSASCRIPT_CMD} exited with a non-zero code: {e.returncode}")
-        log(f"stdout: {e.stdout}")
-        log(f"stderr: {e.stderr}")
-        sys.exit(1)
+        rc = e.returncode
+        fatal(f"{OSASCRIPT_CMD} exited with a non-zero code: {rc} (stderr: {e.stderr})")
 
 
-def main():
+def main() -> None:
     check_prerequisites()
     args = handle_arguments()
     phone = get_phone_number()
