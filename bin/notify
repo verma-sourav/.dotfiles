@@ -38,6 +38,12 @@ def handle_arguments() -> argparse.Namespace:
         number for the script to function (e.g. {PHONE_NUMBER_ENV}=1234567890).
         """,
     )
+    p.add_argument(
+        "-d",
+        "--dry-run",
+        action="store_true",
+        help="Prevent notify from actually sending an iMessage",
+    )
     p.add_argument("-v", "--verbose", action="store_true")
     p.add_argument(
         "-m",
@@ -96,7 +102,11 @@ def main() -> None:
 
     if args.verbose:
         log(f"Sending message to {phone} - '{msg}'")
-    send_message(phone, msg)
+
+    if args.dry_run:
+        log("Skipped sending message (dry run)")
+    else:
+        send_message(phone, msg)
 
 
 if __name__ == "__main__":
