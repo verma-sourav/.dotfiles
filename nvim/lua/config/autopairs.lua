@@ -3,7 +3,9 @@ if not ok then
   return
 end
 
-autopairs.setup({})
+require('nvim-autopairs').setup({
+  ignored_next_char = "[%w%.]" -- will ignore alphanumeric and `.` symbol
+})
 
 -- Insert `(` after selecting a function or method from nvim-cmp
 local ap_ok, cmp_autopairs = pcall(require, "nvim-autopairs.completion.cmp")
