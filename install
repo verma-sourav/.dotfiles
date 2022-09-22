@@ -29,7 +29,7 @@ run_git_setup() {
 
 # Use dotbot to clean dead links and symlink the dotfiles.
 run_dotbot() {
-    local dotbot_dir="submodules/dotbot"
+    local dotbot_dir="internal/dotbot"
     local dotbot_bin="$BASEDIR/$dotbot_dir/bin/dotbot"
     local dotbot_config="dotbot.yaml"
 

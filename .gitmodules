@@ -1,5 +1,5 @@
 [submodule "submodules/dotbot"]
-	path = submodules/dotbot
+	path = internal/dotbot
 	url = https://github.com/anishathalye/dotbot
 [submodule "nvim/plugins/tokyonight.nvim"]
 	path = nvim/plugins/tokyonight.nvim
