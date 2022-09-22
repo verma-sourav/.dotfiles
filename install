@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# shellcheck disable=SC2155
-
 set -euo pipefail
+
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$BASEDIR/internal/scripts/helpers.sh"
 
 main() {
     if ! on_macos && ! on_linux; then
@@ -10,21 +10,20 @@ main() {
         return 1
     fi
 
+    log "Installing packages"
     install_packages
-    setup_shell
+
+    log "Setting up the shell"
+    "$BASEDIR/internal/scripts/configure_shell.sh"
+
+    log "Setting up Git"
+    "$BASEDIR/git/setup.sh"
 
     cd "$BASEDIR"
-    echo "Downloading all git submodules"
+    log "Downloading all git submodules"
     git submodule update --init --recursive
 
-    run_git_setup
     run_dotbot
-}
-
-# Run the gitconfig setup script. This should be run prior to linking the gitconfig, as it creates
-# the actual gitconfig file that is going to be linked.
-run_git_setup() {
-    "$BASEDIR/git/setup.sh"
 }
 
 # Use dotbot to clean dead links and symlink the dotfiles.
@@ -47,58 +46,6 @@ install_packages() {
     fi
 
     go install golang.org/x/tools/cmd/goimports@latest
-}
-
-# Make sure the proper shell is the default and all dependencies are installed.
-setup_shell() {
-    local fish_bin=$(command -v fish)
-    local shells_file="/etc/shells"
-
-    if ! pattern_exists "$fish_bin" "$shells_file"; then
-        echo "Adding fish ($fish_bin) to the list of allowed shells"
-        sudo sh -c "echo $fish_bin >> $shells_file"
-    fi
-
-    if ! cmd_exists "starship"; then
-        echo "Starship prompt is not installed. Installing..."
-        curl -fsSL https://starship.rs/install.sh | sh -s  -- --yes
-    fi
-
-    local hushfile="$HOME/.hushlogin"
-    if ! file_exists "$hushfile" ; then
-        echo "Creating a hushlogin file"
-        touch "$hushfile"
-    fi
-
-    echo "Making sure that fish is set to be the default shell"
-    chsh -s "$fish_bin"
-}
-
-# Helper Funcs
-
-# Returns 0 if the given command ($1) is installed/exists.
-cmd_exists() {
-    command -v "$1" &> /dev/null
-}
-
-# Returns 0 if a file exists at the given path ($1) and is a regular file.
-file_exists() {
-    [ -f "$1" ]
-}
-
-# Returns 0 if the script is running on macOS/Darwin.
-on_macos() {
-    [ "$(uname -s)" == "Darwin" ]
-}
-
-# Returns 0 if the script is running on Linux.
-on_linux() {
-    [ "$(uname -s)" == "Linux" ]
-}
-
-# Returns 0 if the given pattern ($1) exists in the file ($2).
-pattern_exists() {
-    grep -q "$1" "$2"
 }
 
 main "$@"
