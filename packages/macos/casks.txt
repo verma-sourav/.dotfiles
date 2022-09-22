@@ -1,6 +1,0 @@
-docker
-iterm2
-font-sf-mono-nerd-font
-raycast
-spotify
-visual-studio-code

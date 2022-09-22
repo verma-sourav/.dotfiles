@@ -41,43 +41,12 @@ run_dotbot() {
 # some neovim plugins require ripgrep), or they may be things that I commonly use.
 install_packages() {
     if on_macos; then
-        install_macos_packages
+        "$BASEDIR/internal/scripts/install-packages-macos.sh"
     elif on_linux; then
         install_linux_packages
     fi
 
     go install golang.org/x/tools/cmd/goimports@latest
-}
-
-install_macos_packages() {
-    # TODO: Automatically install homebrew if on macOS
-    if ! cmd_exists "brew"; then
-        echo "Homebrew is not installed"
-        exit 1
-    fi
-
-    local mac_packages="$BASEDIR/packages/macos"
-    local taps="$mac_packages/taps.txt"
-    local formulae="$mac_packages/formulae.txt"
-    local casks="$mac_packages/casks.txt"
-
-    echo "Tapping repositories"
-    while IFS="" read -r tap || [ -n "$tap" ]; do
-        if should_ignore_line "$tap"; then continue; fi
-        brew tap "$tap"
-    done < "$taps"
-
-    echo "Installing any missing formulae"
-    while IFS="" read -r formula || [ -n "$formula" ]; do
-        if should_ignore_line "$formula"; then continue; fi
-        brew list "$formula" &> /dev/null || brew install "$formula"
-    done < "$formulae"
-
-    echo "Installing any missing casks"
-    while IFS="" read -r cask || [ -n "$cask" ]; do
-        if should_ignore_line "$cask"; then continue; fi
-        brew list --cask "$cask" &> /dev/null || brew install --cask "$cask"
-    done < "$casks"
 }
 
 install_linux_packages() {
