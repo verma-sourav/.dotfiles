@@ -43,89 +43,10 @@ install_packages() {
     if on_macos; then
         "$BASEDIR/internal/scripts/install-packages-macos.sh"
     elif on_linux; then
-        install_linux_packages
+        "$BASEDIR/internal/scripts/install-packages-linux.sh"
     fi
 
     go install golang.org/x/tools/cmd/goimports@latest
-}
-
-install_linux_packages() {
-    local apt_packages="$BASEDIR/packages/linux/apt.txt"
-
-    echo "Upgrading current packages"
-    sudo apt update && sudo apt upgrade -y
-
-    echo "Installing apt packages"
-    while IFS="" read -r pkg || [ -n "$pkg" ]; do
-        if should_ignore_line "$pkg"; then continue; fi
-        sudo apt install "$pkg" -y
-    done < "$apt_packages"
-
-    # FIXME These will currently reinstall the same version if it is already installed.
-    install_gh_cli
-    install_git_delta
-    install_go
-    install_neovim
-    install_nodejs
-}
-
-# Installs the GitHub CLI using apt
-# https://github.com/cli/cli/blob/trunk/docs/install_linux.md#debian-ubuntu-linux-raspberry-pi-os-apt
-install_gh_cli() {
-    curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
-    sudo apt update
-    sudo apt install gh
-}
-
-# Installs git-delta using the .deb release file
-# https://dandavison.github.io/delta/installation.html
-install_git_delta() {
-    local arch="$(dpkg --print-architecture)"
-    local repository="dandavison/delta"
-    local version=$(get_latest_release "$repository")
-    local release_file="git-delta_${version}_${arch}.deb"
-
-    local tempdir="$(mktemp -d)"
-    wget -P "$tempdir" "https://github.com/$repository/releases/download/$version/$release_file"
-    sudo apt install "$tempdir/$release_file"
-
-    rm -rf "$tempdir"
-}
-
-# Installs the latest version of Go using the pre-built binaries
-# https://go.dev/doc/install
-# https://github.com/golang/go/issues/51135#issuecomment-1036043491
-install_go() {
-    local arch="$(dpkg --print-architecture)"
-    local release_file=$(curl "https://go.dev/dl/?mode=json" | jq -r '.[0].files[].filename | select(test("go.*.linux-'"$arch"'.tar.gz"))')
-    local tempdir="$(mktemp -d)"
-    wget -P "$tempdir" "https://go.dev/dl/$release_file"
-
-    # Remove old installation and then install the new version
-    sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf "$tempdir/$release_file"
-    rm -rf "$tempdir"
-}
-
-# Installs the latest release of neovim
-# https://github.com/neovim/neovim/wiki/Installing-Neovim#install-from-download
-install_neovim() {
-    local repository="neovim/neovim"
-    local version=$(get_latest_release "$repository")
-    local release_file="nvim-linux64.deb"
-
-    local tempdir="$(mktemp -d)"
-    wget -P "$tempdir" "https://github.com/$repository/releases/download/$version/$release_file"
-    sudo apt install "$tempdir/$release_file"
-
-    rm -rf "$tempdir"
-}
-
-# Installs node.js using the pre-built distributions
-# https://github.com/nodesource/distributions/blob/master/README.md#installation-instructions
-install_nodejs() {
-    curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
-    sudo apt-get install -y nodejs
 }
 
 # Make sure the proper shell is the default and all dependencies are installed.
@@ -178,21 +99,6 @@ on_linux() {
 # Returns 0 if the given pattern ($1) exists in the file ($2).
 pattern_exists() {
     grep -q "$1" "$2"
-}
-
-# Returns 0 if the given line ($1) should be ignored/skipped when looping through a package file.
-# This skips blank lines and lines starting with '#' (used as comments).
-should_ignore_line() {
-    # https://stackoverflow.com/a/2172367
-    [ "$1" == "" ] || [[ "$1" == \#* ]]
-}
-
-# Returns the version of the latest release for a github repo.
-# https://gist.github.com/lukechilds/a83e1d7127b78fef38c2914c4ececc3c
-get_latest_release() {
-    curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from API
-        grep '"tag_name":' |                                          # Get tag line
-        sed -E 's/.*"([^"]+)".*/\1/'                                  # Pluck JSON value
 }
 
 main "$@"
