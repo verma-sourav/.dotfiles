@@ -45,7 +45,7 @@ install_packages() {
         "$BASEDIR/internal/scripts/install-packages-linux.sh"
     fi
 
-    go install golang.org/x/tools/cmd/goimports@latest
+    "$BASEDIR/internal/scripts/install-packages-common.sh"
 }
 
 main "$@"

@@ -13,11 +13,6 @@ if ! pattern_exists "$FISH_BIN" "$SHELLS_FILE"; then
     sudo sh -c "echo $FISH_BIN >> $SHELLS_FILE"
 fi
 
-if ! cmd_exists "starship"; then
-    log "Starship prompt is not installed. Installing..."
-    curl -fsSL https://starship.rs/install.sh | sh -s  -- --yes
-fi
-
 if ! file_exists "$HUSHFILE" ; then
     log "Creating a hushlogin file"
     touch "$HUSHFILE"
