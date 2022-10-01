@@ -1,21 +1,10 @@
-local ok, autopairs = pcall(require, "nvim-autopairs")
-if not ok then
-  return
-end
-
 require('nvim-autopairs').setup({
-  ignored_next_char = "[%w%.]" -- will ignore alphanumeric and `.` symbol
+  -- Ignore alphanumeric and `.` symbol
+  ignored_next_char = "[%w%.]",
+  check_ts = true
 })
 
 -- Insert `(` after selecting a function or method from nvim-cmp
-local ap_ok, cmp_autopairs = pcall(require, "nvim-autopairs.completion.cmp")
-if not ap_ok then
-  return
-end
-
-local cmp_ok, cmp = pcall(require, "cmp")
-if not cmp_ok then
-  return
-end
-
-cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done({ map_char = { tex = "" } }))
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+local cmp = require('cmp')
+cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
