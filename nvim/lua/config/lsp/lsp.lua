@@ -1,10 +1,11 @@
+require("mason").setup()
+require("mason-lspconfig").setup({
+  automatic_installation = true
+})
+
 local lspconfig = require("lspconfig")
 local null_ls = require("null-ls")
-local lsp_installer = require("nvim-lsp-installer")
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
-
--- Detect which servers to install based on which servers are set up via lspconfig
-lsp_installer.setup({ automatic_installation = true })
 
 -- nvim-cmp-lsp needs to be a client of LSPs to provde completion
 local capabilities = vim.lsp.protocol.make_client_capabilities()

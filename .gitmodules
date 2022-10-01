@@ -49,9 +49,6 @@
 [submodule "nvim/plugins/nvim-lspconfig"]
 	path = nvim/plugins/nvim-lspconfig
 	url = https://github.com/neovim/nvim-lspconfig
-[submodule "nvim/plugins/nvim-lsp-installer"]
-	path = nvim/plugins/nvim-lsp-installer
-	url = https://github.com/williamboman/nvim-lsp-installer
 [submodule "nvim/plugins/null-ls.nvim"]
 	path = nvim/plugins/null-ls.nvim
 	url = https://github.com/jose-elias-alvarez/null-ls.nvim
@@ -91,3 +88,9 @@
 [submodule "nvim/plugins/bufdelete.nvim"]
 	path = nvim/plugins/bufdelete.nvim
 	url = https://github.com/famiu/bufdelete.nvim
+[submodule "nvim/plugins/mason.nvim"]
+	path = nvim/plugins/mason.nvim
+	url = https://github.com/williamboman/mason.nvim
+[submodule "nvim/plugins/mason-lspconfig.nvim"]
+	path = nvim/plugins/mason-lspconfig.nvim
+	url = https://github.com/williamboman/mason-lspconfig.nvim
