@@ -5,6 +5,7 @@ local config_files = {
   "colorscheme",
   "comment",
   "gitsigns",
+  "illuminate",
   "indent-blankline",
   "keys",
   "lsp.lsp",

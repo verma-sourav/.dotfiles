@@ -94,3 +94,6 @@
 [submodule "nvim/plugins/mason-lspconfig.nvim"]
 	path = nvim/plugins/mason-lspconfig.nvim
 	url = https://github.com/williamboman/mason-lspconfig.nvim
+[submodule "nvim/plugins/vim-illuminate"]
+	path = nvim/plugins/vim-illuminate
+	url = https://github.com/RRethy/vim-illuminate
