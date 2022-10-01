@@ -97,3 +97,6 @@
 [submodule "nvim/plugins/vim-illuminate"]
 	path = nvim/plugins/vim-illuminate
 	url = https://github.com/RRethy/vim-illuminate
+[submodule "nvim/plugins/fidget.nvim"]
+	path = nvim/plugins/fidget.nvim
+	url = https://github.com/j-hui/fidget.nvim

@@ -4,6 +4,7 @@ local config_files = {
   "lsp.cmp",
   "colorscheme",
   "comment",
+  "fidget",
   "gitsigns",
   "illuminate",
   "indent-blankline",
