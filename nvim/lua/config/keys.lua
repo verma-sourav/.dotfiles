@@ -1,3 +1,5 @@
+-- https://github.com/folke/which-key.nvim
+-- Which-key displays a popup with your keybindings as you type them out
 local util = require("util")
 local wk = require("which-key")
 

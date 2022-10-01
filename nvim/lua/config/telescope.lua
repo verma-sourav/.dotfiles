@@ -1,8 +1,6 @@
-local ok, telescope = pcall(require, "telescope")
-if not ok then
-  return
-end
-
+-- https://github.com/nvim-telescope/telescope.nvim
+-- A highly-extensible fuzzy finder for neovim
+local telescope = require("telescope")
 telescope.setup({
   defaults = {
     selection_strategy = "reset",

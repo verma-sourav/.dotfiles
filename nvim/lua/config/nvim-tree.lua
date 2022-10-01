@@ -1,9 +1,6 @@
-local ok, nvim_tree = pcall(require, "nvim-tree")
-if not ok then
-  return
-end
-
-nvim_tree.setup({
+-- https://github.com/kyazdani42/nvim-tree.lua
+-- A file explorer for neovim
+require("nvim-tree").setup({
   disable_netrw = true,
   hijack_netrw = true,
   renderer = {

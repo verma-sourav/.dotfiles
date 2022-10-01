@@ -1,3 +1,16 @@
+-- https://github.com/hrsh7th/nvim-cmp
+-- nvim-cmp provides auto-completion from various sources (LSP, snippets, etc.)
+
+-- This config file also contains logic to setup the various sources and helper plugins:
+-- https://github.com/onsails/lspkind.nvim (LSP pictograms like vscode)
+-- https://github.com/L3MON4D3/LuaSnip (Snippet engine for neovim)
+-- https://github.com/hrsh7th/cmp-buffer (Completion source for buffer words)
+-- https://github.com/hrsh7th/cmp-cmdline (Completion source for vim's command line)
+-- https://github.com/hrsh7th/cmp-nvim-lsp (Completion source for the nvim LSP)
+-- https://github.com/hrsh7th/cmp-nvim-lua (Completion source for the nvim Lua API)
+-- https://github.com/hrsh7th/cmp-path (Completion source for filesystem paths)
+-- https://github.com/saadparwaiz1/cmp_luasnip (Completion source for LuaSnip)
+
 local cmp = require("cmp")
 local lspkind = require("lspkind")
 

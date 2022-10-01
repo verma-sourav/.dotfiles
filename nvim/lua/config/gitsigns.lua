@@ -1,6 +1,3 @@
-local ok, gitsigns = pcall(require, "gitsigns")
-if not ok then
-  return
-end
-
-gitsigns.setup()
+-- https://github.com/lewis6991/gitsigns.nvim
+-- Git integration with neovim buffers
+require("gitsigns").setup()

@@ -1,3 +1,9 @@
+-- This file sets up a few plugins that help manage the LSP, language server configs, and LSP binaries
+-- https://github.com/neovim/nvim-lspconfig (Quickstart configs for nvim's LSP)
+-- https://github.com/williamboman/mason.nvim (Package manager for nvim - LSPs, linters, formatters)
+-- https://github.com/williamboman/mason-lspconfig.nvim (Extension for mason.nvim and nvim-lspconfig)
+-- https://github.com/jose-elias-alvarez/null-ls.nvim (Used to inject extra LSPs, formatters, etc)
+
 require("mason").setup()
 require("mason-lspconfig").setup({
   automatic_installation = true,

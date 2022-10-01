@@ -1,9 +1,6 @@
-local ok, trim = pcall(require, "trim")
-if not ok then
-  return
-end
-
-trim.setup({
+-- https://github.com/cappyzawa/trim.nvim
+-- Trim trailing whitespace and lines
+require("trim").setup({
   disable = {},
   patterns = {
     [[%s/\s\+$//e]], -- remove unwanted spaces

@@ -1,9 +1,6 @@
-local ok, treesitter_configs = pcall(require, "nvim-treesitter.configs")
-if not ok then
-  return
-end
-
-treesitter_configs.setup({
+-- https://github.com/nvim-treesitter/nvim-treesitter
+-- Configuration and abstraction layer for using treesitter in neovim
+require("nvim-treesitter.configs").setup({
   auto_install = true,
   ensure_installed = {
     "bash",
