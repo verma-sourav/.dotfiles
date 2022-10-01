@@ -103,3 +103,6 @@
 [submodule "nvim/plugins/todo-comments.nvim"]
 	path = nvim/plugins/todo-comments.nvim
 	url = https://github.com/folke/todo-comments.nvim
+[submodule "nvim/plugins/dressing.nvim"]
+	path = nvim/plugins/dressing.nvim
+	url = https://github.com/stevearc/dressing.nvim
