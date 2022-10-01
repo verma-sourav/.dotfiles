@@ -84,7 +84,7 @@ lspconfig.gopls.setup({
     -- Make it so that gopls doesn't support formatting
     -- This is so that goimports (from null-ls) can be the formatter
     -- Without this neovim asks to pick a formatter on each save
-    client.resolved_capabilities.document_formatting = false
+    client.server_capabilities.documentFormattingProvider = false
     -- Run the function that I use for all the other ones
     on_attach(client, bufnr)
   end,
