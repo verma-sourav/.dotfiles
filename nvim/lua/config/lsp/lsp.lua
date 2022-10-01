@@ -1,6 +1,6 @@
 require("mason").setup()
 require("mason-lspconfig").setup({
-  automatic_installation = true
+  automatic_installation = true,
 })
 
 local lspconfig = require("lspconfig")
@@ -58,6 +58,15 @@ local on_attach = function(client, bufnr)
   end
 end
 
+local on_attach_with_disabled_formatting = function(client, bufnr)
+  -- Disable the LSP server's formatting capabilities. This is typically done to prevent clashes
+  -- within neovim when saving a file. If there are mutliple formatting providers, neovim will
+  -- open a popup to ask which one to use.
+  client.server_capabilities.documentFormattingProvider = false
+  -- Run the function that I use for all the other ones
+  on_attach(client, bufnr)
+end
+
 local servers = {
   "ansiblels",
   "bashls",
@@ -80,18 +89,11 @@ for _, lsp in pairs(servers) do
 end
 
 lspconfig.gopls.setup({
-  on_attach = function(client, bufnr)
-    -- Make it so that gopls doesn't support formatting
-    -- This is so that goimports (from null-ls) can be the formatter
-    -- Without this neovim asks to pick a formatter on each save
-    client.server_capabilities.documentFormattingProvider = false
-    -- Run the function that I use for all the other ones
-    on_attach(client, bufnr)
-  end,
+  on_attach = on_attach_with_disabled_formatting,
 })
 
 lspconfig.sumneko_lua.setup({
-  on_attach = on_attach,
+  on_attach = on_attach_with_disabled_formatting,
   capabilities = capabilities,
   settings = {
     Lua = {
@@ -106,5 +108,6 @@ null_ls.setup({
   sources = {
     null_ls.builtins.formatting.black.with({ extra_args = { "--fast" } }),
     null_ls.builtins.formatting.goimports,
+    null_ls.builtins.formatting.stylua,
   },
 })
