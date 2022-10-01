@@ -4,7 +4,7 @@ if not ok then
 end
 
 treesitter_configs.setup({
-  -- Can be "all" or a list of parsers.
+  auto_install = true,
   ensure_installed = {
     "bash",
     "c",

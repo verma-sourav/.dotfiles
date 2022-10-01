@@ -100,3 +100,6 @@
 [submodule "nvim/plugins/fidget.nvim"]
 	path = nvim/plugins/fidget.nvim
 	url = https://github.com/j-hui/fidget.nvim
+[submodule "nvim/plugins/todo-comments.nvim"]
+	path = nvim/plugins/todo-comments.nvim
+	url = https://github.com/folke/todo-comments.nvim

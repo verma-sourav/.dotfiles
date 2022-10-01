@@ -1,18 +1,22 @@
+-- Note that while this list is *mostly* alphabetical, some plugins are moved so that they load
+-- before others.
 local config_files = {
+  "lsp.cmp",
+  "lsp.lsp",
+  "colorscheme",
+  "treesitter",
+
   "autopairs",
   "bufferline",
-  "lsp.cmp",
-  "colorscheme",
   "comment",
   "fidget",
   "gitsigns",
   "illuminate",
   "indent-blankline",
   "keys",
-  "lsp.lsp",
   "nvim-tree",
   "telescope",
-  "treesitter",
+  "todo-comments",
   "treesitter-context",
   "trim",
 }
