@@ -109,3 +109,12 @@
 [submodule "nvim/plugins/trouble.nvim"]
 	path = nvim/plugins/trouble.nvim
 	url = https://github.com/folke/trouble.nvim
+[submodule "nvim/plugins/nightfox.nvim"]
+	path = nvim/plugins/nightfox.nvim
+	url = https://github.com/EdenEast/nightfox.nvim
+[submodule "nvim/plugins/everforest"]
+	path = nvim/plugins/everforest
+	url = https://github.com/sainnhe/everforest
+[submodule "nvim/plugins/catppuccin"]
+	path = nvim/plugins/catppuccin
+	url = https://github.com/catppuccin/nvim
