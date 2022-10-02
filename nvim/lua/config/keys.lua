@@ -22,14 +22,6 @@ util.nnoremap("<S-Down>", ":resize -2<CR>")
 util.nnoremap("<S-Left>", ":vertical resize -2<CR>")
 util.nnoremap("<S-Right>", ":vertical resize +2<CR>")
 
--- Move lines up and down
-util.nnoremap("<A-j>", ":m .+1<CR>==")
-util.vnoremap("<A-j>", ":m '>+1<CR>gv=gv")
-util.inoremap("<A-j>", "<Esc>:m .+1<CR>==gi")
-util.nnoremap("<A-k>", ":m .-2<CR>==")
-util.vnoremap("<A-k>", ":m '<-2<CR>gv=gv")
-util.inoremap("<A-k>", "<Esc>:m .-2<CR>==gi")
-
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
 util.nnoremap("n", "'Nn'[v:searchforward]", { expr = true })
 util.xnoremap("n", "'Nn'[v:searchforward]", { expr = true })
@@ -43,18 +35,6 @@ local leader = {
   [","] = { "<cmd>Telescope buffers show_all_buffers=true<cr>", "Switch Buffer" },
   ["/"] = { "<cmd>Telescope live_grep<cr>", "Search" },
   [":"] = { "<cmd>Telescope command_history<cr>", "Command History" },
-  ["<tab>"] = {
-    name = "workspace",
-    ["<tab>"] = { "<cmd>tabnew<CR>", "New Tab" },
-
-    n = { "<cmd>tabnext<CR>", "Next" },
-    d = { "<cmd>tabclose<CR>", "Close" },
-    p = { "<cmd>tabprevious<CR>", "Previous" },
-    ["]"] = { "<cmd>tabnext<CR>", "Next" },
-    ["["] = { "<cmd>tabprevious<CR>", "Previous" },
-    f = { "<cmd>tabfirst<CR>", "First" },
-    l = { "<cmd>tablast<CR>", "Last" },
-  },
   b = {
     name = "+buffer",
     ["b"] = { "<cmd>:e #<cr>", "Switch to Other Buffer" },
@@ -78,7 +58,7 @@ local leader = {
     b = { "<cmd>Telescope git_branches<CR>", "branches" },
     s = { "<cmd>Telescope git_status<CR>", "status" },
   },
-  ["h"] = {
+  h = {
     name = "+help",
     t = { "<cmd>:Telescope builtin<cr>", "Telescope" },
     c = { "<cmd>:Telescope commands<cr>", "Commands" },
@@ -140,7 +120,7 @@ local leader = {
   },
   x = {
     name = "+errors",
-    t = { "<cmd>Telescope diagnostics<cr>", "Telescope Diagnostics" },
+    d = { "<cmd>Telescope diagnostics<cr>", "Telescope Diagnostics" },
     l = { "<cmd>lopen<cr>", "Open Location List" },
     q = { "<cmd>copen<cr>", "Open Quickfix List" },
   },

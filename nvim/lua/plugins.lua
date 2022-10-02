@@ -1,8 +1,7 @@
 -- Note that while this list is *mostly* alphabetical, some plugins are moved so that they load
 -- before others.
 local config_files = {
-  "lsp.cmp",
-  "lsp.lsp",
+  "lsp",
   "colorscheme",
   "treesitter",
 
