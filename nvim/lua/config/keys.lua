@@ -120,9 +120,12 @@ local leader = {
   },
   x = {
     name = "+errors",
-    d = { "<cmd>Telescope diagnostics<cr>", "Telescope Diagnostics" },
-    l = { "<cmd>lopen<cr>", "Open Location List" },
-    q = { "<cmd>copen<cr>", "Open Quickfix List" },
+    f = { "<cmd>lua vim.diagnostic.open_float()<cr>", "Open Diagnostics Float" },
+    t = { "<cmd>Telescope diagnostics<cr>", "Telescope Diagnostics" },
+    l = { "<cmd>TroubleToggle loclist<cr>", "Trouble Location List" },
+    q = { "<cmd>TroubleToggle quickfix<cr>", "Trouble Quickfix List" },
+    d = { "<cmd>TroubleToggle document_diagnostics<cr>", "Trouble Diagnostics" },
+    w = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "Trouble Workspace Diagnostics" },
   },
 }
 

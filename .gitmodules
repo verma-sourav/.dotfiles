@@ -106,3 +106,6 @@
 [submodule "nvim/plugins/dressing.nvim"]
 	path = nvim/plugins/dressing.nvim
 	url = https://github.com/stevearc/dressing.nvim
+[submodule "nvim/plugins/trouble.nvim"]
+	path = nvim/plugins/trouble.nvim
+	url = https://github.com/folke/trouble.nvim
