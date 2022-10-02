@@ -54,9 +54,11 @@ local leader = {
   },
   g = {
     name = "+git",
-    c = { "<cmd>Telescope git_commits<CR>", "commits" },
-    b = { "<cmd>Telescope git_branches<CR>", "branches" },
-    s = { "<cmd>Telescope git_status<CR>", "status" },
+    c = { "<cmd>Telescope git_commits<CR>", "Commits" },
+    C = { "<cmd>Telescope git_bcommits<CR>", "Buffer Commits" },
+    b = { "<cmd>Telescope git_branches<CR>", "Branches" },
+    s = { "<cmd>Telescope git_status<CR>", "Status" },
+    S = { "<cmd>Telescope git_stash<CR>", "Stashes" },
   },
   h = {
     name = "+help",
