@@ -22,7 +22,6 @@ brew "node"
 brew "python@3.10"
 brew "ripgrep"
 brew "shellcheck"
-brew "starship"
 brew "virtualenv"
 brew "wget"
 
