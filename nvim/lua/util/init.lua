@@ -91,4 +91,8 @@ function M.toggle(option, silent)
   end
 end
 
+function M.executable(command)
+  return vim.fn.executable(command) == 1
+end
+
 return M
