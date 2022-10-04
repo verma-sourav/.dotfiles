@@ -31,13 +31,6 @@ local servers = {
 
 local options = {
   on_attach = function(client, bufnr)
-    -- For certain language servers I'm disabling their formatting capabilities so that another
-    -- formatter can be used (usually set up in null-ls). If there are multiple formatters for
-    -- a file type, neovim will open a popup on save asking which one to use.
-    if client.name == "gopls" or client.name == "sumneko_lua" then
-      client.server_capabilities.documentFormattingProvider = false
-    end
-
     require("config.lsp.formatting").setup(client, bufnr)
     require("config.lsp.keys").setup(client, bufnr)
   end,
