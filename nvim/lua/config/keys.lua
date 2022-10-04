@@ -8,6 +8,12 @@ vim.o.timeoutlen = 300
 
 wk.setup({
   key_labels = { ["<leader>"] = "SPC" },
+  plugins = {
+    spelling = {
+      enabled = true,
+      suggestions = 20,
+    },
+  },
 })
 
 -- Faster buffer navigation
