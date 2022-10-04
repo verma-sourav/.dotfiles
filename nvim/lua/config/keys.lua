@@ -36,6 +36,10 @@ util.nnoremap("N", "'nN'[v:searchforward]", { expr = true })
 util.xnoremap("N", "'nN'[v:searchforward]", { expr = true })
 util.onoremap("N", "'nN'[v:searchforward]", { expr = true })
 
+-- https://github.com/mhinz/vim-galore#dont-lose-selection-when-shifting-sidewards
+util.xnoremap(">", ">gv")
+util.xnoremap("<", "<gv")
+
 local leader = {
   ["`"] = { "<cmd>:e #<cr>", "Switch to Other Buffer" },
   [","] = { "<cmd>Telescope buffers show_all_buffers=true<cr>", "Switch Buffer" },
