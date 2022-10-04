@@ -21,6 +21,16 @@ function M.setup(client, bufnr)
           "List Folders",
         },
       },
+      g = {
+        name = "+goto",
+        d = { "<cmd>Telescope lsp_definitions<cr>", "Goto Definition" },
+        r = { "<cmd>Telescope lsp_references<cr>", "References" },
+        R = { "<cmd>Trouble lsp_references<cr>", "Trouble References" },
+        D = { "<Cmd>Telescope lsp_declarations<CR>", "Goto Declaration" },
+        s = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
+        i = { "<cmd>Telescope lsp_implementations<CR>", "Goto Implementation" },
+        t = { "<cmd>Telescope lsp_type_definitions<cr>", "Goto Type Definition" },
+      }
     },
   }
 
@@ -33,17 +43,6 @@ function M.setup(client, bufnr)
       name = "+code",
       a = { ":<C-U>lua vim.lsp.buf.range_code_action()<CR>", "Code Action" },
     },
-  }
-
-  local keymap_goto = {
-    name = "+goto",
-    d = { "<cmd>Telescope lsp_definitions<cr>", "Goto Definition" },
-    r = { "<cmd>Telescope lsp_references<cr>", "References" },
-    R = { "<cmd>Trouble lsp_references<cr>", "Trouble References" },
-    D = { "<Cmd>Telescope lsp_declarations<CR>", "Goto Declaration" },
-    s = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
-    i = { "<cmd>Telescope lsp_implementations<CR>", "Goto Implementation" },
-    t = { "<cmd>Telescope lsp_type_definitions<cr>", "Goto Type Definition" },
   }
 
   vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
@@ -63,7 +62,6 @@ function M.setup(client, bufnr)
 
   wk.register(keymap, { buffer = bufnr, prefix = "<leader>" })
   wk.register(keymap_visual, { buffer = bufnr, prefix = "<leader>", mode = "v" })
-  wk.register(keymap_goto, { buffer = bufnr, prefix = "g" })
 end
 
 return M
