@@ -8,10 +8,22 @@ require("config.lsp.cmp")
 require("mason").setup()
 require("mason-lspconfig").setup({ automatic_installation = true })
 
+-- nvim-cmp-lsp needs to be a client of LSPs to provde completion
+local default_capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+-- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/428
+-- This encoding forces the client to use utf-16 offset encodings. Currently clangd uses utf-8,
+-- while null-ls formatters use utf-16. Neovim cannot support multiple offset encodings in the
+-- same file like that, so it will throw errors if we don't do this to clangd.
+local utf_16_capabilities = default_capabilities
+utf_16_capabilities.offsetEncoding = { "utf-16" }
+
 local servers = {
   ansiblels = {},
   bashls = {},
-  clangd = {},
+  clangd = {
+    capabilities = utf_16_capabilities,
+  },
   dockerls = {},
   gopls = {},
   golangci_lint_ls = {},
@@ -35,8 +47,7 @@ local options = {
     require("config.lsp.keys").setup(client, bufnr)
   end,
 
-  -- nvim-cmp-lsp needs to be a client of LSPs to provde completion
-  capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+  capabilities = default_capabilities,
 }
 
 for server, opts in pairs(servers) do
