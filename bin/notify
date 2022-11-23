@@ -4,6 +4,7 @@ import argparse
 from datetime import datetime, timedelta
 import os
 import shutil
+import signal
 import subprocess
 import sys
 from typing import List
@@ -94,7 +95,13 @@ def pretty_time_delta(td: timedelta):
 
 def run_command(command: List[str]) -> str:
     start_time = datetime.now()
-    proc = subprocess.run(command)
+    proc = subprocess.Popen(command)
+
+    try:
+        proc.wait()
+    except KeyboardInterrupt:
+        proc.send_signal(signal.SIGINT)
+        fatal("Halted by KeyboardInterrupt")
 
     duration = datetime.now() - start_time
     elapsed = pretty_time_delta(duration)
