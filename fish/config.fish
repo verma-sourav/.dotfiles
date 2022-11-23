@@ -25,34 +25,31 @@ if type -q exa
     alias lla="exa --group-directories-first --long --all"
 end
 
-# Set color scheme
-# This is currently set to Ayu Dark, using the config lines printed in the terminal by setting the
-# theme from `fish_config`.
-set -U fish_color_normal B3B1AD
-set -U fish_color_command 39BAE6
-set -U fish_color_quote C2D94C
-set -U fish_color_redirection FFEE99
-set -U fish_color_end F29668
-set -U fish_color_error FF3333
-set -U fish_color_param B3B1AD
-set -U fish_color_comment 626A73
-set -U fish_color_match F07178
-set -U fish_color_selection --background=E6B450
-set -U fish_color_search_match --background=E6B450
-set -U fish_color_history_current --bold
-set -U fish_color_operator E6B450
-set -U fish_color_escape 95E6CB
-set -U fish_color_cwd 59C2FF
-set -U fish_color_cwd_root red
-set -U fish_color_valid_path --underline
-set -U fish_color_autosuggestion 4D5566
-set -U fish_color_user brgreen
-set -U fish_color_host normal
-set -U fish_color_cancel -r
-set -U fish_pager_color_completion normal
-set -U fish_pager_color_description B3A06D yellow
-set -U fish_pager_color_prefix normal --bold --underline
-set -U fish_pager_color_progress brwhite --background=cyan
+# name: 'Catppuccin mocha'
+# url: 'https://github.com/catppuccin/fish'
+# preferred_background: 1e1e2e
+set -U fish_color_normal cdd6f4
+set -U fish_color_command 89b4fa
+set -U fish_color_param f2cdcd
+set -U fish_color_keyword f38ba8
+set -U fish_color_quote a6e3a1
+set -U fish_color_redirection f5c2e7
+set -U fish_color_end fab387
+set -U fish_color_error f38ba8
+set -U fish_color_gray 6c7086
+set -U fish_color_selection --background=313244
+set -U fish_color_search_match --background=313244
+set -U fish_color_operator f5c2e7
+set -U fish_color_escape f2cdcd
+set -U fish_color_autosuggestion 6c7086
+set -U fish_color_cancel f38ba8
+set -U fish_color_cwd f9e2af
+set -U fish_color_user 94e2d5
+set -U fish_color_host 89b4fa
+set -U fish_pager_color_progress 6c7086
+set -U fish_pager_color_prefix f5c2e7
+set -U fish_pager_color_completion cdd6f4
+set -U fish_pager_color_description 6c7086
 
 # Initialize the Starship prompt
 starship init fish | source
