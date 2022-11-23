@@ -20,6 +20,7 @@
 - link:
     ~/.gitconfig: git/.gitconfig
     ~/.config/fish/config.fish: fish/config.fish
+    ~/.config/kitty/kitty.conf: kitty/kitty.conf
     ~/.config/nvim/init.lua: nvim/init.lua
     ~/.config/nvim/after: nvim/after
     ~/.config/nvim/lua: nvim/lua
