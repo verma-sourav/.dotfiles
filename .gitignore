@@ -1,6 +1,3 @@
-# Repository-specific ignores
-git/gitconfig
-
 # Because dotfiles tend to contain machine-specific or even sensitive information, ignore them by default.
 .*
 
@@ -34,3 +31,10 @@ target/
 *.exe~
 *.dll
 *.so
+
+# Repository-specific ignores
+git/gitconfig
+nvim/plugin
+**/packer_compiled.lua
+!.internal
+**/fish_variables

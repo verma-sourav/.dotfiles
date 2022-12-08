@@ -1,25 +1,26 @@
--- Note that while this list is *mostly* alphabetical, some plugins are moved so that they load
--- before others.
-local config_files = {
-  "lsp",
-  "colorscheme",
-  "treesitter",
+local fn = vim.fn
 
-  "autopairs",
-  "bufferline",
-  "comment",
-  "fidget",
-  "gitsigns",
-  "illuminate",
-  "indent-blankline",
-  "keys",
-  "nvim-tree",
-  "telescope",
-  "todo-comments",
-  "treesitter-context",
-  "trim",
-}
+local install_path = fn.stdpath("data") .. "/lazy/lazy.nvim"
+local repository = "https://github.com/folke/lazy.nvim.git"
 
-for _, file in pairs(config_files) do
-  require("config." .. file)
+local function installed()
+   return vim.loop.fs_stat(install_path)
 end
+
+local function install()
+   fn.system({
+      "git",
+      "clone",
+      "--filter=blob:none",
+      "--single-branch",
+      repository,
+      install_path,
+   })
+end
+
+if not installed() then
+   install()
+end
+
+vim.opt.runtimepath:prepend(install_path)
+require("lazy").setup("config.plugins")

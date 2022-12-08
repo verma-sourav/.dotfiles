@@ -1,27 +1,22 @@
 # https://github.com/anishathalye/dotbot#configuration
 
-- defaults:
-    shell:
-      stdin: true
-      stdout: true
-      stderr: true
-    link:
-      create: true
-      relink: true
-
 # Remove dead symlinks that point to the dotfiles directory
 - clean:
     ~/:
     ~/.config:
       recursive: true
 
+
 # Specify the symlinks to make
 # DO NOT include a trailing slash if linking a directory
+- defaults:
+    link:
+      create: true
+      relink: true
+      force: true
+
 - link:
     ~/.gitconfig: git/.gitconfig
-    ~/.config/fish/config.fish: fish/config.fish
-    ~/.config/kitty/kitty.conf: kitty/kitty.conf
-    ~/.config/nvim/init.lua: nvim/init.lua
-    ~/.config/nvim/after: nvim/after
-    ~/.config/nvim/lua: nvim/lua
-    ~/.local/share/nvim/site/pack/cam/start: nvim/plugins
+    ~/.config/fish: fish
+    ~/.config/kitty: kitty
+    ~/.config/nvim: nvim
