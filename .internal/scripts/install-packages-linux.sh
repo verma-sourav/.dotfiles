@@ -14,7 +14,6 @@ main() {
     sudo apt install -y \
         "curl" \
         "bat" \
-        "black" \
         "exa" \
         "fd-find" \
         "fish" \
@@ -23,7 +22,6 @@ main() {
         "less" \
         "python3" \
         "ripgrep" \
-        "shellcheck" \
         "unzip" \
         "virtualenv" \
         "wget" \
