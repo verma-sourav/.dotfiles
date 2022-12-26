@@ -23,7 +23,11 @@ if not installed() then
 end
 
 local options = {
+   debug = true,
    performance = {
+      cache = {
+         enabled = true,
+      },
       rtp = {
          disabled_plugins = {
             "netrwPlugin",

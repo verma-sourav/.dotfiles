@@ -1,19 +1,23 @@
 local M = {
    "neovim/nvim-lspconfig",
-   "jose-elias-alvarez/null-ls.nvim",
-   "williamboman/mason.nvim",
-   "williamboman/mason-lspconfig.nvim",
-   {
-      "hrsh7th/nvim-cmp",
-      dependencies = {
-         "L3MON4D3/LuaSnip",
-         "hrsh7th/cmp-nvim-lsp",
-         "hrsh7th/cmp-nvim-lua",
-         "hrsh7th/cmp-path",
-         "hrsh7th/cmp-buffer",
-         "hrsh7th/cmp-cmdline",
-         "saadparwaiz1/cmp_luasnip",
-         "onsails/lspkind.nvim",
+   name = "lsp",
+   event = "BufReadPre",
+   dependencies = {
+      "jose-elias-alvarez/null-ls.nvim",
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      {
+         "hrsh7th/nvim-cmp",
+         dependencies = {
+            "L3MON4D3/LuaSnip",
+            "hrsh7th/cmp-nvim-lsp",
+            "hrsh7th/cmp-nvim-lua",
+            "hrsh7th/cmp-path",
+            "hrsh7th/cmp-buffer",
+            "hrsh7th/cmp-cmdline",
+            "saadparwaiz1/cmp_luasnip",
+            "onsails/lspkind.nvim",
+         },
       },
    },
 }
@@ -68,9 +72,10 @@ function M.config()
       capabilities = default_capabilities,
    }
 
+   local lspconfig = require("lspconfig")
    for server, opts in pairs(servers) do
       opts = vim.tbl_deep_extend("force", {}, options, opts or {})
-      require("lspconfig")[server].setup(opts)
+      lspconfig[server].setup(opts)
    end
 
    import("null-ls").setup(options)
