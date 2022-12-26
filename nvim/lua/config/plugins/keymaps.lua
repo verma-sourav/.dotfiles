@@ -46,22 +46,13 @@ function M.config()
    local leader = {
       ["`"] = { "<cmd>:e #<cr>", "Switch to Other Buffer" },
       [","] = { "<cmd>Telescope buffers show_all_buffers=true<cr>", "Switch Buffer" },
-      ["/"] = { "<cmd>Telescope live_grep<cr>", "Search" },
-      [":"] = { "<cmd>Telescope command_history<cr>", "Command History" },
       b = {
          name = "+buffer",
          ["b"] = { "<cmd>:e #<cr>", "Switch to Other Buffer" },
-         ["p"] = { "<cmd>:BufferLineCyclePrev<CR>", "Previous Buffer" },
-         ["["] = { "<cmd>:BufferLineCyclePrev<CR>", "Previous Buffer" },
-         ["n"] = { "<cmd>:BufferLineCycleNext<CR>", "Next Buffer" },
-         ["]"] = { "<cmd>:BufferLineCycleNext<CR>", "Next Buffer" },
          ["d"] = { "<cmd>:Bdelete<CR>", "Delete Buffer" },
-         ["g"] = { "<cmd>:BufferLinePick<CR>", "Goto Buffer" },
       },
       f = {
          name = "+file",
-         t = { "<cmd>NvimTreeToggle<cr>", "NvimTree" },
-         f = { "<cmd>Telescope find_files<cr>", "Find File" },
          r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
          n = { "<cmd>enew<cr>", "New File" },
       },
@@ -92,6 +83,7 @@ function M.config()
       },
       s = {
          name = "+search",
+         f = { "<cmd>Telescope find_files<cr>", "Find File" },
          g = { "<cmd>Telescope live_grep<cr>", "Grep" },
          b = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Buffer" },
          s = {
@@ -107,6 +99,7 @@ function M.config()
       },
       t = {
          name = "toggle",
+         f = { "<cmd>NeoTreeShowToggle<cr>", "File Tree" },
          n = {
             function()
                util.toggle("relativenumber", true)

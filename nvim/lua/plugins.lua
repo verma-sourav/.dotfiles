@@ -22,5 +22,15 @@ if not installed() then
    install()
 end
 
+local options = {
+   performance = {
+      rtp = {
+         disabled_plugins = {
+            "netrwPlugin",
+         },
+      },
+   },
+}
+
 vim.opt.runtimepath:prepend(install_path)
-require("lazy").setup("config.plugins")
+require("lazy").setup("config.plugins", options)
