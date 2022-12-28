@@ -53,6 +53,7 @@ function M.config()
       },
       f = {
          name = "+file",
+         f = { "<cmd>NeoTreeFloatToggle<cr>", "Floating File Tree" },
          r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
          n = { "<cmd>enew<cr>", "New File" },
       },
