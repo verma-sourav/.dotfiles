@@ -38,3 +38,4 @@ nvim/plugin
 **/packer_compiled.lua
 !.internal
 **/fish_variables
+fish/conf.d/*fig*
