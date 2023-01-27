@@ -15,6 +15,8 @@ end
 
 alias dots="cd $DOTS"
 
+alias e="$EDITOR"
+
 alias gb="git branches"
 alias gs="git status"
 alias gc="git commit"
