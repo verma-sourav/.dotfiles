@@ -1,25 +1,26 @@
 local M = {
-   "neovim/nvim-lspconfig",
-   name = "lsp",
-   event = "BufReadPre",
-   dependencies = {
-      "jose-elias-alvarez/null-ls.nvim",
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
-      {
-         "hrsh7th/nvim-cmp",
-         dependencies = {
-            "L3MON4D3/LuaSnip",
-            "hrsh7th/cmp-nvim-lsp",
-            "hrsh7th/cmp-nvim-lua",
-            "hrsh7th/cmp-path",
-            "hrsh7th/cmp-buffer",
-            "hrsh7th/cmp-cmdline",
-            "saadparwaiz1/cmp_luasnip",
-            "onsails/lspkind.nvim",
+      "neovim/nvim-lspconfig",
+      name = "lsp",
+      event = "BufReadPre",
+      dependencies = {
+         "jose-elias-alvarez/null-ls.nvim",
+         "williamboman/mason.nvim",
+         "williamboman/mason-lspconfig.nvim",
+         "ray-x/lsp_signature.nvim",
+         {
+            "hrsh7th/nvim-cmp",
+            dependencies = {
+               "L3MON4D3/LuaSnip",
+               "hrsh7th/cmp-nvim-lsp",
+               "hrsh7th/cmp-nvim-lua",
+               "hrsh7th/cmp-path",
+               "hrsh7th/cmp-buffer",
+               "hrsh7th/cmp-cmdline",
+               "saadparwaiz1/cmp_luasnip",
+               "onsails/lspkind.nvim",
+            },
          },
-      },
-   },
+   }
 }
 
 local function import(pkg)
@@ -67,6 +68,7 @@ function M.config()
       on_attach = function(client, bufnr)
          import("formatting").setup(client, bufnr)
          import("keymaps").setup(client, bufnr)
+         import("lsp-signature").setup(bufnr)
       end,
 
       capabilities = default_capabilities,
