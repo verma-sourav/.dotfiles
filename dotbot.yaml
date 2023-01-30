@@ -17,6 +17,8 @@
 
 - link:
     ~/.gitconfig: git/.gitconfig
-    ~/.config/fish: fish
+    ~/.config/fish/config.fish: fish/config.fish
+    ~/.config/fish/conf.d/nix.fish: fish/conf.d/nix.fish
+    ~/.config/fish/themes: fish/themes
     ~/.config/kitty: kitty
     ~/.config/nvim: nvim
