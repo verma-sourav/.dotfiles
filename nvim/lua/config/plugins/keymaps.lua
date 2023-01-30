@@ -53,7 +53,6 @@ function M.config()
       },
       f = {
          name = "+file",
-         f = { "<cmd>NeoTreeFloatToggle<cr>", "Floating File Tree" },
          r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
          n = { "<cmd>enew<cr>", "New File" },
       },
@@ -84,6 +83,7 @@ function M.config()
       },
       s = {
          name = "+search",
+         r = { "<cmd>Telescope resume<cr>", "Resume" },
          f = { "<cmd>Telescope find_files<cr>", "Find File" },
          g = { "<cmd>Telescope live_grep<cr>", "Grep" },
          b = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Buffer" },
@@ -103,7 +103,6 @@ function M.config()
          f = { "<cmd>NeoTreeShowToggle<cr>", "File Tree" },
          n = {
             function()
-               util.toggle("relativenumber", true)
                util.toggle("number")
             end,
             "Line Numbers",
