@@ -16,7 +16,8 @@
       force: true
 
 - link:
-    ~/.gitconfig: git/.gitconfig
+    ~/.config/git/config: git/main.gitconfig
+    ~/.config/git/author.gitconfig: git/author.gitconfig
     ~/.config/fish/config.fish: fish/config.fish
     ~/.config/fish/conf.d/nix.fish: fish/conf.d/nix.fish
     ~/.config/fish/themes: fish/themes

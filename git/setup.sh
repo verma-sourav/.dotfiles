@@ -7,10 +7,8 @@ set -euo pipefail
 
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-AUTHOR_TEMPLATE="$BASEDIR/template-author.gitconfig"
-AUTHOR_CUSTOMIZED="$BASEDIR/.author.gitconfig"
-BASE_TEMPLATE="$BASEDIR/template.gitconfig"
-GITCONFIG="$BASEDIR/.gitconfig"
+AUTHOR_TEMPLATE="$BASEDIR/template.author.gitconfig"
+AUTHOR_CUSTOMIZED="$BASEDIR/author.gitconfig"
 
 CREDENTIAL_HELPER="cache"
 NAME=
@@ -30,6 +28,3 @@ if [[ ! -f "$AUTHOR_CUSTOMIZED" ]]; then
         "$AUTHOR_TEMPLATE" > "$AUTHOR_CUSTOMIZED"
     echo "Updated git author information"
 fi
-
-echo "Updating gitconfig"
-cat "$AUTHOR_CUSTOMIZED" <(echo) "$BASE_TEMPLATE" > "$GITCONFIG"

@@ -6,36 +6,7 @@
 !.gitattributes
 !.github
 
-# Logs and databases
-*.log
-**/logs
-*.sql
-*.sqlite
-
-# Operating system files
-ehthumbs.db
-Thumbs.db
-
-# Compiled and cached code
-__pycache__/
-build/
-dist/
-out/
-target/
-*.class
-*.o
-*.py[cod]
-
-# Binaries
-*.exe
-*.exe~
-*.dll
-*.so
+!.internal
 
 # Repository-specific ignores
-git/gitconfig
-nvim/plugin
-**/packer_compiled.lua
-!.internal
-**/fish_variables
-fish/conf.d/*fig*
+git/author.gitconfig

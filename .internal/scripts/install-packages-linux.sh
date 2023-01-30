@@ -29,8 +29,6 @@ main() {
 
     log "Installing the GitHub CLI"
     install_gh_cli
-    log "Installing Git Delta"
-    install_git_delta
     log "Installing Go"
     install_go
     log "Installing Neovim"
@@ -46,31 +44,6 @@ install_gh_cli() {
     echo "deb [arch=$ARCH signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
     sudo apt update
     sudo apt install gh
-}
-
-# Installs git-delta using the .deb release file
-# https://dandavison.github.io/delta/installation.html
-install_git_delta() {
-    local local_version
-    local tempdir
-    local version
-    local repository="dandavison/delta"
-    version=$(latest_release "$repository")
-
-    if cmd_exists "delta"; then
-        local_version="$(delta --version | cut -d" " -f2)"
-        if [[ "$local_version" == "$version" ]]; then
-            log "Delta is already up-to-date ($version)"
-            return 0
-        fi
-    fi
-
-    log "Installing version: $version"
-    tempdir="$(mktemp -d)"
-    local release_file="git-delta_${version}_${ARCH}.deb"
-    wget -P "$tempdir" "https://github.com/$repository/releases/download/$version/$release_file"
-    sudo apt install "$tempdir/$release_file"
-    rm -rf "$tempdir"
 }
 
 # Installs the latest version of Go using the pre-built binaries
