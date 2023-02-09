@@ -19,6 +19,7 @@ brew "neovim"
 brew "node"
 brew "python@3.10"
 brew "ripgrep"
+brew "starship"
 brew "virtualenv"
 brew "wget"
 
