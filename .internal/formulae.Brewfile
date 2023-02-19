@@ -1,4 +1,3 @@
-tap "homebrew/core"
 tap "homebrew/services"
 
 brew "bat"

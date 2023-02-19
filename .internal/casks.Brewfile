@@ -1,7 +1,3 @@
-tap "homebrew/cask"
-tap "homebrew/cask-fonts"
-tap "homebrew/cask-versions"
-
 cask "docker"
 cask "insomnia"
 cask "iterm2"
