@@ -23,7 +23,7 @@ add_brew_to_path() {
     fi
 
     local brew_bin="$brew_prefix/bin"
-    local brew_sbin"$brew_prefix/sbin"
+    local brew_sbin="$brew_prefix/sbin"
     local brew="$brew_bin/brew"
 
     if [[ -x "$brew" ]]; then
@@ -62,6 +62,7 @@ install_casks() {
 install_go_programs() {
     # Go should be installed as a homebrew formula
     go install golang.org/x/tools/cmd/goimports@latest
+    go install github.com/cdevoogd/git-branches@latest
 }
 
 main() {
