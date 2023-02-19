@@ -8,6 +8,7 @@ vim.opt.mouse = "a" -- Allow the mouse to be used in all modes
 vim.opt.errorbells = false -- No bells
 vim.opt.titlestring = "%t" -- Use the name of the file as the window title
 vim.opt.title = true -- Apply the titlestring above
+vim.opt.linebreak = true -- When wrapping, don't wrap in the middle of a word
 
 -- Display
 vim.opt.cursorline = true -- Highlight the current cursor line
