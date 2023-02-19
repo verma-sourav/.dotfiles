@@ -1,0 +1,11 @@
+tap "homebrew/cask"
+tap "homebrew/cask-fonts"
+tap "homebrew/cask-versions"
+
+cask "docker"
+cask "insomnia"
+cask "iterm2"
+cask "mos"
+cask "raycast"
+cask "spotify"
+cask "visual-studio-code"
