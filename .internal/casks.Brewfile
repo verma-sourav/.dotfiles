@@ -1,4 +1,5 @@
-cask "cdevoogd/tap/font-zed-mono-nerd-font"
+cask "cdevoogd/tap/font-akoni"
+cask "cdevoogd/tap/font-akoni-nerd-font"
 cask "docker"
 cask "insomnia"
 cask "iterm2"
