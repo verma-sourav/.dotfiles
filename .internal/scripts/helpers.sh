@@ -7,13 +7,13 @@
 log() {
     local cyan='\033[0;36m'
     local reset='\033[0m'
-    printf "${cyan}${1}${reset}\n"
+    printf "%b%s%b\n" "$cyan" "$1" "$reset"
 }
 
 logerr() {
     local red='\033[0;31m'
     local reset='\033[0m'
-    printf "${red}${1}${reset}\n" 1>&2
+    printf "%b%s%b\n" 1>&2 "$red" "$1" "$reset"
 }
 
 # Returns 0 if the given command ($1) is installed/exists
