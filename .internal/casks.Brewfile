@@ -1,3 +1,4 @@
+cask "cdevoogd/tap/font-zed-mono-nerd-font"
 cask "docker"
 cask "insomnia"
 cask "iterm2"
