@@ -2,7 +2,6 @@
     path = author.gitconfig
 
 [alias]
-    branches = !sh git-branch-descriptions
     unstage = restore --staged
     desc = branch --edit-description
     sm = submodule
