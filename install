@@ -10,7 +10,7 @@ source "$SCRIPTS_DIR/helpers.sh"
 run_dotbot() {
     local dotbot_dir=".internal/dotbot"
     local dotbot_bin="$BASE_DIR/$dotbot_dir/bin/dotbot"
-    local dotbot_config="dotbot.yaml"
+    local dotbot_config="$BASE_DIR/.internal/dotbot.yaml"
 
     git -C "$dotbot_dir" submodule sync --quiet --recursive
     "$dotbot_bin" --base-directory "$BASE_DIR" --config-file "$dotbot_config"
