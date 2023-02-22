@@ -71,7 +71,7 @@ install_go_programs() {
     # are going to need to set it before installing if we want these programs to work when the user
     # logs back in using fish as the login shell (which the dotfile install should set)
     local gopath
-    gopath=$(grep "set -x GOPATH" "$FISH_CONFIG" | cut -d' ' -f4 | tr -d '"')
+    gopath=$(grep "set -x GOPATH" "$FISH_CONFIG" | cut -d' ' -f4 | tr -d '"' | sed "s|\$HOME|$HOME|g")
     export GOPATH="$gopath"
 
     # Go should be installed as a homebrew formula
