@@ -14,7 +14,7 @@ get_brew_path() {
         brew_prefix="/home/linuxbrew/.linuxbrew"
     elif on_macos && on_x86; then
         brew_prefix="/usr/local"
-    elif on_macos && on_arm; then
+    elif on_macos && on_arm64; then
         brew_prefix="/opt/homebrew"
     fi
 
