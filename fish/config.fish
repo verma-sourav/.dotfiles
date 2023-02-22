@@ -4,7 +4,7 @@ set -U fish_greeting
 set -l fish_dotfile_dir (dirname (realpath (status --current-filename)))
 set -x DOTS (realpath $fish_dotfile_dir/..)
 set -x EDITOR nvim
-set -x GOPATH "$HOME/.go"
+set -x GOPATH "$HOME/.local/share/go"
 set -x STARSHIP_CONFIG "$DOTS/starship/config.toml"
 set -gx PATH "$DOTS/bin" "/usr/local/go/bin" "$GOPATH/bin" "$PATH"
 
