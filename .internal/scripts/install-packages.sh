@@ -27,7 +27,7 @@ add_brew_to_path() {
     local brew_sbin="$brew_prefix/sbin"
     local brew="$brew_bin/brew"
 
-    if [[ -x "$brew" ]]; then
+    if ! [[ -x "$brew" ]]; then
         logerr "The 'brew' binary does not exist or is not executable at the expected location: $brew"
         return 1
     fi
