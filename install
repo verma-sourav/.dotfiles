@@ -22,8 +22,9 @@ main() {
         return 1
     fi
 
+    # This script is being sourced so that this script inherits the env updates (e.g. PATH)
     log "Installing packages"
-    "$SCRIPTS_DIR/install-packages.sh"
+    source "$SCRIPTS_DIR/install-packages.sh"
 
     log "Setting up the shell"
     "$SCRIPTS_DIR/configure-shell.sh"
