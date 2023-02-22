@@ -2,6 +2,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+FISH_CONFIG="$SCRIPT_DIR/../../fish/config.fish"
 FORMULAE_BREWFILE="$SCRIPT_DIR/../formulae.Brewfile"
 CASKS_BREWFILE="$SCRIPT_DIR/../casks.Brewfile"
 
@@ -60,6 +61,13 @@ install_casks() {
 }
 
 install_go_programs() {
+    # If this is a fresh install, the correct GOPATH from the fish config probably isn't loaded. We
+    # are going to need to set it before installing if we want these programs to work when the user
+    # logs back in using fish as the login shell (which the dotfile install should set)
+    local gopath
+    gopath=$(grep "set -x GOPATH" "$FISH_CONFIG" | cut -d' ' -f4 | tr -d '"')
+    export GOPATH="$gopath"
+
     # Go should be installed as a homebrew formula
     go install golang.org/x/tools/cmd/goimports@latest
     go install github.com/cdevoogd/git-branches@latest
