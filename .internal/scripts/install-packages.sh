@@ -8,7 +8,7 @@ CASKS_BREWFILE="$SCRIPT_DIR/../casks.Brewfile"
 
 source "$SCRIPT_DIR/helpers.sh"
 
-add_brew_to_path() {
+get_brew_path() {
     local brew_prefix
     if on_linux; then
         brew_prefix="/home/linuxbrew/.linuxbrew"
@@ -32,19 +32,25 @@ add_brew_to_path() {
         return 1
     fi
 
-    export PATH="$brew_bin:$brew_sbin:$PATH"
+    echo "$brew_bin:$brew_sbin"
+}
+
+add_brew_to_path() {
+    local brew_path
+    brew_path="$(get_brew_path)"
+    export PATH="$brew_path:$PATH"
 }
 
 ensure_brew() {
-    if  cmd_exists "brew"; then
-        log "Homebrew is already installed"
-        return
+    # Searching for the binary itself instead of relying on it being present in the PATH just in
+    # case it was recently installed but hasn't been added yet. Once the dotfiles are installed
+    # and the user switches to the login shell it should be present in the PATH as expected.
+    if ! get_brew_path; then
+        # Homebrew needs sudo access on macOS, and I'm assuming there is someone installing the
+        # dotfiles that can type in the password, so this is being run interactively.
+        log "Homebrew is not installed (or in your PATH) - Installing..."
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     fi
-
-    # Homebrew needs sudo access on macOS, and I'm assuming there is someone installing the
-    # dotfiles that can type in the password, so this is being run interactively.
-    log "Homebrew is not installed (or in your PATH) - Installing..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
     # If we just installed homebrew, it might not be available in the PATH
     add_brew_to_path
