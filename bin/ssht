@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# SSH that automatically launches a tmux session
+SESSION_NAME="sshmux"
+ssh "$@" -t "tmux new-session -s $SESSION_NAME || tmux attach-session -t $SESSION_NAME"
