@@ -67,6 +67,7 @@ install_casks() {
 }
 
 install_go_programs() {
+    log "Installing Go tools..."
     # If this is a fresh install, the correct GOPATH from the fish config probably isn't loaded. We
     # are going to need to set it before installing if we want these programs to work when the user
     # logs back in using fish as the login shell (which the dotfile install should set)
@@ -76,7 +77,7 @@ install_go_programs() {
 
     # Go should be installed as a homebrew formula
     go install golang.org/x/tools/cmd/goimports@latest
-    go install github.com/cdevoogd/git-branches@latest
+    go install github.com/cdevoogd/git-branches@master
 }
 
 main() {
