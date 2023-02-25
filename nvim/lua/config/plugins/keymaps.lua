@@ -61,6 +61,7 @@ function M.config()
          c = { "<cmd>Telescope git_commits<CR>", "Commits" },
          C = { "<cmd>Telescope git_bcommits<CR>", "Buffer Commits" },
          b = { "<cmd>Telescope git_branches<CR>", "Branches" },
+         d = { "<cmd>DiffviewOpen<CR>", "Diffview" },
          s = { "<cmd>Telescope git_status<CR>", "Status" },
          S = { "<cmd>Telescope git_stash<CR>", "Stashes" },
       },
