@@ -55,7 +55,7 @@ function M.config()
       pyright = {},
       sqls = {},
       vimls = {},
-      sumneko_lua = {
+      lua_ls = {
          settings = {
             Lua = {
                diagnostics = { globals = { "vim" } },
