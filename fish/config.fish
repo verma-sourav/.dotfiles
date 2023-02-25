@@ -6,7 +6,7 @@ set -x DOTS (realpath $fish_dotfile_dir/..)
 set -x EDITOR nvim
 set -x GOPATH "$HOME/.local/share/go"
 set -x STARSHIP_CONFIG "$DOTS/starship/config.toml"
-set -gx PATH "$DOTS/bin" "/usr/local/go/bin" "$GOPATH/bin" "$PATH"
+set -gx PATH "$DOTS/bin" "$GOPATH/bin" "$PATH"
 
 set -l localenv "$HOME/.localenv"
 if test -e "$localenv"
