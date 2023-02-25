@@ -34,6 +34,11 @@ function M.config()
          follow_current_file = true,
          group_empty_dirs = true,
       },
+      window = {
+         mappings = {
+            ["<space>"] = "none"
+         }
+      }
    })
 end
 
