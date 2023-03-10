@@ -13,7 +13,7 @@ if ! pattern_exists "$FISH_BIN" "$SHELLS_FILE"; then
     sudo sh -c "echo $FISH_BIN >> $SHELLS_FILE"
 fi
 
-if ! file_exists "$HUSHFILE" ; then
+if ! file_exists "$HUSHFILE"; then
     log "Creating a hushlogin file"
     touch "$HUSHFILE"
 fi

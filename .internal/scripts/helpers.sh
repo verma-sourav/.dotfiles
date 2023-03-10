@@ -13,11 +13,11 @@ log() {
 logerr() {
     local red='\033[0;31m'
     local reset='\033[0m'
-    printf "%b%s%b\n" 1>&2 "$red" "$1" "$reset"
+    printf "%b%s%b\n" "$red" "$1" "$reset" 1>&2
 }
 
 # Returns 0 if the given command ($1) is installed/exists
-cmd_exists() { command -v "$1" &> /dev/null; }
+cmd_exists() { command -v "$1" &>/dev/null; }
 
 # Returns 0 if a file exists at the given path ($1) and is a regular file
 file_exists() { [[ -f "$1" ]]; }
