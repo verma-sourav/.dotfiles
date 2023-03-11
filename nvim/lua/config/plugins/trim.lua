@@ -4,7 +4,7 @@ local M = {
 
 function M.config()
    require("trim").setup({
-      disable = {},
+      ft_blocklist = {},
       patterns = {
          [[%s/\s\+$//e]], -- remove unwanted spaces
          [[%s/\($\n\s*\)\+\%$//]], -- trim last line
