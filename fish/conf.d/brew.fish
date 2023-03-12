@@ -16,5 +16,4 @@ end
 # All other Homebrew variables seem to be the same when based off of the prefix
 set -gx HOMEBREW_CELLAR "$HOMEBREW_PREFIX/Cellar";
 set -gx PATH "$HOMEBREW_PREFIX/bin" "$HOMEBREW_PREFIX/sbin" $PATH;
-set -gx MANPATH "$HOMEBREW_PREFIX/share/man" $MANPATH;
 set -gx INFOPATH "$HOMEBREW_PREFIX/share/info" $INFOPATH;
