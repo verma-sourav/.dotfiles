@@ -86,7 +86,7 @@ fi
 echo "Generating the SSH key..."
 ssh-keygen -t "$KEY_TYPE" -C "$COMMENT" -f "$KEY_FILE"
 echo "Adding the key to the agent..."
-eval "$(ssh_agent -s)"
+eval "$(ssh-agent -s)"
 ssh-add "$KEY_FILE"
 
 
