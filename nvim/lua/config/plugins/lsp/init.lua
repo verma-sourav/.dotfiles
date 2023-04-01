@@ -1,26 +1,27 @@
 local M = {
-      "neovim/nvim-lspconfig",
-      name = "lsp",
-      event = "BufReadPre",
-      dependencies = {
-         "jose-elias-alvarez/null-ls.nvim",
-         "williamboman/mason.nvim",
-         "williamboman/mason-lspconfig.nvim",
-         "ray-x/lsp_signature.nvim",
-         {
-            "hrsh7th/nvim-cmp",
-            dependencies = {
-               "L3MON4D3/LuaSnip",
-               "hrsh7th/cmp-nvim-lsp",
-               "hrsh7th/cmp-nvim-lua",
-               "hrsh7th/cmp-path",
-               "hrsh7th/cmp-buffer",
-               "hrsh7th/cmp-cmdline",
-               "saadparwaiz1/cmp_luasnip",
-               "onsails/lspkind.nvim",
-            },
+   "neovim/nvim-lspconfig",
+   name = "lsp",
+   event = "BufReadPre",
+   dependencies = {
+      "jose-elias-alvarez/null-ls.nvim",
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "jay-babu/mason-null-ls.nvim",
+      "ray-x/lsp_signature.nvim",
+      {
+         "hrsh7th/nvim-cmp",
+         dependencies = {
+            "L3MON4D3/LuaSnip",
+            "hrsh7th/cmp-nvim-lsp",
+            "hrsh7th/cmp-nvim-lua",
+            "hrsh7th/cmp-path",
+            "hrsh7th/cmp-buffer",
+            "hrsh7th/cmp-cmdline",
+            "saadparwaiz1/cmp_luasnip",
+            "onsails/lspkind.nvim",
          },
-   }
+      },
+   },
 }
 
 local function import(pkg)
@@ -29,7 +30,7 @@ end
 
 function M.config()
    import("completion").setup()
-   import("mason").setup()
+   import("tools").setup()
 
    -- nvim-cmp-lsp needs to be a client of LSPs to provde completion
    local default_capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -49,7 +50,6 @@ function M.config()
       },
       dockerls = {},
       gopls = {},
-      golangci_lint_ls = {},
       html = {},
       jsonls = {},
       pyright = {},
@@ -79,8 +79,6 @@ function M.config()
       opts = vim.tbl_deep_extend("force", {}, options, opts or {})
       lspconfig[server].setup(opts)
    end
-
-   import("null-ls").setup(options)
 end
 
 return M
