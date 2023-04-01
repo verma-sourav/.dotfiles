@@ -30,7 +30,7 @@ end
 
 function M.config()
    import("completion").setup()
-   import("tools").setup()
+   import("tools").setup_mason_lsp()
 
    -- nvim-cmp-lsp needs to be a client of LSPs to provde completion
    local default_capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -79,6 +79,8 @@ function M.config()
       opts = vim.tbl_deep_extend("force", {}, options, opts or {})
       lspconfig[server].setup(opts)
    end
+
+   import("tools").setup_null_ls(options)
 end
 
 return M

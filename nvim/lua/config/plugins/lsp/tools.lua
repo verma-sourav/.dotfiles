@@ -1,35 +1,35 @@
 local M = {}
 
-function M.setup_null_ls()
+function M.setup_null_ls(options)
    local mason_nls = require("mason-null-ls")
    local nls = require("null-ls")
    local util = require("util")
 
-   -- https://github.com/jay-babu/mason-null-ls.nvim#primary-source-of-truth-is-mason-null-ls
-   mason_nls.setup({
-      ensure_installed = {
-         "black",
-         "goimports",
-         "golangci_lint",
-         "stylua",
-      },
-      automatic_installation = false,
-      automatic_setup = true,
-   })
+   local sources = {
+      nls.builtins.formatting.black.with({ extra_args = { "--fast" } }),
+      nls.builtins.formatting.goimports,
+      nls.builtins.formatting.stylua,
+   }
 
-   local non_mason_sources = {}
    if util.executable("clang-format-10") then
-      table.insert(non_mason_sources, nls.builtins.formatting.clang_format.with({ command = "clang-format-10" }))
+      table.insert(sources, nls.builtins.formatting.clang_format.with({ command = "clang-format-10" }))
    end
 
-   nls.setup({ sources = non_mason_sources })
-   mason_nls.setup_handlers()
+   nls.setup({
+      on_attach = options.on_attach,
+      sources = sources,
+   })
+
+   mason_nls.setup({
+      ensure_installed = nil,
+      automatic_installation = true,
+      automatic_setup = false,
+   })
 end
 
-function M.setup()
+function M.setup_mason_lsp()
    require("mason").setup()
    require("mason-lspconfig").setup({ automatic_installation = true })
-   M.setup_null_ls()
 end
 
 return M
