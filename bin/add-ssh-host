@@ -1,0 +1,127 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DEFAULT_USER="$USER"
+DEFAULT_PORT="22"
+
+SSH_CONFIG="$HOME/.ssh/config"
+REMOTE_NAME=""
+REMOTE_ADDRESS=""
+REMOTE_USER=""
+REMOTE_PORT=""
+SKIP_CONFIRMATION=false
+
+print_usage() {
+    echo "USAGE:"
+    echo "  $0 [OPTIONS...]"
+    echo
+    echo "OPTIONS:"
+    echo "  -h, --help              Print this help message"
+    echo "  -n, --name string       Set the name that you want to use for this host"
+    echo "  -a, --address addr      The address to connect to the host"
+    echo "  -u, --user username     Set the user that should be connected to on the host"
+    echo "  -p, --port int          Set the port that should be used to connect to the host"
+    echo "  -y, --yes               Skip the confirmation message"
+}
+
+handle_missing_arg() {
+    echo "Missing argument: $1"
+    print_usage
+    exit 1
+}
+
+parse_arguments() {
+    while [ $# -ne 0 ] && [ "$1" != "" ]; do
+        case $1 in
+        -h | --help)
+            print_usage
+            exit 0
+            ;;
+        -y | --yes)
+            SKIP_CONFIRMATION=true
+            ;;
+        -n | --name)
+            shift
+            if [[ $# -eq 0 ]]; then handle_missing_arg "name"; fi
+            REMOTE_NAME="$1"
+            ;;
+        -a | --address)
+            shift
+            if [[ $# -eq 0 ]]; then handle_missing_arg "address"; fi
+            REMOTE_ADDRESS="$1"
+            ;;
+        -u | --user)
+            shift
+            if [[ $# -eq 0 ]]; then handle_missing_arg "user"; fi
+            REMOTE_USER="$1"
+            ;;
+        -p | --port)
+            shift
+            if [[ $# -eq 0 ]]; then handle_missing_arg "port"; fi
+            REMOTE_PORT="$1"
+            ;;
+        *)
+            echo "Unknown argument: $1"
+            print_usage
+            exit 1
+            ;;
+        esac
+        # After each iteration we shift $1 so the next loop works on a new flag
+        shift
+    done
+}
+
+confirm_changes() {
+    if [[ "$SKIP_CONFIRMATION" == true ]]; then
+        return
+    fi
+
+    gum confirm "Continue?"
+}
+
+parse_arguments "$@"
+
+if [[ -z "$REMOTE_NAME" ]]; then
+    PROMPT="Name > "
+    REMOTE_NAME=$(gum input --prompt "$PROMPT")
+    echo "${PROMPT}${REMOTE_NAME}"
+fi
+
+if [[ -z "$REMOTE_ADDRESS" ]]; then
+    PROMPT="Address > "
+    REMOTE_ADDRESS=$(gum input --prompt "$PROMPT")
+    echo "${PROMPT}${REMOTE_ADDRESS}"
+fi
+
+if [[ -z "$REMOTE_USER" ]]; then
+    PROMPT="User > "
+    REMOTE_USER=$(gum input --prompt "$PROMPT" --value "$DEFAULT_USER")
+    echo "${PROMPT}${REMOTE_USER}"
+fi
+
+if [[ -z "$REMOTE_PORT" ]]; then
+    PROMPT="Port > "
+    REMOTE_PORT=$(gum input --prompt "$PROMPT" --value "$DEFAULT_PORT")
+    echo "${PROMPT}${REMOTE_PORT}"
+fi
+
+GENERATED_CONFIG=$(cat <<EOF
+Host $REMOTE_NAME
+    User $REMOTE_USER
+    HostName $REMOTE_ADDRESS
+    Port $REMOTE_PORT
+EOF
+)
+
+echo "Generated config:"
+echo
+echo "$GENERATED_CONFIG"
+echo
+
+if ! confirm_changes; then
+    echo "Exiting"
+    exit 1
+fi
+
+echo "$GENERATED_CONFIG" >> "$SSH_CONFIG"
+echo "Added host '$REMOTE_NAME ($REMOTE_USER@$REMOTE_ADDRESS:$REMOTE_PORT)' to '$SSH_CONFIG'"

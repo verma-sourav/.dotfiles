@@ -94,8 +94,8 @@ if [ "$PRESET" == "github" ]; then
     echo "Adding an SSH config entry for GitHub"
     {
         echo "Host github.com"
-        echo "  User git"
-        echo "  HostName github.com"
-        echo "  IdentityFile $KEY_FILE"
+        echo "    User git"
+        echo "    HostName github.com"
+        echo "    IdentityFile $KEY_FILE"
     } >> "$SSH_CONFIG"
 fi
