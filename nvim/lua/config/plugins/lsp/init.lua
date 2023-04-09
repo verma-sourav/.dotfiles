@@ -53,7 +53,7 @@ function M.config()
       html = {},
       jsonls = {},
       pyright = {},
-      sqls = {},
+      sqlls = {},
       vimls = {},
       lua_ls = {
          settings = {
