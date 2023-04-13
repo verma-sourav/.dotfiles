@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+if (( $# != 1 )); then
+    echo "A single commit hash is required as an argument"
+    exit 1
+fi
+
+COMMIT="$1"
+
+if git merge-base --is-ancestor "$COMMIT" HEAD > /dev/null 2>&1; then
+    echo "true"
+    exit 0
+fi
+
+echo "false"
+exit 1
