@@ -23,7 +23,6 @@ function M.config()
          "go",
          "gomod",
          "gowork",
-         "help",
          "hjson",
          "html",
          "http",
@@ -49,6 +48,7 @@ function M.config()
          "tsx",
          "typescript",
          "vim",
+         "vimdoc",
          "yaml",
       },
 
