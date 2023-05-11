@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+if (( $# != 1 )); then
+    echo "A single hexadecimal number is required as an argument"
+    exit 1
+fi
+
+python3 -c "print(int('$1', 16))"
