@@ -53,6 +53,6 @@ export HOMEBREW_CELLAR="$HOMEBREW_PREFIX/Cellar"
 export PATH="$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin:$PATH"
 export INFOPATH="$HOMEBREW_PREFIX/share/info:$INFOPATH"
 
-if [ -f "$DOTS_LOCAL_CONFIG" ]; then
-    . "$DOTS_LOCAL_CONFIG"
+if [ -f "$DOTS_LOCAL_PROFILE" ]; then
+    . "$DOTS_LOCAL_PROFILE"
 fi
