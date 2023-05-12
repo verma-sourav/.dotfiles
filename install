@@ -4,6 +4,7 @@ set -euo pipefail
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SCRIPTS_DIR="$BASE_DIR/.internal/scripts"
 
+source "$BASE_DIR/fish/profile"
 source "$SCRIPTS_DIR/helpers.sh"
 
 # Use dotbot to clean dead links and symlink the dotfiles.
@@ -16,15 +17,35 @@ run_dotbot() {
     "$dotbot_bin" --base-directory "$BASE_DIR" --config-file "$dotbot_config"
 }
 
+# On macOS and Linux I've had issues where apps that are launched from some form of dock or launcher
+# (e.g. spotlight) use the system's default login shell (zsh, bash) instead of fish even if fish is
+# configured as the login shell. When the environment is set up in config.fish, this can cause the
+# app to have the wrong environment. To fix this, I store my environment variables in a separate
+# profile file and load them from there. This function configures other shells like bash and zsh to
+# also load the profile just in case the problem above happens.
+setup_profiles() {
+    local cmd="source '$BASE_DIR/fish/profile'"
+    local shell_configs=("$HOME/.bash_profile" "$HOME/.zprofile")
+    for config in "${shell_configs[@]}"; do
+        if [[ -f "$config" ]] && grep -q "$cmd" "$config"; then
+            log "Source command has already been added to '$config'"
+            continue
+        fi
+
+        log "Adding source command to '$config'"
+        echo "# Added by dotfiles installer" >> "$config"
+        echo "$cmd" >> "$config"
+    done
+}
+
 main() {
     if ! on_macos && ! on_linux; then
         echo "Unsupported operating system"
         return 1
     fi
 
-    # This script is being sourced so that this script inherits the env updates (e.g. PATH)
     log "Installing packages"
-    source "$SCRIPTS_DIR/install-packages.sh"
+    "$SCRIPTS_DIR/install-packages.sh"
 
     log "Setting up the shell"
     "$SCRIPTS_DIR/configure-shell.sh"
@@ -38,6 +59,9 @@ main() {
 
     log "Running dotbot"
     run_dotbot
+
+    log "Configuring other shells to load the custom profile"
+    setup_profiles
 }
 
 main "$@"

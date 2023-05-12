@@ -16,11 +16,11 @@
       force: true
 
 - link:
-    ~/.config/git/config: git/main.gitconfig
-    ~/.config/git/author.gitconfig: git/author.gitconfig
     ~/.config/fish/config.fish: fish/config.fish
     ~/.config/fish/conf.d: fish/conf.d
     ~/.config/fish/functions: fish/functions
     ~/.config/fish/themes: fish/themes
+    ~/.config/git/config: git/main.gitconfig
+    ~/.config/git/author.gitconfig: git/author.gitconfig
     ~/.config/kitty: kitty
     ~/.config/nvim: nvim

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+if [[ -z "$DOTS_LOCAL_PROFILE" ]]; then
+    echo "DOTS_LOCAL_PROFILE is unset, is the profile being loaded properly?"
+    exit 1
+fi
+
+"${EDITOR:-vi}" "$DOTS_LOCAL_PROFILE"

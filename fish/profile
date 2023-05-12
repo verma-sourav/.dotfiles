@@ -1,0 +1,58 @@
+# shellcheck shell=sh
+# shellcheck disable=SC1090
+
+# This profile is mainly just for storing environment variables. It is meant to be sourced by
+# multiple shells (bash, zsh, and fish using fenv) so the syntax should be POSIX compliant.
+#
+# So why not just store this in config.fish?
+# - Sometimes I mess around with other shells, and having these environment variables available in
+#   them is useful. Fish isn't POSIX compliant, so storing the environment variables separately
+#   makes it possible for other shells to load them.
+#
+# - On macOS and Linux I've had issues where apps that are launched from some form of dock or
+#   launcher (e.g. spotlight) use the system's default login shell (zsh, bash) instead of fish even
+#   if fish is configured as the login shell. If my environment is set up in config.fish, but these
+#   apps are trying to use the other shells, they end up with the wrong environment. Using a
+#   separate profile means that I can set up other shells to also load this environment to ensure
+#   apps that encounter this issue still have the correct environment.
+
+# $0 is not the path of the profile, so it can't be used to find the path to the dotfiles repository
+# For now, I'm going to assume the dotfiles is in one specific location
+dotfiles_dir="$HOME/.dotfiles"
+
+config_base_dir="${XDR_CONFIG_HOME:-"$HOME/.config"}"
+config_dir="$config_base_dir/dots"
+
+export DOTS="$dotfiles_dir"
+export DOTS_LOCAL_PROFILE="$config_dir/profile"
+export DOTS_LOCAL_CONFIG="$config_dir/config.fish"
+
+export EDITOR=nvim
+export GOPATH="$HOME/.local/share/go"
+export STARSHIP_CONFIG="$DOTS/starship/config.toml"
+export PATH="$DOTS/bin:$GOPATH/bin:$PATH"
+
+# These variables are from `brew shellenv`
+case $(uname) in
+    Linux)
+        export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+        export HOMEBREW_REPOSITORY="$HOMEBREW_PREFIX/Homebrew"
+        ;;
+    Darwin)
+        if [ "$(uname -m)" = "x86_64" ]; then
+            export HOMEBREW_PREFIX="/usr/local"
+            export HOMEBREW_REPOSITORY="$HOMEBREW_PREFIX/Homebrew"
+        else
+            export HOMEBREW_PREFIX="/opt/homebrew"
+            export HOMEBREW_REPOSITORY="$HOMEBREW_PREFIX"
+        fi
+        ;;
+esac
+
+export HOMEBREW_CELLAR="$HOMEBREW_PREFIX/Cellar"
+export PATH="$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin:$PATH"
+export INFOPATH="$HOMEBREW_PREFIX/share/info:$INFOPATH"
+
+if [ -f "$DOTS_LOCAL_CONFIG" ]; then
+    . "$DOTS_LOCAL_CONFIG"
+fi

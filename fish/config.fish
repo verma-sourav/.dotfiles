@@ -1,21 +1,21 @@
-# Hide the fish welcome message
+set fish_dotfiles_dir (dirname (realpath (status --current-filename)))
+
 set -U fish_greeting
+set fish_function_path $fish_function_path "$fish_dotfiles_dir/plugins/fenv/functions"
+fish_config theme choose catppuccin_mocha
 
-set -l fish_dotfile_dir (dirname (realpath (status --current-filename)))
-set -x DOTS (realpath $fish_dotfile_dir/..)
-set -x EDITOR nvim
-set -x GOPATH "$HOME/.local/share/go"
-set -x STARSHIP_CONFIG "$DOTS/starship/config.toml"
-set -gx PATH "$DOTS/bin" "$GOPATH/bin" "$PATH"
-
-set -l localenv "$HOME/.localenv"
-if test -e "$localenv"
-    source "$localenv"
+# Sourcing the profile in the dotfiles repository to make sure we are always loading the right one
+set profile "$fish_dotfiles_dir/profile"
+if test -f "$profile"
+    fenv source "$profile"
 end
 
-alias dots="cd $DOTS"
+if test -f "$DOTS_LOCAL_CONFIG"
+    source "$DOTS_LOCAL_CONFIG"
+end
 
 alias e="$EDITOR"
+alias dots="cd $DOTS"
 
 alias gb="git branches"
 alias gs="git status"
@@ -28,6 +28,4 @@ if type -q exa
     alias lla="exa --group-directories-first --long --all"
 end
 
-fish_config theme choose catppuccin_mocha
-# Initialize the Starship prompt
 starship init fish | source
