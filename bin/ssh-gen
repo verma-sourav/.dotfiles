@@ -4,7 +4,6 @@ set -euo pipefail
 
 SSH_DIRECTORY="$HOME/.ssh"
 SSH_CONFIG="$SSH_DIRECTORY/config"
-PRESET=""
 KEY_TYPE="ed25519"
 KEY_FILE="$SSH_DIRECTORY/id_$KEY_TYPE"
 COMMENT=""
@@ -18,12 +17,12 @@ print_usage() {
     echo "  -h, --help           Print this help messsage"
     echo "  -c, --comment string Set a custom comment to add to the SSH key"
     echo "  -f, --file string    Set a custom location to write the SSH key to"
-    echo "  -g, --github         Shortcut to generate a key for GitHub"
-    echo
-    echo "GitHub Preset:"
-    echo "  Using the -g or --github flag configures the script to quickly generate a key for GitHub."
-    echo "  * The current git email (git config user.email) will be used as a comment for the key"
-    echo "  * An entry for GitHub will be added to your SSH config file"
+}
+
+handle_missing_arg() {
+    echo "Missing argument: $1"
+    print_usage
+    exit 1
 }
 
 parse_arguments() {
@@ -35,18 +34,16 @@ parse_arguments() {
             ;;
         -c | --comment)
             shift
+            if [[ $# -eq 0 ]]; then handle_missing_arg "comment"; fi
             COMMENT="$1"
             ;;
         -f | --file)
             shift
+            if [[ $# -eq 0 ]]; then handle_missing_arg "file"; fi
             KEY_FILE="$1"
             ;;
-        -g | --github)
-            PRESET="github"
-            COMMENT=$(git config user.email)
-            ;;
         *)
-            echo "Unknown flag: $1"
+            echo "Unknown argument: $1"
             print_usage
             exit 1
             ;;
@@ -55,47 +52,54 @@ parse_arguments() {
     done
 }
 
-confirm() {
-    # If $1 is provided, use that. Otherwise use a default.
-    local prompt="${1:-Are you sure?}"
-    read -r -p "$prompt [y/N] " response
-    case "$response" in
-        [yY][eE][sS]|[yY])
-            return 0
-            ;;
-        *)
-            return 1
-            ;;
-    esac
-}
-
 parse_arguments "$@"
 
 echo "Environment:"
-echo "    PRESET: $PRESET"
 echo "  KEY_TYPE: $KEY_TYPE"
 echo "  KEY_FILE: $KEY_FILE"
 echo "   COMMENT: $COMMENT"
 echo
 
-if ! confirm "Continue?"; then
+if ! gum confirm "Continue?"; then
     echo "Exiting..."
     exit 1
 fi
 
 echo "Generating the SSH key..."
 ssh-keygen -t "$KEY_TYPE" -C "$COMMENT" -f "$KEY_FILE"
+
 echo "Adding the key to the agent..."
 eval "$(ssh-agent -s)"
 ssh-add "$KEY_FILE"
 
+WILDCARD_CONFIG=$(cat <<EOF
+Host *
+    AddKeysToAgent yes
+    IdentityFile $KEY_FILE
+EOF
+)
 
-if [ "$PRESET" == "github" ]; then
-    echo "Adding an SSH config entry for GitHub"
-    {
-        echo "Host github.com"
-        echo "    User git"
-        echo "    HostName github.com"
-        echo "    IdentityFile $KEY_FILE"
-    } >> "$SSH_CONFIG"
+if [[ "$(uname -s)" == "Darwin" ]]; then
+    WILDCARD_CONFIG+=$'\n    UseKeychain yes'
+fi
+
+echo "Generated wildcard config:"
+echo "$WILDCARD_CONFIG"
+echo
+if gum confirm "Add the wildcard config to SSH?"; then
+    echo "$WILDCARD_CONFIG" >> "$SSH_CONFIG"
+fi
+
+GITHUB_CONFIG=$(cat <<EOF
+Host github.com
+    User git
+    HostName github.com
+EOF
+)
+
+echo "Generated GitHub config:"
+echo "$GITHUB_CONFIG"
+echo
+if gum confirm "Add the GitHub config to SSH?"; then
+    echo "$GITHUB_CONFIG" >> "$SSH_CONFIG"
 fi
