@@ -25,7 +25,7 @@ run_dotbot() {
 # also load the profile just in case the problem above happens.
 setup_profiles() {
     local cmd="source '$BASE_DIR/fish/profile'"
-    local shell_configs=("$HOME/.bash_profile" "$HOME/.zprofile")
+    local shell_configs=("$HOME/.bash_profile" "$HOME/.zprofile" "$HOME/.profile")
     for config in "${shell_configs[@]}"; do
         if [[ -f "$config" ]] && grep -q "$cmd" "$config"; then
             log "Source command has already been added to '$config'"
