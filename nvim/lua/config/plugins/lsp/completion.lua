@@ -20,7 +20,7 @@ function M.setup()
 
       experimental = {
          native_menu = false,
-         ghost_text = true,
+         ghost_text = false,
       },
 
       formatting = {
