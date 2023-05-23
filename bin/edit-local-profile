@@ -5,4 +5,9 @@ if [[ -z "$DOTS_LOCAL_PROFILE" ]]; then
     exit 1
 fi
 
+parent_dir="$(dirname "$DOTS_LOCAL_PROFILE")"
+if [[ ! -d "$parent_dir" ]]; then
+    mkdir -p "$parent_dir"
+fi
+
 "${EDITOR:-vi}" "$DOTS_LOCAL_PROFILE"
