@@ -46,6 +46,7 @@ install_go_programs() {
     log "Installing Go tools..."
     go install golang.org/x/tools/cmd/goimports@latest
     go install github.com/cdevoogd/git-branches@master
+    go install github.com/cdevoogd/notify@master
 }
 
 main() {
