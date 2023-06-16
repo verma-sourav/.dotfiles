@@ -16,6 +16,10 @@
       force: true
 
 - link:
+    # I'm not going to link the entire espanso directory so that I can add additional matches
+    # into the match directory on work machines.
+    ~/.config/espanso/config: espanso/config
+    ~/.config/espanso/match/base.yml: espanso/match/base.yml
     ~/.config/fish/config.fish: fish/config.fish
     ~/.config/fish/functions: fish/functions
     ~/.config/fish/themes: fish/themes
