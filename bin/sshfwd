@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# SSH agent forwarding on demand. I just want to clone from my VM okay?
+ssh -o "ForwardAgent yes" "$@"

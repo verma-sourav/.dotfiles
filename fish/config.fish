@@ -28,4 +28,5 @@ if type -q exa
     alias lla="exa --group-directories-first --long --all"
 end
 
+ensure_ssh_agent
 starship init fish | source
