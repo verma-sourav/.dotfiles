@@ -2,9 +2,22 @@
     path = author.gitconfig
 
 [alias]
-    unstage = restore --staged
+    aliases = config --get-regex 'alias*'
+    amend = commit --amend
     desc = branch --edit-description
+    hash = rev-parse --short HEAD
+    last = log -1 HEAD --stat
+    ll = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %C(bold blue)%an%Creset %s %Cgreen(%cr)' --abbrev-commit --date=relative
+    lol = log --graph --decorate --pretty=oneline --abbrev-commit
+    lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+    nuke = reset --hard HEAD^
+    rm-untracked = clean -df
     sm = submodule
+    ss = status -sb
+    test-merge = "!f(){ git merge --no-commit --no-ff \"$1\"; git merge --abort; echo 'Merge aborted'; }; f"
+    uncommit = reset --soft HEAD^
+    unstage = restore --staged
+    what-changed = "!f(){ git log -S\"$1\" \"$2\"; }; f"
 
 [core]
     editor = nvim

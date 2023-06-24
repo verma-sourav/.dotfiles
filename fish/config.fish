@@ -18,7 +18,7 @@ alias e="$EDITOR"
 alias dots="cd $DOTS"
 
 alias gb="git branches"
-alias gs="git status"
+alias gs="git ss"
 alias gc="git commit"
 
 if type -q exa
