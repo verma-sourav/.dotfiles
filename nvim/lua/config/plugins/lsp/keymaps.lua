@@ -1,6 +1,7 @@
-local wk = require("which-key")
-
 local M = {}
+
+local wk = require("which-key")
+local util = require("util")
 
 function M.setup(client, bufnr)
    local opts = { noremap = true, silent = true, buffer = bufnr }
@@ -8,7 +9,6 @@ function M.setup(client, bufnr)
    local keymap = {
       c = {
          name = "+code",
-         r = { vim.lsp.buf.rename, "Rename" },
          a = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" },
          d = { "<cmd>lua vim.diagnostic.open_float()<CR>", "Line Diagnostics" },
          l = {
@@ -34,10 +34,6 @@ function M.setup(client, bufnr)
       },
    }
 
-   if not client.server_capabilities.renameProvider then
-      keymap.c.r = nil
-   end
-
    local keymap_visual = {
       c = {
          name = "+code",
@@ -45,30 +41,21 @@ function M.setup(client, bufnr)
       },
    }
 
-   vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-   vim.keymap.set("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
-   vim.keymap.set("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
-   vim.keymap.set("n", "[e", "<cmd>lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR})<CR>", opts)
-   vim.keymap.set("n", "]e", "<cmd>lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR})<CR>", opts)
-   vim.keymap.set(
-      "n",
-      "[w",
-      "<cmd>lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.WARNING})<CR>",
-      opts
-   )
-   vim.keymap.set(
-      "n",
-      "]w",
-      "<cmd>lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.WARNING})<CR>",
-      opts
-   )
-
-   -- Set some keybinds conditional on server capabilities
    if client.server_capabilities.documentFormatting then
       keymap.c.f = { "<cmd>lua vim.lsp.buf.formatting()<CR>", "Format Document" }
-   elseif client.server_capabilities.documentRangeFormatting then
+   end
+
+   if client.server_capabilities.documentRangeFormatting then
       keymap_visual.c.f = { "<cmd>lua vim.lsp.buf.range_formatting()<CR>", "Format Range" }
    end
+
+   if client.server_capabilities.renameProvider then
+      keymap.c.r = { vim.lsp.buf.rename, "Rename" }
+   end
+
+   util.nmap("K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+   util.nmap("[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
+   util.nmap("]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
 
    wk.register(keymap, { buffer = bufnr, prefix = "<leader>" })
    wk.register(keymap_visual, { buffer = bufnr, prefix = "<leader>", mode = "v" })

@@ -23,9 +23,7 @@ if not installed() then
 end
 
 local options = {
-   change_detection = {
-      notify = false,
-   },
+   change_detection = { notify = false },
    performance = {
       rtp = {
          disabled_plugins = {

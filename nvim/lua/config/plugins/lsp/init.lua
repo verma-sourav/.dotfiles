@@ -1,13 +1,11 @@
 local M = {
    "neovim/nvim-lspconfig",
-   name = "lsp",
    event = "BufReadPre",
    dependencies = {
       "jose-elias-alvarez/null-ls.nvim",
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "jay-babu/mason-null-ls.nvim",
-      "ray-x/lsp_signature.nvim",
       {
          "hrsh7th/nvim-cmp",
          dependencies = {
@@ -28,25 +26,30 @@ local function import(pkg)
    return require("config.plugins.lsp." .. pkg)
 end
 
-function M.config()
-   import("completion").setup()
-   import("tools").setup_mason_lsp()
+-- Currently clangd uses utf-8, while null-ls formatters use utf-16. Neovim cannot support multiple
+-- offset encodings in the same file like that, so it will throw errors if we don't do this.
+-- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/428
+local function get_clang_capabilities()
+   local cap = require("cmp_nvim_lsp").default_capabilities()
+   cap.offsetEncoding = { "utf-16" }
+   return cap
+end
 
-   -- nvim-cmp-lsp needs to be a client of LSPs to provde completion
-   local default_capabilities = require("cmp_nvim_lsp").default_capabilities()
+local function merge_tables(base, addl)
+   return vim.tbl_deep_extend("force", {}, base, addl or {})
+end
 
-   -- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/428
-   -- This encoding forces the client to use utf-16 offset encodings. Currently clangd uses utf-8,
-   -- while null-ls formatters use utf-16. Neovim cannot support multiple offset encodings in the
-   -- same file like that, so it will throw errors if we don't do this to clangd.
-   local utf_16_capabilities = default_capabilities
-   utf_16_capabilities.offsetEncoding = { "utf-16" }
+local default_on_attach = function(client, bufnr)
+   import("formatting").setup(client, bufnr)
+   import("keymaps").setup(client, bufnr)
+end
 
-   local servers = {
+local function setup_language_servers()
+   local language_servers = {
       ansiblels = {},
       bashls = {},
       clangd = {
-         capabilities = utf_16_capabilities,
+         capabilities = get_clang_capabilities(),
       },
       dockerls = {},
       gopls = {},
@@ -64,23 +67,49 @@ function M.config()
       },
    }
 
-   local options = {
-      on_attach = function(client, bufnr)
-         import("formatting").setup(client, bufnr)
-         import("keymaps").setup(client, bufnr)
-         import("lsp-signature").setup(bufnr)
-      end,
-
-      capabilities = default_capabilities,
+   local default_options = {
+      capabilities = require("cmp_nvim_lsp").default_capabilities(),
+      on_attach = default_on_attach,
    }
 
    local lspconfig = require("lspconfig")
-   for server, opts in pairs(servers) do
-      opts = vim.tbl_deep_extend("force", {}, options, opts or {})
+   for server, custom_options in pairs(language_servers) do
+      local opts = merge_tables(default_options, custom_options)
       lspconfig[server].setup(opts)
    end
+end
 
-   import("tools").setup_null_ls(options)
+local function setup_formatters()
+   local nls = require("null-ls")
+   local formatters = nls.builtins.formatting
+
+   local sources = {
+      formatters.black.with({ extra_args = { "--fast" } }),
+      formatters.goimports,
+      formatters.stylua,
+   }
+
+   if require("util").executable("clang-format-10") then
+      table.insert(sources, formatters.clang_format.with({ command = "clang-format-10" }))
+   end
+
+   nls.setup({
+      on_attach = default_on_attach,
+      sources = sources,
+   })
+
+   require("mason-null-ls").setup({
+      ensure_installed = nil,
+      automatic_installation = true,
+   })
+end
+
+function M.config()
+   import("completion").setup()
+   require("mason").setup()
+   require("mason-lspconfig").setup({ automatic_installation = true })
+   setup_language_servers()
+   setup_formatters()
 end
 
 return M

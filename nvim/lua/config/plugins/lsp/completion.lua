@@ -18,11 +18,6 @@ function M.setup()
          ["<Tab>"] = cmp.mapping.confirm({ select = true }),
       }),
 
-      experimental = {
-         native_menu = false,
-         ghost_text = false,
-      },
-
       formatting = {
          format = lspkind.cmp_format({
             with_text = true,
