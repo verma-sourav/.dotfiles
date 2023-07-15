@@ -13,11 +13,25 @@
     nuke = reset --hard HEAD^
     rm-untracked = clean -df
     sm = submodule
-    ss = status -sb
+    ss = "!f(){ git -c color.status=always status | grep -v 'use \".*\"'; }; f"
     test-merge = "!f(){ git merge --no-commit --no-ff \"$1\"; git merge --abort; echo 'Merge aborted'; }; f"
     uncommit = reset --soft HEAD^
     unstage = restore --staged
     what-changed = "!f(){ git log -S\"$1\" \"$2\"; }; f"
+
+[color]
+    ui = true
+
+[color "status"]
+    header = normal
+    branch = green
+    nobranch = normal
+    localBranch = green
+    remoteBranch = green
+    added = cyan
+    changed = yellow
+    untracked = red italic dim
+    unmerged = magenta
 
 [core]
     editor = nvim
