@@ -23,6 +23,4 @@
     ~/.config/fish/themes: fish/themes
     ~/.config/git/config: git/main.gitconfig
     ~/.config/git/author.gitconfig: git/author.gitconfig
-    ~/.config/kitty: kitty
     ~/.config/nvim: nvim
-    ~/.config/wezterm/wezterm.lua: wezterm/wezterm.lua
