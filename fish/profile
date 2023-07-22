@@ -30,7 +30,7 @@ export DOTS_LOCAL_CONFIG="$config_dir/config.fish"
 export EDITOR=nvim
 export GOPATH="$HOME/.local/share/go"
 export STARSHIP_CONFIG="$DOTS/starship/config.toml"
-export PATH="$DOTS/bin:$GOPATH/bin:$PATH"
+export PATH="$DOTS/bin:$GOPATH/bin:$HOME/.local/bin:$PATH"
 
 # These variables are from `brew shellenv`
 case $(uname) in
