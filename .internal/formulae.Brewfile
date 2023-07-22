@@ -1,22 +1,27 @@
-tap "homebrew/services"
-
-brew "bat"
-brew "curl"
-brew "exa"
-brew "fd"
-brew "fish"
-brew "gh"
+# Basic tools
 brew "git"
+brew "less"
+brew "python3"
+brew "wget"
+
+# Shell
+brew "fish"
+brew "starship"
+
+# Neovim + plugin dependencies
+brew "neovim"
+brew "fd"           # Optional finder dependency for telescope
+brew "ripgrep"      # Suggested dependency for telescope (needed for some grep operations)
+brew "shellcheck"   # BashLS should automatically lint with shellcheck when installed
+brew "xsel"         # Linux clipboard support
+
+# Dotfiles (including scripts in bin) dependencies
 brew "go"
 brew "gum"
+
+# Extra nice-to-have tools
+brew "bat"
+brew "exa"
+brew "glow"
 brew "jq"
-brew "less"
-brew "neovim"
-brew "node"
-brew "python@3.10"
-brew "ripgrep"
-brew "shellcheck"
-brew "starship"
-brew "virtualenv"
-brew "wget"
-brew "xsel" # Linux clipboard handler that is required for neovim to use the clipboard
+brew "yq"

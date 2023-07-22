@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+
+
+SHOW_DIFF="false"
+SEARCH_ARGUMENT="-S"
+SEARCH_STRING=""
+FILE=""
+
+print_usage() {
+    echo "Usage: $(basename "$0") [OPTIONS] SEARCH_STRING FILE"
+    echo
+    echo "Search for commits that added or deleted a string"
+    echo
+    echo "Options:"
+    echo "  -h, --help      Print this help messsage"
+    echo "  -d, --diff      Also display the diff from the commits that made changes (i.e. use git log -c)"
+    echo "  -r, --regex     Search using a regex instead of a literal string (i.e. use -G instead of -S)"
+}
+
+handle_missing_arg() {
+    echo "Missing argument: $1"
+    print_usage
+    exit 1
+}
+
+parse_arguments() {
+    while [ $# -ne 0 ] && [ "$1" != "" ]; do
+        case $1 in
+        -h | --help)
+            print_usage
+            exit 0
+            ;;
+        -d | --diff)
+            SHOW_DIFF="true"
+            ;;
+        -r | --regex)
+            SEARCH_ARGUMENT="-G"
+            ;;
+        -*)
+            echo "Unknown argument: $1"
+            print_usage
+            exit 1
+            ;;
+        *)
+            if [[ -z "$SEARCH_STRING" ]]; then
+                SEARCH_STRING="$1"
+            elif [[ -z "$FILE" ]]; then
+                FILE="$1"
+            else
+                echo "Too many positional arguments were provided"
+                print_usage
+                exit 1
+            fi
+        esac
+        shift
+    done
+
+    if [[ -z "$SEARCH_STRING" ]]; then
+        echo "No search string was provided"
+        print_usage
+        exit 1
+    fi
+
+    if [[ -z "$FILE" ]]; then
+        echo "No file was provided"
+        print_usage
+        exit 1
+    fi
+}
+
+main() {
+    parse_arguments "$@"
+
+    cmd=("git" "log" "$SEARCH_ARGUMENT" "$SEARCH_STRING")
+    if [[ "$SHOW_DIFF" == "true" ]]; then
+        cmd+=("-c")
+    fi
+
+    "${cmd[@]}"
+}
+
+main "$@"

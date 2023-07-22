@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+if (( $# != 1 )); then
+    echo "A single branch name is required as an argument"
+    exit 1
+fi
+
+git merge --no-commit --no-ff "$1"
+git merge --abort
+echo 'Merge aborted'

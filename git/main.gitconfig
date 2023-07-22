@@ -2,7 +2,6 @@
     path = author.gitconfig
 
 [alias]
-    aliases = config --get-regex 'alias*'
     amend = commit --amend
     desc = branch --edit-description
     hash = rev-parse --short HEAD
@@ -14,10 +13,8 @@
     rm-untracked = clean -df
     sm = submodule
     ss = "!f(){ git -c color.status=always status | grep -v 'use \".*\"'; }; f"
-    test-merge = "!f(){ git merge --no-commit --no-ff \"$1\"; git merge --abort; echo 'Merge aborted'; }; f"
     uncommit = reset --soft HEAD^
     unstage = restore --staged
-    what-changed = "!f(){ git log -S\"$1\" \"$2\"; }; f"
 
 [color]
     ui = true

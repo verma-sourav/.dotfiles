@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+RESET="\033[0m"
+BOLD="\033[1m"
+UNDERLINE="\033[4m"
+CYAN="\033[0;36m"
+
+print_header() {
+    echo
+    echo -e "${CYAN}${BOLD}${UNDERLINE}${1}${RESET}"
+}
+
+print_header "CUSTOM SCRIPTS"
+for file in "$SCRIPT_DIR"/git-*; do
+    script_name=$(basename "$file")
+    script_command="${script_name#git-}"
+    echo "$script_command"
+done
+
+print_header "CONFIG ALIASES"
+while read -r alias; do
+    alias_name=$(echo "$alias" | cut -d ' ' -f 1)
+    alias_name="${alias_name#alias.}"
+    alias_command=$(echo "$alias" | cut -d ' ' -f 1 --complement)
+    echo  "$alias_name: $alias_command"
+done < <(git config --get-regex '^alias\.')

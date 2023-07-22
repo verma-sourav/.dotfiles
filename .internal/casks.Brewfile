@@ -1,8 +1,6 @@
 cask "cdevoogd/tap/font-akoni-nerd-font"
 cask "docker"
-cask "insomnia"
 cask "iterm2"
-cask "mos"
 cask "raycast"
 cask "spotify"
 cask "visual-studio-code"

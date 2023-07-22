@@ -26,9 +26,13 @@ ensure_brew() {
     fi
 }
 
+install_brew_bundle() {
+    brew bundle install --no-lock --no-upgrade --file="$1"
+}
+
 install_formulae() {
     log "Installing Homebrew formulae..."
-    brew bundle install --no-lock --file="$FORMULAE_BREWFILE"
+    install_brew_bundle "$FORMULAE_BREWFILE"
 }
 
 install_casks() {
@@ -38,7 +42,7 @@ install_casks() {
     fi
 
     log "Installing Homebrew casks..."
-    brew bundle install --no-lock --file="$CASKS_BREWFILE"
+    install_brew_bundle "$CASKS_BREWFILE"
 }
 
 install_go_programs() {
