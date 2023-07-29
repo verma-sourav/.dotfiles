@@ -1,8 +1,42 @@
-#!/usr/bin/env bash
+#!/usr/bin/env python3
 
-if (( $# != 1 )); then
-    echo "A single decimal number is required as an argument"
-    exit 1
-fi
+import argparse
 
-python3 -c "print(hex($1))"
+
+def check_positive(value):
+    try:
+        value = int(value)
+    except ValueError:
+        raise Exception("{} is not an integer".format(value))
+    if value <= 0:
+        raise argparse.ArgumentTypeError(f"{value} is not a positive integer")
+    return value
+
+
+def parse_arguments() -> argparse.Namespace:
+    p = argparse.ArgumentParser()
+    p.add_argument(
+        "input",
+        type=int,
+        help="The decimal number to convert",
+    )
+    p.add_argument(
+        "-p",
+        "--padding",
+        type=check_positive,
+        default=8,
+        help="Number of 0s to pad the output with",
+    )
+
+    return p.parse_args()
+
+
+def main():
+    args = parse_arguments()
+    # Add 2 to account for the 0x at the beginning
+    padding = args.padding + 2
+    print(f"{args.input:#0{padding}x}")
+
+
+if __name__ == "__main__":
+    main()
