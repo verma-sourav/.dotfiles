@@ -8,8 +8,14 @@ CASKS_BREWFILE="$SCRIPT_DIR/../casks.Brewfile"
 source "$SCRIPT_DIR/helpers.sh"
 
 ensure_brew() {
-    if command -v brew > /dev/null; then
+    if cmd_exists brew; then
         echo "Homebrew is already installed"
+        return
+    fi
+
+    if ! cmd_exists curl; then
+        echo "curl is required as a prerequisite to install homebrew, but it's not installed"
+        echo "Please install it using your system's package manager and try again"
         return
     fi
 
