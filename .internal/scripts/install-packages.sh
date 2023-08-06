@@ -55,8 +55,6 @@ install_go_programs() {
     # Go should be installed as a homebrew formula
     log "Installing Go tools..."
     go install golang.org/x/tools/cmd/goimports@latest
-    go install github.com/cdevoogd/git-branches@master
-    go install github.com/cdevoogd/notify@master
 }
 
 main() {

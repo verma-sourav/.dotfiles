@@ -21,6 +21,8 @@ brew "gum"
 
 # Extra nice-to-have tools
 brew "bat"
+brew "cdevoogd/tap/notify"
+brew "cdevoogd/tap/git-branches"
 brew "exa"
 brew "gh"
 brew "glow"
