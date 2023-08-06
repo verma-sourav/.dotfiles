@@ -22,6 +22,7 @@ brew "gum"
 # Extra nice-to-have tools
 brew "bat"
 brew "exa"
+brew "gh"
 brew "glow"
 brew "jq"
 brew "yq"
