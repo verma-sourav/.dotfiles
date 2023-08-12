@@ -1,3 +1,8 @@
+# Personal tools
+tap "cdevoogd/tap"
+brew "cdevoogd/tap/notify"
+brew "cdevoogd/tap/git-branches"
+
 # Basic tools
 brew "git"
 brew "less"
@@ -21,8 +26,6 @@ brew "gum"
 
 # Extra nice-to-have tools
 brew "bat"
-brew "cdevoogd/tap/notify"
-brew "cdevoogd/tap/git-branches"
 brew "exa"
 brew "gh"
 brew "glow"
