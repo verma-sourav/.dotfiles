@@ -47,9 +47,19 @@ function M.config()
          },
          git_status = {
             symbols = {
-               renamed = "󰁕",
-               unstaged = "󰄱",
+               -- Change type
+               added = "✚",
+               deleted = "✖",
+               modified = "",
+               renamed = "",
+               -- Status type
+               untracked = "",
+               ignored = "",
+               unstaged = "",
+               staged = "",
+               conflict = "",
             },
+            align = "right",
          },
       },
       document_symbols = {
