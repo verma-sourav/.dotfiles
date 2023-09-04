@@ -53,9 +53,15 @@ local mini = {
       -- https://github.com/echasnovski/mini.nvim
       enable_module("comment")
       enable_module("move")
-      enable_module("pairs")
       enable_module("trailspace")
    end,
+}
+
+local ultimate_autopairs = {
+   "altermo/ultimate-autopair.nvim",
+   event = { "InsertEnter", "CmdlineEnter" },
+   branch = "v0.6",
+   opts = {},
 }
 
 return {
@@ -65,4 +71,5 @@ return {
    gitsigns,
    lualine,
    mini,
+   ultimate_autopairs,
 }
