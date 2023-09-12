@@ -21,11 +21,11 @@ alias gb="git branches"
 alias gs="git ss"
 alias gc="git commit"
 
-if type -q exa
-    alias ls="exa --group-directories-first"
-    alias la="exa --group-directories-first --all"
-    alias ll="exa --group-directories-first --long"
-    alias lla="exa --group-directories-first --long --all"
+if type -q eza
+    alias ls="eza --group-directories-first"
+    alias la="eza --group-directories-first --all"
+    alias ll="eza --group-directories-first --long"
+    alias lla="eza --group-directories-first --long --all"
 end
 
 ensure_ssh_agent
