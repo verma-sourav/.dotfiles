@@ -1,4 +1,5 @@
 # https://espanso.org/docs/configuration/options/
 toggle_key: OFF
 search_shortcut: ALT+SHIFT+SPACE
-search_trigger: off
+search_trigger: :search
+show_notifications: false
