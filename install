@@ -46,6 +46,9 @@ main() {
 
     log "Installing packages"
     "$SCRIPTS_DIR/install-packages.sh"
+    
+    log "Installing neovim plugins"
+    "$SCRIPTS_DIR/install-nvim-plugins.sh"
 
     log "Setting up the shell"
     "$SCRIPTS_DIR/configure-shell.sh"
