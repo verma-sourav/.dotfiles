@@ -6,7 +6,7 @@ brew "cdevoogd/tap/git-branches"
 # Basic tools
 brew "git"
 brew "less"
-brew "python3"
+brew "python3" unless system "python3 --version > /dev/null"
 brew "wget"
 
 # Shell
