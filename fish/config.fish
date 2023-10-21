@@ -17,9 +17,11 @@ end
 alias e="$EDITOR"
 alias dots="cd $DOTS"
 
-alias gb="git branches"
 alias gs="git ss"
 alias gc="git commit"
+alias gb="git branches"
+alias gbd="git branches delete"
+alias gbc="git branches checkout"
 
 if type -q eza
     alias ls="eza --group-directories-first"
