@@ -10,6 +10,7 @@
     lol = log --graph --decorate --pretty=oneline --abbrev-commit
     lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
     nuke = reset --hard HEAD^
+    push-origin = "!f(){ git push --set-upstream origin \"$(git branch --show-current)\"; }; f"
     rm-untracked = clean -df
     sm = submodule
     ss = "!f(){ git -c color.status=always status | grep -v 'use \".*\"'; }; f"
