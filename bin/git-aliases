@@ -23,6 +23,6 @@ print_header "CONFIG ALIASES"
 while read -r alias; do
     alias_name=$(echo "$alias" | cut -d ' ' -f 1)
     alias_name="${alias_name#alias.}"
-    alias_command=$(echo "$alias" | cut -d ' ' -f 1 --complement)
+    alias_command=$(echo "$alias" | cut -d ' ' -f 2-)
     echo  "$alias_name: $alias_command"
 done < <(git config --get-regex '^alias\.')
