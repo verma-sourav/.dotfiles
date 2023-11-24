@@ -7,16 +7,6 @@ SCRIPTS_DIR="$BASE_DIR/.internal/scripts"
 set +u; source "$BASE_DIR/fish/profile"; set -u
 source "$SCRIPTS_DIR/helpers.sh"
 
-# Use dotbot to clean dead links and symlink the dotfiles.
-run_dotbot() {
-    local dotbot_dir=".internal/dotbot"
-    local dotbot_bin="$BASE_DIR/$dotbot_dir/bin/dotbot"
-    local dotbot_config="$BASE_DIR/.internal/dotbot.yaml"
-
-    git -C "$dotbot_dir" submodule sync --quiet --recursive
-    "$dotbot_bin" --base-directory "$BASE_DIR" --config-file "$dotbot_config"
-}
-
 # On macOS and Linux I've had issues where apps that are launched from some form of dock or launcher
 # (e.g. spotlight) use the system's default login shell (zsh, bash) instead of fish even if fish is
 # configured as the login shell. When the environment is set up in config.fish, this can cause the
@@ -46,7 +36,7 @@ main() {
 
     log "Installing packages"
     "$SCRIPTS_DIR/install-packages.sh"
-    
+
     log "Installing neovim plugins"
     "$SCRIPTS_DIR/install-nvim-plugins.sh"
 
@@ -60,8 +50,8 @@ main() {
     log "Downloading all git submodules"
     git submodule update --init --recursive
 
-    log "Running dotbot"
-    run_dotbot
+    log "Setting up symbolic links"
+    "$SCRIPTS_DIR/manage-symlinks.sh"
 
     log "Configuring other shells to load the custom profile"
     setup_profiles
