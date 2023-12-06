@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# catcmd - show the source of a command/program in the shell (if it's from a file)
+# usage: catcmd <command>
+
+if (( $# < 1 )); then
+    echo "Missing a command name"
+    echo "Usage: $(basename "$0") <command>"
+    exit 1
+fi
+
+if (( $# > 1 )); then
+    echo "Too many arguments, expected a single command name"
+    echo "Usage: $(basename "$0") <command>"
+    exit 1
+fi
+
+cmd="$1"
+cmd_path="$(command -v "$cmd")"
+
+if [[ -z "$cmd_path" ]]; then
+    echo "No file path was found for the command '$cmd'"
+    exit 1
+fi
+
+cat "$cmd_path"
