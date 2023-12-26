@@ -46,6 +46,7 @@ main() {
     create_link "$REPO_ROOT/git/author.gitconfig" "$HOME/.config/git/author.gitconfig"
     create_link "$REPO_ROOT/nvim" "$HOME/.config/nvim"
     create_link "$REPO_ROOT/tmux" "$HOME/.config/tmux"
+    create_link "$REPO_ROOT/wezterm" "$HOME/.config/wezterm"
 }
 
 main "$@"
