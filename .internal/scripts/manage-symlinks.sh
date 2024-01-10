@@ -26,7 +26,7 @@ create_link() {
     fi
 
     if [[ -e "$destination" ]]; then
-        echo "A file already exists at the source: $source"
+        echo "A file already exists at the destination: $destination"
         return 1
     fi
 
