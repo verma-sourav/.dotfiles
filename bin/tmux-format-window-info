@@ -1,0 +1,56 @@
+#!/usr/bin/env python3
+
+import argparse
+import os
+
+SHELLS = {"sh", "ash", "dash", "bash", "zsh", "fish"}
+SHOW_DIR_PROGRAMS = {"git", "vi", "vim", "nvim", "nano", "less"}
+
+
+def parse_arguments():
+    parser = argparse.ArgumentParser(
+        description="Output a formatted tmux window name using the current process and directory"
+    )
+    parser.add_argument(
+        "command",
+        type=str,
+        help="The current command being run in a pane or window (in tmux: #{pane_current_command})",
+    )
+    parser.add_argument(
+        "directory",
+        type=str,
+        help="The current directory that a pane or window is in (in tmux: #{pane_current_path})",
+    )
+    return parser.parse_args()
+
+
+def format_directory(directory):
+    home = os.getenv("HOME")
+    if home != "":
+        directory = directory.replace(home, "~")
+
+    parts = directory.split("/")
+    num_parts = len(parts)
+    if num_parts <= 3:
+        return directory
+
+    return f"…/{parts[-2]}/{parts[-1]}"
+
+
+def get_formatted_info(current_command, current_dir):
+    if current_command in SHELLS:
+        return format_directory(current_dir)
+    elif current_command in SHOW_DIR_PROGRAMS:
+        return f"{current_command}: {format_directory(current_dir)}"
+    else:
+        return current_command
+
+
+def main():
+    args = parse_arguments()
+    info = get_formatted_info(args.command, args.directory)
+    print(info)
+
+
+if __name__ == "__main__":
+    main()
