@@ -18,6 +18,11 @@ config.scrollback_lines = 10000
 config.show_tab_index_in_tab_bar = true
 config.window_close_confirmation = "NeverPrompt"
 
+-- Disabling Wayland here causes Wezterm to run using XWayland
+-- On Ubuntu w/ Wayland the terminal has a different-looking title bar and double clicking the
+-- title bar doesn't maximize the window. Swapping this fixes those issues.
+config.enable_wayland = false
+
 config.mouse_bindings = {
    -- Change the default click behavior so that it only selects
    -- text and doesn't open hyperlinks
