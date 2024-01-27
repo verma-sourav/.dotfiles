@@ -41,7 +41,7 @@ main() {
     "$SCRIPTS_DIR/configure-shell.sh"
 
     log "Setting up Git"
-    "$BASE_DIR/git/setup.sh"
+    "$SCRIPTS_DIR/configure-git.sh"
 
     cd "$BASE_DIR"
     log "Downloading all git submodules"
