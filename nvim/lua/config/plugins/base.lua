@@ -58,6 +58,20 @@ local mini = {
    end,
 }
 
+local oil = {
+   "stevearc/oil.nvim",
+   opts = {},
+   dependencies = {
+      "nvim-tree/nvim-web-devicons",
+   },
+   config = function()
+      require("oil").setup({
+         delete_to_trash = true,
+         lsp_rename_autosave = true,
+      })
+   end,
+}
+
 return {
    barbecue,
    catppuccin,
@@ -65,4 +79,5 @@ return {
    gitsigns,
    lualine,
    mini,
+   oil,
 }

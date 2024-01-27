@@ -53,6 +53,8 @@ function M.config()
       },
       f = {
          name = "+file",
+         e = { "<cmd>Oil<cr>", "Explorer" },
+         f = { "<cmd>Oil --float<cr>", "Floating Explorer" },
          r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
          n = { "<cmd>enew<cr>", "New File" },
       },
@@ -101,7 +103,6 @@ function M.config()
       },
       t = {
          name = "toggle",
-         f = { "<cmd>NeoTreeShowToggle<cr>", "File Tree" },
          n = {
             function()
                util.toggle("number")
