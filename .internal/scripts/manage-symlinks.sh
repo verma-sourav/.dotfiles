@@ -5,16 +5,19 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(realpath "$SCRIPT_DIR/../..")"
 
 cleanup_dead_symlinks() {
-    echo "Cleaning up dead symlinks in the home directory"
-    find -L "$HOME" -maxdepth 1 -type l -print -exec rm -- {} +
-    echo "Cleaning up dead symlinks in the ~/.config directory (recursive)"
-    find -L "$HOME/.config" -type l -print -exec rm -- {} +
+    if [[ -d "$HOME" ]]; then
+        echo "Cleaning up dead symlinks in the home directory"
+        find -L "$HOME" -maxdepth 1 -type l -print -exec rm -- {} +
+    fi
+    if [[ -d "$HOME/.config" ]]; then
+        echo "Cleaning up dead symlinks in the ~/.config directory (recursive)"
+        find -L "$HOME/.config" -type l -print -exec rm -- {} +
+    fi
 }
 
 create_link() {
     local source="$1"
     local destination="$2"
-
     if ! [[ -e "$source" ]]; then
         echo "No file exists at source: $source"
         return 1
@@ -28,6 +31,13 @@ create_link() {
     if [[ -e "$destination" ]]; then
         echo "A file already exists at the destination: $destination"
         return 1
+    fi
+
+    local destination_dir
+    destination_dir="$(dirname "$destination")"
+    if ! [[ -d "$destination_dir" ]]; then
+        echo "Creating parent directories for link destination: $destination"
+        mkdir -p "$destination_dir"
     fi
 
     echo "Creating link: $source -> $destination"
