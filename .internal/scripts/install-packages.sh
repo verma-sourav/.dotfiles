@@ -16,7 +16,7 @@ ensure_brew() {
     if ! cmd_exists curl; then
         echo "curl is required as a prerequisite to install homebrew, but it's not installed"
         echo "Please install it using your system's package manager and try again"
-        return
+        return 1
     fi
 
     # Homebrew needs sudo access on macOS, and I'm assuming there is someone installing the
