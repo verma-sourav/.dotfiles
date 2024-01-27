@@ -9,23 +9,22 @@ brew "less"
 brew "python3" unless system "python3 --version > /dev/null"
 brew "wget"
 
-# Shell
+# Dotfiles (including scripts in bin) dependencies
 brew "fish"
+brew "go"
+brew "gum"
 brew "starship"
 
 # Neovim + plugin dependencies
 brew "neovim"
-brew "fd"           # Optional finder dependency for telescope
-brew "ripgrep"      # Suggested dependency for telescope (needed for some grep operations)
-brew "shellcheck"   # BashLS should automatically lint with shellcheck when installed
-brew "xsel"         # Linux clipboard support
-
-# Dotfiles (including scripts in bin) dependencies
-brew "go"
-brew "gum"
+brew "fd"                   # Optional finder dependency for telescope
+brew "ripgrep"              # Suggested dependency for telescope (needed for some grep operations)
+brew "shellcheck"           # BashLS should automatically lint with shellcheck when installed
+brew "xsel" if OS.linux?    # Linux clipboard support
 
 # Extra nice-to-have tools
 brew "bat"
+brew "btop"
 brew "eza"
 brew "fzf"
 brew "gh"
