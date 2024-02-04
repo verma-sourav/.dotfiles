@@ -95,4 +95,8 @@ function M.executable(command)
    return vim.fn.executable(command) == 1
 end
 
+function M.merge_tables(base, addl)
+   return vim.tbl_deep_extend("force", {}, base, addl or {})
+end
+
 return M

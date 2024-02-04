@@ -1,2 +1,4 @@
-require("settings")
-require("plugins")
+require("config.settings")
+require("config.autocmds")
+require("config.keymaps")
+require("config.lazy")
