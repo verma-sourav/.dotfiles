@@ -28,6 +28,7 @@ end
 local nmap = function(key, cmd, opts) map("n", key, cmd, opts, {}) end
 local xmap = function(key, cmd, opts) map("x", key, cmd, opts, {}) end
 local omap = function(key, cmd, opts) map("o", key, cmd, opts, {}) end
+local imap = function(key, cmd, opts) map("i", key, cmd, opts, {}) end
 
 -- Faster buffer navigation
 nmap("<C-h>", "<C-w>h")
@@ -127,3 +128,4 @@ nmap("<leader>cgi", "<cmd>Telescope lsp_implementations<cr>", { desc = "go to im
 nmap("<leader>ca", vim.lsp.buf.code_action, { desc = "code action" })
 nmap("<leader>cr", vim.lsp.buf.rename, { desc = "rename symbol" })
 nmap("<leader>cs", vim.lsp.buf.signature_help, { desc = "signature help" })
+imap("<A-s>", vim.lsp.buf.signature_help, { desc = "signature help" })
