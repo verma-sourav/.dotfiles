@@ -28,9 +28,37 @@ local dressing = {
    config = function() require("dressing").setup() end,
 }
 
+local gitlinker = {
+   "linrongbin16/gitlinker.nvim",
+   config = function() require("gitlinker").setup() end,
+}
+
 local gitsigns = {
    "lewis6991/gitsigns.nvim",
    config = function() require("gitsigns").setup() end,
+}
+
+local harpoon = {
+   "ThePrimeagen/harpoon",
+   branch = "harpoon2",
+   dependencies = { "nvim-lua/plenary.nvim" },
+   config = function()
+      local harpoon = require("harpoon")
+
+      harpoon:setup()
+      vim.keymap.set(
+         "n",
+         "<leader>a",
+         function() harpoon:list():append() end,
+         { desc = "harpoon: append file to list" }
+      )
+      vim.keymap.set(
+         "n",
+         "<C-e>",
+         function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
+         { desc = "harpoon: open quick menu" }
+      )
+   end,
 }
 
 local lualine = {
@@ -96,12 +124,6 @@ local telescope = {
    end,
 }
 
-local toggleterm = {
-   "akinsho/toggleterm.nvim",
-   version = "*",
-   config = function() require("toggleterm").setup() end,
-}
-
 local which_key = {
    "folke/which-key.nvim",
    config = function()
@@ -126,9 +148,17 @@ local which_key = {
       wk.register({
          ["<leader>"] = {
             b = { name = "buffer" },
-            c = { name = "code", g = { name = "goto" } },
+            c = {
+               name = "code",
+               g = { name = "goto" },
+            },
             f = { name = "files" },
-            g = { name = "git" },
+            g = {
+               name = "git",
+               b = { name = "buffer" },
+               h = { name = "hunk" },
+               l = { name = "line" },
+            },
             s = { name = "search" },
             t = { name = "toggle" },
             x = { name = "errors/diagnostics" },
@@ -141,11 +171,12 @@ return {
    barbecue,
    catppuccin,
    dressing,
+   gitlinker,
    gitsigns,
+   harpoon,
    lualine,
    mini,
    oil,
    telescope,
-   toggleterm,
    which_key,
 }

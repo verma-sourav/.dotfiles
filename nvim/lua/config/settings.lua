@@ -41,6 +41,12 @@ vim.opt.backup = false -- Don't create backups when overwriting files
 vim.opt.swapfile = false -- Disable use of a swap file
 vim.opt.undofile = true -- Automatically save undo history to a file
 
+-- Disable unneeded providers
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_node_provider = 0
+
 -- Ignore
 vim.opt.wildignore = {
    "deps",

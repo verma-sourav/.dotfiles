@@ -16,8 +16,8 @@ vim.g.mapleader = " "
 
 https://neovim.io/doc/user/lua-guide.html#lua-guide-mappings-set
 https://neovim.io/doc/user/lua.html#vim.keymap.set()
-]]
---
+"
+--]]
 
 -- Note: By default vim.keymap.set() behaves likes :noremap uses nonrecursive remaps
 local map = function(mode, key, cmd, opts, defaults)
@@ -56,7 +56,6 @@ omap("N", "'nN'[v:searchforward]", { expr = true })
 xmap(">", ">gv")
 xmap("<", "<gv")
 
-nmap("<leader>`", "<cmd>:e #<cr>", { desc = "switch to last buffer" })
 nmap("<leader>bs", "<cmd>Telescope buffers show_all_buffers=true<cr>", { desc = "switch buffer" })
 nmap("<leader>bd", "<cmd>Bdelete<CR>", { desc = "delete buffer" })
 
@@ -71,6 +70,20 @@ nmap("<leader>gC", "<cmd>Telescope git_bcommits<CR>", { desc = "view buffer comm
 nmap("<leader>gb", "<cmd>Telescope git_branches<CR>", { desc = "view branches" })
 nmap("<leader>gs", "<cmd>Telescope git_status<CR>", { desc = "view status" })
 nmap("<leader>gS", "<cmd>Telescope git_stash<CR>", { desc = "view stashes" })
+nmap("<leader>ghs", function() require("gitsigns").stage_hunk() end, { desc = "Gitsigns: Stage hunk" })
+nmap("<leader>ghr", function() require("gitsigns").reset_hunk() end, { desc = "Gitsigns: Reset hunk" })
+nmap("<leader>ghu", function() require("gitsigns").undo_stage_hunk() end, { desc = "Gitsigns: Undo stage hunk" })
+nmap("<leader>ghp", function() require("gitsigns").preview_hunk() end, { desc = "Gitsigns: Preview hunk" })
+nmap("<leader>ghd", function() require("gitsigns").diffthis() end, { desc = "Gitsigns: Diff this" })
+nmap("<leader>ght", function() require("gitsigns").toggle_deleted() end, { desc = "Gitsigns: Toggle deleted" })
+nmap("<leader>gbS", function() require("gitsigns").stage_buffer() end, { desc = "Gitsigns: Stage buffer" })
+nmap("<leader>gbR", function() require("gitsigns").reset_buffer() end, { desc = "Gitsigns: Reset buffer" })
+nmap("<leader>glb", function() require("gitsigns").blame_line({ full = true }) end, { desc = "Gitsigns: Blame hunk" })
+nmap(
+   "<leader>glt",
+   function() require("gitsigns").toggle_current_line_blame() end,
+   { desc = "Gitsigns: Toggle current line blame" }
+)
 
 -- s: search
 nmap("<leader>sr", "<cmd>Telescope resume<cr>", { desc = "resume search" })
@@ -92,6 +105,7 @@ nmap("<leader>sm", "<cmd>Telescope marks<cr>", { desc = "search marks" })
 nmap("<leader>sc", "<cmd>Telescope commands<cr>", { desc = "search commands" })
 nmap("<leader>sh", "<cmd>Telescope help_tags<cr>", { desc = "search help pages" })
 nmap("<leader>sm", "<cmd>Telescope man_pages<cr>", { desc = "search man pages" })
+nmap("<leader>sM", "<cmd>Telescope marks<cr>", { desc = "search marks" })
 nmap("<leader>sk", "<cmd>Telescope keymaps<cr>", { desc = "search keymaps" })
 nmap("<leader>so", "<cmd>Telescope vim_options<cr>", { desc = "search vim options" })
 nmap("<leader>su", "<cmd>Telescope undo<cr>", { desc = "search undo tree" })
@@ -106,10 +120,6 @@ nmap("<leader>tn", function() util.toggle("number") end, { desc = "toggle line n
 nmap("<leader>tr", function() util.toggle("relativenumber") end, { desc = "toggle relative line numbers" })
 nmap("<leader>ts", function() util.toggle("spell") end, { desc = "toggle spell checking" })
 nmap("<leader>tw", function() util.toggle("wrap") end, { desc = "toggle word wrap" })
-nmap("<leader>tt", "<cmd>ToggleTerm direction=float<CR>", { desc = "toggle floating terminal" })
-
--- Remap escape to the combo needed to help exit the ToggleTerm
-vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 
 -- code + LSP
 -- I used to do this only when an LSP attached to a buffer, but whatever. If I press on of these
@@ -129,3 +139,10 @@ nmap("<leader>ca", vim.lsp.buf.code_action, { desc = "code action" })
 nmap("<leader>cr", vim.lsp.buf.rename, { desc = "rename symbol" })
 nmap("<leader>cs", vim.lsp.buf.signature_help, { desc = "signature help" })
 imap("<A-s>", vim.lsp.buf.signature_help, { desc = "signature help" })
+
+-- Harpoon
+nmap("<leader>a", function() require("harpoon"):list():append() end, { desc = "harpoon: append file to list" })
+nmap("<C-e>", function()
+   local harpoon = require("harpoon")
+   harpoon.ui:toggle_quick_menu(harpoon:list())
+end, { desc = "harpoon: open quick menu" })
