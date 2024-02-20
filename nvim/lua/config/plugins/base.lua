@@ -23,6 +23,13 @@ local catppuccin = {
    end,
 }
 
+local floating_help = {
+   "nil70n/floating-help",
+   opts = {
+      border = "rounded",
+   },
+}
+
 local dressing = {
    "stevearc/dressing.nvim",
    config = function() require("dressing").setup() end,
@@ -171,6 +178,7 @@ return {
    barbecue,
    catppuccin,
    dressing,
+   floating_help,
    gitlinker,
    gitsigns,
    harpoon,
