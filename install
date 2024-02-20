@@ -50,6 +50,12 @@ main() {
     log "Setting up symbolic links"
     "$SCRIPTS_DIR/manage-symlinks.sh"
 
+    # This might be the first time we installed a theme for bat, in which case we need to rebuild
+    # it's cache for the theme to become usable. This doesn't take long, so I'm doing it on every
+    # run for now.
+    log "Rebuilding bat's cache"
+    bat cache --build
+
     log "Configuring other shells to load the custom profile"
     setup_profiles
 }
