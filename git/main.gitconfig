@@ -18,6 +18,10 @@
     uncommit = reset --soft HEAD^
     unstage = restore --staged
 
+[url "git@github.com:"]
+	insteadOf = "https://github.com/"
+    insteadOf = "gh:" # Lets you do: `git clone gh:cdevoogd/.dotfiles`
+
 [color]
     ui = true
 
@@ -40,7 +44,7 @@
     diffFilter = delta --color-only
 
 [merge]
-    conflictstyle = diff3
+    conflictStyle = zdiff3
 
 [diff]
     colorMoved = default
