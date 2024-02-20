@@ -60,7 +60,6 @@ main() {
     create_link "$REPO_ROOT/kitty" "$HOME/.config/kitty"
     create_link "$REPO_ROOT/nvim" "$HOME/.config/nvim"
     create_link "$REPO_ROOT/tmux" "$HOME/.config/tmux"
-    create_link "$REPO_ROOT/wezterm" "$HOME/.config/wezterm"
 }
 
 main "$@"
