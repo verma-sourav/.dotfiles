@@ -19,17 +19,17 @@ ensure_brew() {
         return 1
     fi
 
-    # Homebrew needs sudo access on macOS, and I'm assuming there is someone installing the
-    # dotfiles that can type in the password, so this is being run interactively.
-    log "Homebrew is not installed (or in your PATH) - Installing..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
     if on_linux; then
         # https://docs.brew.sh/Homebrew-on-Linux#requirements
         log "Installing Homebrew requirements for Linux"
         sudo apt-get update
         sudo apt-get install -y build-essential procps curl file git
     fi
+
+    # Homebrew needs sudo access on macOS, and I'm assuming there is someone installing the
+    # dotfiles that can type in the password, so this is being run interactively.
+    log "Homebrew is not installed (or in your PATH) - Installing..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 }
 
 install_brew_bundle() {
