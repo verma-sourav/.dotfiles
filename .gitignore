@@ -6,7 +6,5 @@
 !.gitattributes
 !.github
 
-!.internal
-
 # Repository-specific ignores
 git/author.gitconfig

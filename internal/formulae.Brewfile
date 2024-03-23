@@ -19,6 +19,7 @@ brew "starship"
 # Neovim + plugin dependencies
 brew "neovim"
 brew "fd"                   # Optional finder dependency for telescope
+brew "node"                 # NPM is needed by mason to install tools
 brew "ripgrep"              # Suggested dependency for telescope (needed for some grep operations)
 brew "shellcheck"           # BashLS should automatically lint with shellcheck when installed
 brew "xsel" if OS.linux?    # Linux clipboard support
