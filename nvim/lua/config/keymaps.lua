@@ -57,7 +57,12 @@ xmap(">", ">gv")
 xmap("<", "<gv")
 
 nmap("<leader>bs", "<cmd>Telescope buffers show_all_buffers=true<cr>", { desc = "switch buffer" })
-nmap("<leader>bd", "<cmd>Bdelete<CR>", { desc = "delete buffer" })
+nmap("<leader>bd", function() require("mini.bufremove").delete(0, false) end, { desc = "delete other buffers" })
+nmap("<leader>bo", "<Cmd>BufferLineCloseOthers<CR>", { desc = "delete other buffers" })
+nmap("<leader>br", "<Cmd>BufferLineCloseRight<CR>", { desc = "delete buffers to the right" })
+nmap("<leader>bl", "<Cmd>BufferLineCloseLeft<CR>", { desc = "delete buffers to the left" })
+nmap("<S-h>", "<Cmd>BufferLineCyclePrev<CR>", { desc = "previous buffer" })
+nmap("<S-l>", "<Cmd>BufferLineCycleNext<CR>", { desc = "next buffer" })
 
 -- f: files
 nmap(
