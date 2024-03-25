@@ -5,7 +5,7 @@ local barbecue = {
       "SmiteshP/nvim-navic",
       "nvim-tree/nvim-web-devicons",
    },
-   config = function() require("barbecue").setup() end,
+   opts = {},
 }
 
 local catppuccin = {
@@ -32,17 +32,17 @@ local floating_help = {
 
 local dressing = {
    "stevearc/dressing.nvim",
-   config = function() require("dressing").setup() end,
+   opts = {},
 }
 
 local gitlinker = {
    "linrongbin16/gitlinker.nvim",
-   config = function() require("gitlinker").setup() end,
+   opts = {},
 }
 
 local gitsigns = {
    "lewis6991/gitsigns.nvim",
-   config = function() require("gitsigns").setup() end,
+   opts = {},
 }
 
 local harpoon = {
@@ -73,7 +73,7 @@ local lualine = {
    dependencies = {
       "nvim-tree/nvim-web-devicons",
    },
-   config = function() require("lualine").setup() end,
+   opts = {},
 }
 
 local mini = {
@@ -81,7 +81,6 @@ local mini = {
    version = "*",
    config = function()
       local function enable_module(module, opts) require("mini." .. module).setup(opts) end
-
       enable_module("comment")
       enable_module("indentscope")
       enable_module("move")
@@ -90,18 +89,26 @@ local mini = {
    end,
 }
 
-local oil = {
-   "stevearc/oil.nvim",
-   opts = {},
+local neotree = {
+   "nvim-neo-tree/neo-tree.nvim",
+   branch = "v3.x",
    dependencies = {
+      "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
    },
-   config = function()
-      require("oil").setup({
-         delete_to_trash = true,
-         lsp_rename_autosave = true,
-      })
-   end,
+   opts = {
+      sort_case_insensitive = true,
+      use_libuv_file_watcher = true,
+      window = { position = "right" },
+      follow_current_file = { enabled = true },
+      sources = {
+         "filesystem",
+         "buffers",
+         "git_status",
+         "document_symbols",
+      },
+   },
 }
 
 local telescope = {
@@ -184,7 +191,7 @@ return {
    harpoon,
    lualine,
    mini,
-   oil,
+   neotree,
    telescope,
    which_key,
 }

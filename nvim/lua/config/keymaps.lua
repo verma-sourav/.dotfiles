@@ -60,8 +60,11 @@ nmap("<leader>bs", "<cmd>Telescope buffers show_all_buffers=true<cr>", { desc = 
 nmap("<leader>bd", "<cmd>Bdelete<CR>", { desc = "delete buffer" })
 
 -- f: files
-nmap("<leader>fe", "<cmd>Oil<cr>", { desc = "open file explorer" })
-nmap("<leader>ff", "<cmd>Oil --float<cr>", { desc = "open floating file explorer" })
+nmap(
+   "<leader>fe",
+   "<cmd>Neotree source=filesystem reveal=true position=right toggle=true<cr>",
+   { desc = "open file explorer" }
+)
 nmap("<leader>fn", "<cmd>enew<cr>", { desc = "new file" })
 
 -- g: git
@@ -83,6 +86,33 @@ nmap(
    "<leader>glt",
    function() require("gitsigns").toggle_current_line_blame() end,
    { desc = "Gitsigns: Toggle current line blame" }
+)
+
+-- n: neotree
+nmap(
+   "<leader>nf",
+   "<cmd>Neotree source=filesystem reveal=true position=right toggle=true<cr>",
+   { desc = "neotree: view files" }
+)
+nmap(
+   "<leader>nb",
+   "<cmd>Neotree source=buffers reveal=true position=right toggle=true<cr>",
+   { desc = "neotree: view buffers" }
+)
+nmap(
+   "<leader>ng",
+   "<cmd>Neotree source=git_status reveal=true position=right toggle=true<cr>",
+   { desc = "neotree: view git status" }
+)
+nmap(
+   "<leader>ns",
+   "<cmd>Neotree source=document_symbols reveal=true position=right toggle=true<cr>",
+   { desc = "neotree: view document symbols" }
+)
+nmap(
+   "<leader>nl",
+   "<cmd>Neotree source=last reveal=true position=right toggle=true<cr>",
+   { desc = "neotree: view last" }
 )
 
 -- s: search
