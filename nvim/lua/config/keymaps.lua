@@ -121,7 +121,7 @@ nmap(
 )
 
 -- s: search
-nmap("<leader>sr", "<cmd>Telescope resume<cr>", { desc = "resume search" })
+nmap("<leader>sl", "<cmd>Telescope resume<cr>", { desc = "re-open last search" })
 nmap("<leader>sf", "<cmd>Telescope find_files<cr>", { desc = "search files" })
 nmap("<leader>sg", "<cmd>Telescope live_grep<cr>", { desc = "search all files (grep)" })
 nmap("<leader>sr", "<cmd>Telescope oldfiles<cr>", { desc = "search recent files" })
