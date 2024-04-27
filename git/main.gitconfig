@@ -1,6 +1,5 @@
 [include]
     path = author.gitconfig
-    path = delta-catppuccin-mocha.gitconfig
 
 [alias]
     amend = commit --amend
@@ -38,10 +37,6 @@
 
 [core]
     editor = nvim
-    pager = delta
-
-[interactive]
-    diffFilter = delta --color-only
 
 [merge]
     conflictStyle = zdiff3
@@ -58,8 +53,3 @@
 
 [mergetool]
     keepBackup = false
-
-[delta]
-    navigate = true
-    side-by-side = true
-    features = catppuccin-mocha
