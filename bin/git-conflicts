@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+conflict_marker='^=======$'
+mode="count"
+
+print_usage() {
+    echo "Usage: $(basename "$0") [OPTIONS]"
+    echo
+    echo "Search a Git repository for merge conflicts. By default, it will display a table with the"
+    echo "unmerged files and the number of conflicts in each one. The --check flag can be used to"
+    echo "search the entire repository for any missed conflict markers."
+    echo
+    echo "Options:"
+    echo "  -h, --help  Print this help messsage"
+    echo "  -c, --check Search the entire repository for any missed conflict markers"
+}
+
+parse_arguments() {
+    while [ $# -ne 0 ] && [ "$1" != "" ]; do
+        case $1 in
+        -h | --help)
+            print_usage
+            exit 0
+            ;;
+        -c | --check)
+            mode="check"
+            ;;
+        *)
+            echo "Unknown argument: $1"
+            print_usage
+            exit 1
+            ;;
+        esac
+        shift
+    done
+}
+
+check_for_conflicts() {
+    rg --count "$conflict_marker"
+}
+
+show_table() {
+    gum table --print  --separator ':' --columns file,conflicts --widths 80,5
+}
+
+show_conflict_counts() {
+    local unmerged_files=()
+    while IFS= read -r line; do
+        unmerged_files+=( "$line" )
+    done < <( git ls-files --unmerged | cut -f2 | sort -u )
+    
+    if (( ${#unmerged_files[@]} == 0 )); then
+        echo "No unmerged conflicts"
+        return
+    fi
+
+    # If a submodule conflicts, grep will throw an error since it's a directory which is fine
+    set +e
+    grep -c "$conflict_marker" "${unmerged_files[@]}" | show_table
+    set -e
+}
+
+main() {
+    parse_arguments "$@"
+
+    if [[ "$mode" == "check" ]]; then
+        check_for_conflicts
+        return
+    fi
+
+    show_conflict_counts
+}
+
+main "$@"
