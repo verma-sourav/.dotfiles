@@ -38,4 +38,4 @@ $character"""
 
 [character]
 success_symbol = "[❯](green)"
-error_symbol = "[✖](red)"
+error_symbol = "[❯](red)"
