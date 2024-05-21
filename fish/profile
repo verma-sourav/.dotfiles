@@ -16,6 +16,15 @@
 #   separate profile means that I can set up other shells to also load this environment to ensure
 #   apps that encounter this issue still have the correct environment.
 
+# Prepends a directory to PATH. If the directory is already in PATH, it will not be added.
+prepend_path() {
+    dir="$1"
+    case ":$PATH:" in
+        *":$dir:"*) ;;
+        *) PATH="$dir:$PATH" ;;
+    esac
+}
+
 # $0 is not the path of the profile, so it can't be used to find the path to the dotfiles repository
 # For now, I'm going to assume the dotfiles is in one specific location
 dotfiles_dir="$HOME/.dotfiles"
@@ -32,7 +41,6 @@ export EDITOR=nvim
 export GOPATH="$HOME/.local/share/go"
 export RUSTUP_HOME="$HOME/.local/share/rustup"
 export CARGO_HOME="$HOME/.local/share/cargo"
-export PATH="$DOTS/bin:$GOPATH/bin:$CARGO_HOME/bin:$HOME/.local/bin:$PATH"
 
 # These variables are from `brew shellenv`
 case $(uname) in
@@ -52,8 +60,16 @@ case $(uname) in
 esac
 
 export HOMEBREW_CELLAR="$HOMEBREW_PREFIX/Cellar"
-export PATH="$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin:$PATH"
-export INFOPATH="$HOMEBREW_PREFIX/share/info:$INFOPATH"
+export INFOPATH="$HOMEBREW_PREFIX/share/info:${INFOPATH:-}"
+export MANPATH="$HOMEBREW_PREFIX/share/man:${MANPATH:-}"
+
+prepend_path "$HOME/.local/bin"
+prepend_path "$HOMEBREW_PREFIX/sbin"
+prepend_path "$HOMEBREW_PREFIX/bin"
+prepend_path "$CARGO_HOME/bin"
+prepend_path "$GOPATH/bin"
+prepend_path "$DOTS/bin"
+export PATH
 
 if [ -f "$DOTS_LOCAL_PROFILE" ]; then
     . "$DOTS_LOCAL_PROFILE"
