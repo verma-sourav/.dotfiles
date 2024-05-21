@@ -32,7 +32,6 @@ export EDITOR=nvim
 export GOPATH="$HOME/.local/share/go"
 export RUSTUP_HOME="$HOME/.local/share/rustup"
 export CARGO_HOME="$HOME/.local/share/cargo"
-export STARSHIP_CONFIG="$DOTS/starship/config.toml"
 export PATH="$DOTS/bin:$GOPATH/bin:$CARGO_HOME/bin:$HOME/.local/bin:$PATH"
 
 # These variables are from `brew shellenv`
