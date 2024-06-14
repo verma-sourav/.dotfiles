@@ -1,2 +1,1 @@
-vim.opt_local.tabstop = 3
-vim.opt_local.shiftwidth = 3
+require("util").use_spaces_local(3)
