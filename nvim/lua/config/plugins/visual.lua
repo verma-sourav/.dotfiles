@@ -8,36 +8,6 @@ local barbecue = {
    opts = {},
 }
 
-local bufferline = {
-   "akinsho/bufferline.nvim",
-   event = "VeryLazy",
-   config = function()
-      local bufferline = require("bufferline")
-      bufferline.setup({
-         options = {
-            close_command = function(n)
-               require("mini.bufremove").delete(n, false)
-            end,
-            right_mouse_command = function(n)
-               require("mini.bufremove").delete(n, false)
-            end,
-            diagnostics = "nvim_lsp",
-            always_show_bufferline = false,
-            style_preset = bufferline.style_preset.minimal,
-            show_buffer_icons = false,
-            offsets = {
-               {
-                  filetype = "neo-tree",
-                  text = "Explorer",
-                  highlight = "Directory",
-                  text_align = "left",
-               },
-            },
-         },
-      })
-   end,
-}
-
 local catppuccin = {
    "catppuccin/nvim",
    config = function()
@@ -77,7 +47,6 @@ local notify = {
 
 return {
    barbecue,
-   bufferline,
    catppuccin,
    dressing,
    floating_help,
