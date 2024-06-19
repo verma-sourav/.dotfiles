@@ -49,7 +49,7 @@ show_conflict_counts() {
     while IFS= read -r line; do
         unmerged_files+=( "$line" )
     done < <( git ls-files --unmerged | cut -f2 | sort -u )
-    
+
     if (( ${#unmerged_files[@]} == 0 )); then
         echo "No unmerged conflicts"
         return
@@ -57,7 +57,7 @@ show_conflict_counts() {
 
     # If a submodule conflicts, grep will throw an error since it's a directory which is fine
     set +e
-    grep -c "$conflict_marker" "${unmerged_files[@]}" | show_table
+    grep -H --count "$conflict_marker" "${unmerged_files[@]}" | show_table
     set -e
 }
 
