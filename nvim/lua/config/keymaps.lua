@@ -60,8 +60,8 @@ imap("<c-j>", luasnip_prev, { desc = "snippet: jump to previous" })
 smap("<c-j>", luasnip_prev, { desc = "snippet: jump to previous" })
 
 -- Files
-nmap("<leader>fe", "<cmd>Oil<cr>", { desc = "file explorer (oil) " })
-nmap("<leader>fE", "<cmd>Oil --float<cr>", { desc = "file explorer (oil, floating) " })
+nmap("<leader>fE", "<cmd>Oil<cr>", { desc = "file explorer (oil) " })
+nmap("<leader>fe", "<cmd>Oil --float<cr>", { desc = "file explorer (oil, floating) " })
 nmap("<leader>fg", function()
    local git_path = vim.fn.finddir(".git", ".;")
    local cd_git = vim.fn.fnamemodify(git_path, ":h")
@@ -70,6 +70,9 @@ end, { desc = "open explorer in git root (oil) " })
 
 -- Buffer
 nmap("<leader>bs", "<cmd>Telescope buffers show_all_buffers=true<cr>", { desc = "switch buffer" })
+nmap("<leader>bm", function()
+   require("buffer_manager.ui").toggle_quick_menu()
+end, { desc = "buffer manager" })
 nmap("<leader>bd", function()
    require("mini.bufremove").delete(0, false)
 end, { desc = "delete current buffer" })

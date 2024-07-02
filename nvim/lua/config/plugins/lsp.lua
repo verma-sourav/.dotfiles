@@ -48,7 +48,9 @@ function M.setup_language_servers()
    local language_servers = {
       ansiblels = {},
       bashls = {},
-      clangd = {},
+      clangd = {
+         filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
+      },
       dockerls = {},
       golangci_lint_ls = {},
       gopls = {},
