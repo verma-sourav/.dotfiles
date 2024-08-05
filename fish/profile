@@ -36,8 +36,6 @@ export DOTS="$dotfiles_dir"
 export DOTS_LOCAL_PROFILE="$config_dir/profile"
 export DOTS_LOCAL_CONFIG="$config_dir/config.fish"
 
-export VISUAL=nvim
-export EDITOR=nvim
 export GOPATH="$HOME/.local/share/go"
 export RUSTUP_HOME="$HOME/.local/share/rustup"
 export CARGO_HOME="$HOME/.local/share/cargo"
@@ -70,6 +68,10 @@ prepend_path "$CARGO_HOME/bin"
 prepend_path "$GOPATH/bin"
 prepend_path "$DOTS/bin"
 export PATH
+
+export EDITOR="$(which nvim)"
+export VISUAL="$EDITOR"
+export SUDO_EDITOR="$EDITOR"
 
 if [ -f "$DOTS_LOCAL_PROFILE" ]; then
     . "$DOTS_LOCAL_PROFILE"
