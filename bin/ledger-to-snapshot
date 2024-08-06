@@ -1,0 +1,81 @@
+#!/usr/bin/env python3
+import argparse
+import sys
+
+LEDGERS_PER_SNAPSHOT = 64
+SNAPSHOT_HEX_LENGTH = 8
+
+
+def parse_arguments():
+    parser = argparse.ArgumentParser(
+        prog="ledger-to-snapshot",
+        description="Convert a ledger number to it's associated snapshot number",
+    )
+    parser.add_argument("ledger_number", type=int)
+    args = parser.parse_args()
+
+    if args.ledger_number <= 0:
+        print(f"{args.ledger_number} is not a valid ledger number (positive integer)")
+        sys.exit(1)
+
+    return args
+
+def get_snapshot_number(ledger):
+    """
+    Returns the snapshot number that the given ledger should be present in. The
+    snapshot numbers start counting at 1 instead of 0 so that the output of
+    this function can be easily multipled with the number of ledgers per
+    snapshot to determine the ledger numbers where the snapshot will be taken.
+    """
+    # Add one here to start counting at 1 instead of 0
+    next_checkpoint = (ledger - 1) // LEDGERS_PER_SNAPSHOT + 1
+
+    # If the ledger is an exact multiple of LEDGERS_PER_SNAPSHOT, it needs to
+    # be placed in the next snapshot. This is because snapshots do start
+    # counting from 0, so at 64 ledgers per snapshot they would occur at 63,
+    # 127, 191, etc.
+    exact_multiple = ledger % LEDGERS_PER_SNAPSHOT == 0
+    if exact_multiple: next_checkpoint += 1
+
+    return next_checkpoint
+
+
+def get_snapshot_ledger(ledger):
+    """
+    Get the ledger number for the snapshot that will include the given ledger.
+
+    From stellar-core (src/history/HistoryManager.h):
+    Checkpoints are made "every 64 ledgers", when LCL is one-less-than a
+    multiple of 64. In other words, at LCL=63, 127, 191, 255, etc. or in other
+    other words checkpoint K covers the inclusive ledger range
+    [K*64, ((K+1)*64)-1], and each of those ranges should contain exactly 64
+    ledgers, with the exception of the first checkpoint, which has only 63
+    ledgers: there is no ledger 0.
+    """
+    snapshot_num = get_snapshot_number(ledger)
+    return snapshot_num * LEDGERS_PER_SNAPSHOT - 1
+
+def chunk_string(s, chunk_size):
+    """
+    Split a string into 'chunks' of a certain size.
+    chunk_string("foobar", 2) would return ["fo", "ob", "ar"]
+    """
+    return [ s[i:i+chunk_size] for i in range(0, len(s), chunk_size) ]
+
+
+def main():
+    args = parse_arguments()
+
+    snapshot_ledger = get_snapshot_ledger(args.ledger_number)
+    snapshot_hex = f"{snapshot_ledger:0{SNAPSHOT_HEX_LENGTH}x}"
+    hex_parts = chunk_string(snapshot_hex, 2)
+
+    print(f"              Ledger: {args.ledger_number}")
+    print(f"     Snapshot Ledger: {snapshot_ledger}")
+    print(f" Snapshot Ledger Hex: {snapshot_hex}")
+    print(f" History Archive Dir: {hex_parts[0]}/{hex_parts[1]}/{hex_parts[2]}/")
+    print(f"History Archive File: {hex_parts[0]}/{hex_parts[1]}/{hex_parts[2]}/*-{snapshot_hex}.xdr.gz")
+
+
+if __name__ == "__main__":
+    main()
