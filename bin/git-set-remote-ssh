@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Update a repository using HTTPS GitHub URLs to use SSH URLs instead
+
+remote="origin"
+original_url="$(git remote get-url "$remote")"
+updated_url="${original_url//https:\/\/github.com\//git@github.com:}"
+
+echo "URL updates for remote '$remote'"
+echo "   Original: $original_url"
+echo "    Updated: $updated_url"
+echo
+
+if gum confirm; then
+    git remote set-url "$remote" "$updated_url"
+else
+    echo "Cancelled"
+    exit 1
+fi
