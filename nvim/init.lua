@@ -1,5 +1,5 @@
 require("config.settings")
+require("config.lazy")
 require("config.autocmds")
 require("config.keymaps")
-require("config.lazy")
 require("config.commands").register_user_commands()

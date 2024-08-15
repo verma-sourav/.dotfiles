@@ -6,8 +6,6 @@ local xmap = keys.xmap
 local omap = keys.omap
 local smap = keys.smap
 
-vim.g.mapleader = " "
-
 -- Faster buffer navigation
 nmap("<C-h>", "<C-w>h")
 nmap("<C-j>", "<C-w>j")

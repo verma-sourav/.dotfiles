@@ -1,28 +1,21 @@
-local fn = vim.fn
-
-local install_path = fn.stdpath("data") .. "/lazy/lazy.nvim"
-local repository = "https://github.com/folke/lazy.nvim.git"
-
-local function installed()
-   return vim.loop.fs_stat(install_path)
+-- Bootstrap lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+   local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+   if vim.v.shell_error ~= 0 then
+      vim.api.nvim_echo({
+         { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+         { out, "WarningMsg" },
+         { "\nPress any key to exit..." },
+      }, true, {})
+      vim.fn.getchar()
+      os.exit(1)
+   end
 end
 
-local function install()
-   fn.system({
-      "git",
-      "clone",
-      "--filter=blob:none",
-      "--single-branch",
-      repository,
-      install_path,
-   })
-end
-
-if not installed() then
-   install()
-end
-
-local options = {
+vim.opt.rtp:prepend(lazypath)
+require("lazy").setup("config.plugins", {
    change_detection = { notify = false },
    performance = {
       rtp = {
@@ -31,7 +24,4 @@ local options = {
          },
       },
    },
-}
-
-vim.opt.runtimepath:prepend(install_path)
-require("lazy").setup("config.plugins", options)
+})

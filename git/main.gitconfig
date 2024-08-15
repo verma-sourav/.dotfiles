@@ -18,7 +18,6 @@
     unstage = restore --staged
 
 [url "git@github.com:"]
-	insteadOf = "https://github.com/"
     insteadOf = "gh:" # Lets you do: `git clone gh:cdevoogd/.dotfiles`
 
 [color]

@@ -1,3 +1,4 @@
+vim.g.mapleader = " "
 -- Basic Settings
 vim.opt.backspace = "indent,eol,start" -- Allow backspacing over indentation, line breaks, and insertion start
 vim.opt.confirm = true -- Show a confirmation dialog when closing an unsaved file
