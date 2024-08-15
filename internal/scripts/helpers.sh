@@ -7,7 +7,7 @@
 log() {
     local cyan='\033[0;36m'
     local reset='\033[0m'
-    printf "%b%s%b\n" "$cyan" "$1" "$reset"
+    printf "%b%s%b\n" "$cyan" "${1:-}" "$reset"
 }
 
 logerr() {

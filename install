@@ -58,6 +58,13 @@ main() {
 
     log "Configuring other shells to load the custom profile"
     setup_profiles
+
+    log
+    log "You will likely need to set your terminal to load fish as its default command, or install"
+    log "a terminal with a config already present in these configs. If you want to quickly get into"
+    log "fish to test, you can run 'exec bash -l' to pickup the new environment and then 'exec fish'"
+    log
+    log "Installation complete."
 }
 
 main "$@"
