@@ -24,6 +24,13 @@ return {
                i = { ["<C-t>"] = open_with_trouble, ["<M-t>"] = add_to_trouble },
                n = { ["<C-t>"] = open_with_trouble, ["<M-t>"] = add_to_trouble },
             },
+            layout_strategy = "vertical",
+            layout_config = {
+               height = vim.o.lines,
+               width = vim.o.columns,
+               prompt_position = "bottom",
+               preview_height = 0.4,
+            },
          },
       })
       telescope.load_extension("fzy_native")
