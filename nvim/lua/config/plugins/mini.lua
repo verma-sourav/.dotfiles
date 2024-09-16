@@ -22,7 +22,6 @@ function M.config()
    M.enable_module("git")
    M.enable_module("indentscope")
    M.enable_module("move")
-   M.enable_module("pairs")
 
    M.enable_trailspace()
    M.enable_clue()
