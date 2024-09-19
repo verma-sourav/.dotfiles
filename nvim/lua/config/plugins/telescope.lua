@@ -26,11 +26,14 @@ return {
             },
             layout_strategy = "vertical",
             layout_config = {
-               height = vim.o.lines,
-               width = vim.o.columns,
-               prompt_position = "bottom",
-               preview_height = 0.4,
+               vertical = {
+                  height = vim.o.lines,
+                  width = vim.o.columns,
+                  prompt_position = "bottom",
+                  preview_height = 0.4,
+               },
             },
+            pickers = {},
          },
       })
       telescope.load_extension("fzy_native")
