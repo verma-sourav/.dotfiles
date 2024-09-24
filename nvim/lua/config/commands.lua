@@ -32,6 +32,28 @@ function M.register_user_commands()
    for _, c in ipairs(commands) do
       vim.api.nvim_create_user_command(c.name, c.cmd, { desc = c.desc })
    end
+
+   -- These commands allow you to handle multiple substitutions in a single command call using a
+   -- dictionary. Keys in the dictionary will be replaced with their value.
+   -- Call example: `:Refactor {'frog':'duck', 'duck':'frog'}`
+   -- ref: https://stackoverflow.com/a/766093
+   --
+   -- This is in vimscript for now because I'm not quite sure how to translate to Lua quite yet :)
+   -- stylua: ignore
+   vim.api.nvim_exec2([[
+      " Refactor is case-sensitive and replaces full words
+      function! Refactor(dict) range
+         execute a:firstline . ',' . a:lastline .  's/\C\<\%(' . join(keys(a:dict),'\|'). '\)\>/\='.string(a:dict).'[submatch(0)]/ge'
+      endfunction
+
+      " MultiSubstitute is case-sensitive, but matches are not required to be full words
+      function! MultiSubstitute(dict) range
+         execute a:firstline . ',' . a:lastline .  's/\C\%(' . join(keys(a:dict),'\|'). '\)/\='.string(a:dict).'[submatch(0)]/ge'
+      endfunction
+
+      command! -range=% -nargs=1 Refactor :<line1>,<line2>call Refactor(<args>)
+      command! -range=% -nargs=1 MultiSubstitute :<line1>,<line2>call MultiSubstitute(<args>)
+   ]], { output = false })
 end
 
 function M.toggle_display_leading_whitespace()
