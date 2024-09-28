@@ -57,7 +57,6 @@ main() {
     create_link "$REPO_ROOT/git/main.gitconfig" "$HOME/.config/git/config"
     create_link "$REPO_ROOT/git/author.gitconfig" "$HOME/.config/git/author.gitconfig"
     create_link "$REPO_ROOT/nvim" "$HOME/.config/nvim"
-    create_link "$REPO_ROOT/starship/config.toml" "$HOME/.config/starship.toml"
     create_link "$REPO_ROOT/tmux" "$HOME/.config/tmux"
     create_link "$REPO_ROOT/wezterm" "$HOME/.config/wezterm"
 }

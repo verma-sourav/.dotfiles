@@ -13,7 +13,7 @@ brew "wget"
 brew "fish"
 brew "go"
 brew "gum"
-brew "starship"
+brew "oh-my-posh"
 
 # Neovim + plugin dependencies
 brew "neovim"

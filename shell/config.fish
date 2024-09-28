@@ -31,4 +31,4 @@ if type -q eza
 end
 
 ensure_ssh_agent
-starship init fish | source
+oh-my-posh init fish --config "$fish_dotfiles_dir/oh-my-posh.toml" | source

@@ -1,0 +1,86 @@
+#:schema https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
+# https://ohmyposh.dev/docs/configuration/general
+version = 2
+final_space = true
+auto_upgrade = false
+disable_notice = true
+
+[[blocks]]
+  type = 'prompt'
+  alignment = 'left'
+  newline = true
+
+  [[blocks.segments]]
+    type = 'path'
+    style = 'plain'
+    background = 'transparent'
+    foreground = 'blue'
+    template = '{{ .Path }}'
+
+    [blocks.segments.properties]
+      style = 'full'
+
+  [[blocks.segments]]
+    type = 'git'
+    style = 'plain'
+    foreground = 'p:grey'
+    background = 'transparent'
+    templates = [
+      " {{ .HEAD }} ",
+      "{{ if .UpstreamGone }}≢{{ end }}",
+      "{{ if .Staging.Changed }}+{{ end }}",
+      "{{ if gt .Working.Unmerged 0 }}x{{ end }}",
+      "{{ if gt .Working.Modified 0 }}!{{ end }}",
+      "{{ if gt .Working.Deleted 0 }}-{{ end }}",
+      "{{ if gt .Working.Untracked 0 }}?{{ end }}",
+      "{{ if gt .Behind 0 }}⇣{{ end }}",
+      "{{ if gt .Ahead 0 }}⇡{{ end }}",
+    ]
+
+    [blocks.segments.properties]
+      fetch_status = true
+      branch_icon = ''
+      commit_icon = '@'
+      rebase_icon = 'rebasing '
+      cherry_pick_icon = 'cherry-picking '
+      revert_icon = 'reverting '
+      merge_icon = 'merging '
+
+[[blocks]]
+  type = 'rprompt'
+  overflow = 'hidden'
+
+  [[blocks.segments]]
+    type = 'executiontime'
+    style = 'plain'
+    foreground = 'yellow'
+    background = 'transparent'
+    template = '{{ .FormattedMs }}'
+
+    [blocks.segments.properties]
+      threshold = 5000
+
+[[blocks]]
+  type = 'prompt'
+  alignment = 'left'
+  newline = true
+
+  [[blocks.segments]]
+    type = 'text'
+    style = 'plain'
+    foreground_templates = [
+      "{{if gt .Code 0}}red{{end}}",
+      "{{if eq .Code 0}}green{{end}}",
+    ]
+    background = 'transparent'
+    template = '❯'
+
+# The transient prompt is what the prompt is replaced with after the command is run
+[transient_prompt]
+  foreground_templates = [
+    "{{if gt .Code 0}}red{{end}}",
+    "{{if eq .Code 0}}green{{end}}",
+  ]
+  background = 'transparent'
+  template = '❯ '
+  newline = true
