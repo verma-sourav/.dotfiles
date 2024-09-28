@@ -4,7 +4,7 @@ set -euo pipefail
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SCRIPTS_DIR="$BASE_DIR/internal/scripts"
 
-set +u; source "$BASE_DIR/fish/profile"; set -u
+set +u; source "$BASE_DIR/shell/profile"; set -u
 source "$SCRIPTS_DIR/helpers.sh"
 
 # On macOS and Linux I've had issues where apps that are launched from some form of dock or launcher
@@ -14,7 +14,7 @@ source "$SCRIPTS_DIR/helpers.sh"
 # profile file and load them from there. This function configures other shells like bash and zsh to
 # also load the profile just in case the problem above happens.
 setup_profiles() {
-    local cmd="source '$BASE_DIR/fish/profile'"
+    local cmd="source '$BASE_DIR/shell/profile'"
     local shell_configs=("$HOME/.bash_profile" "$HOME/.zprofile" "$HOME/.profile")
     for config in "${shell_configs[@]}"; do
         if [[ -f "$config" ]] && grep -q "$cmd" "$config"; then
