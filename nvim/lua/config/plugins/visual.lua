@@ -31,24 +31,8 @@ local dressing = {
    opts = {},
 }
 
-local floating_help = {
-   "nil70n/floating-help",
-   opts = {
-      border = "rounded",
-   },
-}
-
-local notify = {
-   "rcarriga/nvim-notify",
-   config = function()
-      vim.notify = require("notify")
-   end,
-}
-
 return {
    barbecue,
    catppuccin,
    dressing,
-   floating_help,
-   notify,
 }

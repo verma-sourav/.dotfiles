@@ -15,12 +15,12 @@ ls.add_snippets(filetype, {
    s("pf", fmta("fmt.Printf(<>)", { i(1) })),
    s("pl", fmta("fmt.Println(<>)", { i(1) })),
    s("spf", fmta("fmt.Sprintf(<>)", { i(1) })),
+   -- This one was throwing an error when using a placeholeder and the "tab" text node so...
    s("iferr", fmta(
-      [[
-         if err != nil {
-         <><>
-         }
-      ]], { tab, i(1) }
+      "if err != nil {\n" ..
+      "\t<>\n" ..
+      "}"
+      , { i(1, "return err") }
    )),
    s("swc", fmta(
       [[

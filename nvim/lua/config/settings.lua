@@ -22,6 +22,7 @@ vim.opt.showmode = false -- Hide current mode display (status line already shows
 vim.opt.splitright = true -- When splitting veritcally, place new file on the right
 vim.opt.splitbelow = true -- When splitting horizaontally, place new file on the bottom
 vim.opt.termguicolors = true -- Enable 24-bit color
+vim.opt.pumheight = 10
 
 -- Search
 vim.opt.ignorecase = true -- Ignore case in search patterns

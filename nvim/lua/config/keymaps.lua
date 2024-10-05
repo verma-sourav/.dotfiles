@@ -67,10 +67,7 @@ nmap("<leader>fg", function()
 end, { desc = "open explorer in git root (oil) " })
 
 -- Buffer
-nmap("<leader>bs", "<cmd>Telescope buffers show_all_buffers=true<cr>", { desc = "switch buffer" })
-nmap("<leader>bm", function()
-   require("buffer_manager.ui").toggle_quick_menu()
-end, { desc = "buffer manager" })
+nmap("<leader>bs", "<cmd>Telescope buffers<cr>", { desc = "switch buffer" })
 nmap("<leader>bd", function()
    require("mini.bufremove").delete(0, false)
 end, { desc = "delete current buffer" })
@@ -86,7 +83,12 @@ nmap("<leader>gS", "<cmd>Telescope git_stash<CR>", { desc = "view stashes" })
 nmap("<leader>sb", "<cmd>Telescope current_buffer_fuzzy_find<cr>", { desc = "search in buffer" })
 nmap("<leader>sc", "<cmd>Telescope commands<cr>", { desc = "search commands" })
 nmap("<leader>sl", "<cmd>Telescope resume<cr>", { desc = "re-open last search" })
-nmap("<leader>sf", "<cmd>Telescope find_files<cr>", { desc = "search files" })
+nmap(
+   "<leader>sf",
+   "<cmd>lua require('config.plugins.telescope').project_files()<cr>",
+   { desc = "search project files" }
+)
+nmap("<leader>sF", "<cmd>Telescope find_files<cr>", { desc = "search files" })
 nmap("<leader>sg", "<cmd>Telescope live_grep<cr>", { desc = "search all files (grep)" })
 nmap("<leader>sh", "<cmd>Telescope help_tags<cr>", { desc = "search help pages" })
 nmap("<leader>sk", "<cmd>Telescope keymaps<cr>", { desc = "search keymaps" })

@@ -16,8 +16,9 @@ function M.config()
 
    cmp.setup({
       window = {
-         completion = cmp.config.window.bordered(),
-         documentation = cmp.config.window.bordered(),
+         -- Max height of the completion window relies on vim's 'pumheight' opt
+         completion = { scrolloff = 5 },
+         documentation = { scrolloff = 5, max_height = 10 },
       },
       formatting = {
          format = require("lspkind").cmp_format(),
@@ -43,6 +44,9 @@ function M.config()
 
    cmp.setup.cmdline({ "/", "?" }, {
       mapping = cmp.mapping.preset.cmdline(),
+      view = {
+         entries = { name = "wildmenu", separator = "|" },
+      },
       sources = {
          { name = "buffer" },
       },
