@@ -21,11 +21,6 @@ config.show_tab_index_in_tab_bar = true
 config.window_close_confirmation = "NeverPrompt"
 config.adjust_window_size_when_changing_font_size = false
 
--- Disabling Wayland here causes Wezterm to run using XWayland
--- On Ubuntu w/ Wayland the terminal has a different-looking title bar and double clicking the
--- title bar doesn't maximize the window. Swapping this fixes those issues.
-config.enable_wayland = false
-
 require("bindings").apply_to_config(config)
 require("tab_bar").apply_to_config(config)
 
