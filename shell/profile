@@ -21,7 +21,7 @@ prepend_path() {
     dir="$1"
     case ":$PATH:" in
         *":$dir:"*) ;;
-        *) PATH="$dir:$PATH" ;;
+        *) PATH="$dir${PATH:+":$PATH"}" ;;
     esac
 }
 
@@ -67,7 +67,6 @@ prepend_path "$HOMEBREW_PREFIX/bin"
 prepend_path "$CARGO_HOME/bin"
 prepend_path "$GOPATH/bin"
 prepend_path "$DOTS/bin"
-export PATH
 
 export EDITOR="$(which nvim)"
 export VISUAL="$EDITOR"

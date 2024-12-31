@@ -1,10 +1,11 @@
 local on_mac = require("util").on_mac
 local wezterm = require("wezterm")
 local config = wezterm.config_builder()
+local fish_path = on_mac and "/opt/homebrew/bin/fish" or "fish"
 
 config.audible_bell = "Disabled"
 config.color_scheme = "Catppuccin Mocha"
-config.default_prog = { "fish", "-l" }
+config.default_prog = { fish_path, "-l" }
 config.font_size = on_mac and 14.0 or 12.0
 config.font = wezterm.font_with_fallback({
    "Berkeley Mono Nerd Font",
