@@ -4,6 +4,8 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(realpath "$SCRIPT_DIR/../..")"
 
+source "$SCRIPT_DIR/helpers.sh"
+
 cleanup_dead_symlinks() {
     if [[ -d "$HOME" ]]; then
         echo "Cleaning up dead symlinks in the home directory"
@@ -59,6 +61,13 @@ main() {
     create_link "$REPO_ROOT/nvim" "$HOME/.config/nvim"
     create_link "$REPO_ROOT/tmux" "$HOME/.config/tmux"
     create_link "$REPO_ROOT/wezterm" "$HOME/.config/wezterm"
+
+    create_link "$REPO_ROOT/ghostty/config" "$HOME/.config/ghostty/config"
+    if on_macos; then
+        create_link "$REPO_ROOT/ghostty/macos" "$HOME/.config/ghostty/macos"
+    elif on_linux; then
+        create_link "$REPO_ROOT/ghostty/linux" "$HOME/.config/ghostty/linux"
+    fi
 }
 
 main "$@"
