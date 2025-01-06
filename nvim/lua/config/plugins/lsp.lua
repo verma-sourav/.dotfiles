@@ -56,7 +56,7 @@ function M.setup_language_servers()
       gopls = {},
       html = {},
       jsonls = {},
-      ruff_lsp = {},
+      ruff = {},
       sqlls = {},
       vimls = {},
       lua_ls = {
