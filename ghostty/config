@@ -2,6 +2,10 @@ font-size = 14
 font-family = ""
 font-family = "Berkeley Mono Nerd Font"
 font-family = "Akoni Nerd Font"
+# Disable ligatures
+font-feature = -calt
+font-feature = -liga
+font-feature = -dlig
 
 term = xterm-256color
 scrollback-limit = 10000
