@@ -8,7 +8,8 @@ font-feature = -liga
 font-feature = -dlig
 
 term = xterm-256color
-scrollback-limit = 10000
+# Unlike most terminals, this in bytes and not lines
+scrollback-limit = 50_000_000
 
 theme = catppuccin-mocha
 window-padding-x = 6
