@@ -56,6 +56,7 @@ function M.setup_language_servers()
       gopls = {},
       html = {},
       jsonls = {},
+      pyright = {},
       ruff = {},
       sqlls = {},
       vimls = {},
