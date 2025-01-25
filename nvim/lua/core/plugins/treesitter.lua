@@ -1,7 +1,8 @@
 return {
    "nvim-treesitter/nvim-treesitter",
    build = function()
-      require("nvim-treesitter.install").update({ with_sync = true })()
+      local sync = vim.uv.available_parallelism() > 4 and false or true
+      require("nvim-treesitter.install").update({ with_sync = sync })()
    end,
    config = function()
       require("nvim-treesitter.configs").setup({
