@@ -1,7 +1,8 @@
-function totmp
-    set rand_length 5
-    set rand_val (LC_ALL=C tr -dc [:alnum:] </dev/urandom | head -c "$rand_length")
-    set temp_dir "/tmp/totmp.$rand_val"
-    mkdir "$temp_dir"
-    cd "$temp_dir"
+function totmp --argument-names 'custom_tag'
+    set -l dir_format "totmp.XXXXXX"
+    if test -n "$custom_tag"
+        set dir_format "totmp-$custom_tag.XXXXXX"
+    end
+
+    cd "$(TMPDIR="/tmp" mktemp --tmpdir --directory "$dir_format")"
 end
