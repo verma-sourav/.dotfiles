@@ -33,7 +33,7 @@ ensure_brew() {
 }
 
 install_brew_bundle() {
-    brew bundle install --no-lock --no-upgrade --file="$1"
+    brew bundle install --no-upgrade --file="$1"
 }
 
 install_formulae() {
