@@ -72,7 +72,7 @@ nmap("<leader>ff", function() require("core.plugins.snacks").project_files() end
 nmap("<leader>fF", function() Snacks.picker.files() end, { desc = "all files" })
 nmap("<leader>fg", function() Snacks.picker.git_files() end, { desc = "git files" })
 nmap("<leader>fb", function() Snacks.picker.buffers() end, { desc = "buffers" })
-nmap("<leader>fr", function() Snacks.picker.recent() end, { desc = "recent" })
+nmap("<leader>fr", function() Snacks.picker.recent({ filter = { cwd = true } }) end, { desc = "recent" })
 
 -- Buffer
 nmap("<leader>bd", function() require("mini.bufremove").delete(0, false) end, { desc = "delete current buffer" })
