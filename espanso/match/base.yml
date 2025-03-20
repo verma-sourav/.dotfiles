@@ -2,6 +2,6 @@
 matches:
   # awk sorts the output of `docker ps` by container name (first column) but skips the output header
   - trigger: dps
-    replace: docker ps --format 'table {{.Names}}\t{{.Status}}' | awk 'NR<2{print$0;next}{print $0 | "sort"}'
+    replace: docker ps -a --format 'table {{.Names}}\t{{.Status}}' | awk 'NR<2{print$0;next}{print $0 | "sort"}'
   - trigger: dpps
-    replace: docker ps --format 'table {{.Names}}\t{{.Ports}}' | awk 'NR<2{print$0;next}{print $0 | "sort"}'
+    replace: docker ps -a --format 'table {{.Names}}\t{{.Ports}}' | awk 'NR<2{print$0;next}{print $0 | "sort"}'

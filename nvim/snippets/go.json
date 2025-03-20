@@ -1,0 +1,26 @@
+{
+    "Quick Printf": {
+        "prefix": "pf",
+        "description": "quick printf",
+        "body": "fmt.Printf($1)"
+    },
+    "Quick Println": {
+        "prefix": "pl",
+        "description": "quick println",
+        "body": "fmt.Println($1)"
+    },
+    "Quick Sprintf": {
+        "prefix": "spf",
+        "description": "quick sprintf",
+        "body": "fmt.Sprintf($1)"
+    },
+    "Basic Error Check": {
+        "prefix": "iferr",
+        "description": "quick error check",
+        "body": [
+            "if err != nil {",
+            "\t${1:return err}",
+            "}"
+        ]
+    }
+}

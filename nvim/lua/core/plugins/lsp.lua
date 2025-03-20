@@ -18,7 +18,7 @@ function M.config()
    require("mason-tool-installer").setup({
       -- Conform doesn't have automatic installation like null-ls did, so for now I'm
       -- explicitly listing out the formatters configured with conform.
-      ensure_installed = { "stylua", "goimports", "ruff" },
+      ensure_installed = { "stylua", "goimports" },
    })
    M.setup_language_servers()
 end
@@ -27,12 +27,11 @@ function M.setup_conform()
    local conform = require("conform")
    conform.setup({
       format_on_save = {
-         timeout_ms = 500,
-         lsp_fallback = true,
+         timeout_ms = 3000,
+         lsp_format = "fallback",
       },
       formatters_by_ft = {
          lua = { "stylua" },
-         python = { "ruff_format" },
          go = { "goimports" },
       },
    })
@@ -44,13 +43,13 @@ function M.setup_conform()
 end
 
 function M.setup_language_servers()
-   local cmp_lsp = require("cmp_nvim_lsp")
    local language_servers = {
       ansiblels = {},
       bashls = {},
       clangd = {
          filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
       },
+      cssls = {},
       dockerls = {},
       golangci_lint_ls = {},
       gopls = {},
@@ -59,6 +58,7 @@ function M.setup_language_servers()
       pyright = {},
       ruff = {},
       sqlls = {},
+      ts_ls = {},
       vimls = {},
       lua_ls = {
          settings = {
@@ -74,7 +74,7 @@ function M.setup_language_servers()
          "force",
          {},
          vim.lsp.protocol.make_client_capabilities(),
-         cmp_lsp.default_capabilities()
+         require("blink.cmp").get_lsp_capabilities()
       ),
    }
 
