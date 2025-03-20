@@ -16,6 +16,13 @@ M.command_list = {
       exec = "SaveWithoutFormatting",
    },
    {
+      name = "Disable format-on-save in this buffer",
+      exec = function()
+         -- The format on save autocommand should avoid formatting a buffer with this set
+         vim.b.formatting_disabled = true
+      end,
+   },
+   {
       name = "Find files in the current directory",
       exec = function() Snacks.picker.files({ dirs = { vim.fn.expand("%:h") } }) end,
    },
