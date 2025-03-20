@@ -11,6 +11,11 @@ local M = {
          -- https://github.com/folke/snacks.nvim/discussions/332
          indent = { enabled = false },
       },
+      formatters = {
+         file = {
+            truncate = 100,
+         },
+      },
       picker = {
          enabled = true,
          layouts = {
