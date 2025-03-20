@@ -4,6 +4,7 @@ local M = {
    -- statusline stores functions for configuring mini.statusline
    statusline = {},
 }
+local util = require("util")
 
 function M.enable_module(module, opts) require("mini." .. module).setup(opts) end
 
@@ -141,7 +142,10 @@ function M.statusline.section_fileinfo()
    -- Don't show anything if no filetype or not inside a "normal buffer"
    if filetype == "" or vim.bo.buftype ~= "" then return "" end
 
-   return filetype
+   local indent_info = " T"
+   if util.get_option("expandtab") then indent_info = " S" .. tostring(util.get_option("tabstop")) end
+
+   return filetype .. indent_info
 end
 
 function M.statusline.section_location() return "L%l C%v" end

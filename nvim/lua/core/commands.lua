@@ -1,4 +1,5 @@
 local M = {}
+local util = require("util")
 
 -- This command list is used to populate a picker that I can use to run the commands. These are
 -- commands that I find useful, but that I don't necessarily need a dedicated keybind for yet.
@@ -184,8 +185,8 @@ function M.register_user_commands()
 end
 
 function M.toggle_whitespace(listchars)
-   local enabled = M.get_option("list")
-   local current_listchars = M.get_option("listchars")
+   local enabled = util.get_option("list")
+   local current_listchars = util.get_option("listchars")
 
    -- List mode is enabled, but with a different set of characters. I'm going to assume that the
    -- user it switching between different whitespace modes and just update the characters instead.
@@ -198,15 +199,6 @@ function M.toggle_whitespace(listchars)
 
    vim.opt.listchars = listchars
    vim.opt.list = not enabled
-end
-
-function M.get_option(option)
-   local info = vim.api.nvim_get_option_info(option)
-   local scopes = { buf = "bo", win = "wo", global = "o" }
-   local scope = scopes[info.scope]
-   local scope_opts = vim[scope]
-   local value = scope_opts[option]
-   return value
 end
 
 return M
