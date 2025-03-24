@@ -50,18 +50,20 @@ vim.g.loaded_node_provider = 0
 
 -- Ignore
 vim.opt.wildignore = {
-   "deps",
-   ".svn",
-   "CVS",
-   ".git",
-   ".DS_Store",
-   "*.o",
-   "*.a",
-   "*.class",
-   "*.mo",
-   "*.la",
-   "*.so",
-   "*.obj",
-   "*.swp",
-   "*.out",
+    "deps",
+    ".svn",
+    "CVS",
+    ".git",
+    ".DS_Store",
+    "*.o",
+    "*.a",
+    "*.class",
+    "*.mo",
+    "*.la",
+    "*.so",
+    "*.obj",
+    "*.swp",
+    "*.out",
 }
+
+vim.diagnostic.config({ virtual_text = true })

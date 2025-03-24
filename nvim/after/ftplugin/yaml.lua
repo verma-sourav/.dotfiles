@@ -1,1 +1,1 @@
-require("util").use_spaces_local(2)
+require("core.utils").use_spaces_local(2)

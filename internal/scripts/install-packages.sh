@@ -55,6 +55,7 @@ install_go_programs() {
     # Go should be installed as a homebrew formula
     log "Installing Go tools..."
     go install golang.org/x/tools/cmd/goimports@latest
+    go install github.com/go-delve/delve/cmd/dlv@latest
 }
 
 main() {

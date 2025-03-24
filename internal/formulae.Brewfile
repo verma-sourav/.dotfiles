@@ -27,7 +27,6 @@ brew "xsel" if OS.linux?    # Linux clipboard support
 brew "bat"
 brew "btop"
 brew "eza"
-brew "flawz"
 brew "fzf"
 brew "gh"
 brew "glow"

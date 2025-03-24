@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+GITHUB_USER=""
+REPO_NAME=""
+TEMP_DIR="/tmp/repos"
+
+print_usage() {
+    echo "USAGE $(basename "$0") GITHUB_USER REPO_NAME"
+}
+
+parse_arguments() {
+    if (($# < 2)); then
+        echo "Not enough positional arguments were provided"
+        print_usage
+        exit 1
+    fi
+
+    if (($# > 2)); then
+        echo "Too many positional arguments were provided"
+        print_usage
+        exit 1
+    fi
+
+    GITHUB_USER="$1"
+    REPO_NAME="$2"
+}
+
+main() {
+    parse_arguments "$@"
+
+    local editor="${VISUAL:-${EDITOR:-vim}}"
+    local repo_dir="$TEMP_DIR/$REPO_NAME"
+
+    if [[ ! -d "$repo_dir" ]]; then
+        local url="https://github.com/$GITHUB_USER/$REPO_NAME"
+        echo "Creating a shallow clone of the repo. If it asks for auth info, the URL may be invalid ($url)"
+        git clone --depth 1 "$url" "$repo_dir"
+    fi
+
+    # Changing into the directory before opening it ensures the working directory is set properly
+    echo "Opening $repo_dir"
+    cd "$repo_dir"
+    $editor .
+}
+
+main "$@"
