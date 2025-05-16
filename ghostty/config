@@ -10,6 +10,8 @@ font-feature = -dlig
 term = xterm-256color
 # Unlike most terminals, this in bytes and not lines
 scrollback-limit = 50_000_000
+keybind = ctrl+alt+page_up=scroll_page_up
+keybind = ctrl+alt+page_down=scroll_page_down
 
 theme = catppuccin-mocha
 window-padding-x = 6
