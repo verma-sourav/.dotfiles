@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-conflict_marker='^=======$'
 mode="count"
+
+marker_pattern_middle='^=======$'
+marker_pattern_ours='^<<<<<<<$'
+marker_pattern_theirs='^>>>>>>>$'
+marker_pattern_diff3_base='^\|\|\|\|\|\|\|$'
 
 print_usage() {
     echo "Usage: $(basename "$0") [OPTIONS]"
@@ -37,7 +41,10 @@ parse_arguments() {
 }
 
 check_for_conflicts() {
-    rg --count "$conflict_marker"
+    echo "Searching for any left-over conflict markers"
+    if ! rg -C 2 -e "$marker_pattern_ours" -e "$marker_pattern_theirs" -e "$marker_pattern_middle" -e "$marker_pattern_diff3_base"; then
+        echo "No conflict markers found"
+    fi
 }
 
 show_table() {
@@ -57,7 +64,7 @@ show_conflict_counts() {
 
     # If a submodule conflicts, grep will throw an error since it's a directory which is fine
     set +e
-    grep -H --count "$conflict_marker" "${unmerged_files[@]}" | show_table
+    grep -H --count "$marker_pattern_middle" "${unmerged_files[@]}" | show_table
     set -e
 }
 
