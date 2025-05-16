@@ -1,5 +1,2 @@
 cask "cdevoogd/tap/font-akoni"
 cask "cdevoogd/tap/font-akoni-nerd-font"
-cask "docker" unless system "docker --version > /dev/null"
-cask "spotify"
-cask "visual-studio-code"
