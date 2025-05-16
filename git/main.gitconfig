@@ -1,27 +1,31 @@
 [include]
     path = author.gitconfig
 
+[advice]
+    statusHints = false
+
 [alias]
     amend = commit --amend
     desc = branch --edit-description
     hash = rev-parse --short HEAD
     last = log -1 HEAD --stat
-    ll = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %C(bold blue)%an%Creset %s %Cgreen(%cr)' --abbrev-commit --date=relative
-    lol = log --graph --decorate --pretty=oneline --abbrev-commit
-    lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
-    nuke = reset --hard HEAD^
+    lg = log --graph --all --pretty=format:'%C(magenta)%h %C(white) %an  %ar%C(blue)  %D%n%s%n'
+    ll = log --graph --pretty=format:'%C(magenta)%h %C(white)%an %C(reset)%s %C(white)(%ar)'
     push-origin = "!f(){ git push --set-upstream origin \"$(git branch --show-current)\"; }; f"
-    rm-untracked = clean -df
     sm = submodule
-    ss = "!f(){ git -c color.status=always status | grep -v 'use \".*\"'; }; f"
     uncommit = reset --soft HEAD^
     unstage = restore --staged
+    wt = worktree
 
-[url "git@github.com:"]
-    insteadOf = "gh:" # Lets you do: `git clone gh:cdevoogd/.dotfiles`
+[blame]
+    coloring = highlightRecent
+    date = relative
 
 [color]
     ui = true
+
+[color "blame"]
+    highlightRecent = black bold,1 year ago,white,1 month ago,default,7 days ago,blue
 
 [color "status"]
     header = normal
@@ -36,19 +40,42 @@
 
 [core]
     editor = nvim
-
-[merge]
-    conflictStyle = zdiff3
+    whitespace = error
 
 [diff]
     colorMoved = default
+    context = 3
+    interHunkContext = 10
+    renames = copies
     tool = nvimdiff
 
 [difftool]
     prompt = false
+    trustExitCode = true
 
 [difftool "nvimdiff"]
     cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
 
+[interactive]
+    diffFilter = diff-so-fancy --patch
+
+[log]
+    abbrevCommit = true
+    graphColors = blue,yellow,cyan,magenta,green,red
+
+[merge]
+    conflictStyle = zdiff3
+
 [mergetool]
     keepBackup = false
+
+[pager]
+    diff = diff-so-fancy | less --tabs=4 -RF
+
+[status]
+    branch = true
+    showStash = true
+    showUntrackedFiles = all
+
+[url "git@github.com:"]
+    insteadOf = "gh:"

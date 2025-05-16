@@ -17,7 +17,7 @@ end
 alias e="$EDITOR"
 alias dots="cd $DOTS"
 
-alias gs="git ss"
+alias gs="git status"
 alias gc="git commit"
 alias gb="git branches"
 alias gbd="git branches delete"
