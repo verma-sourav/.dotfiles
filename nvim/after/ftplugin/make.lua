@@ -1,1 +1,1 @@
-require("util").use_tabs_local()
+require("core.utils").use_tabs_local()

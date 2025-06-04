@@ -1,157 +1,46 @@
 local M = {}
-
--- This command list is used to populate a picker that I can use to run the commands. These are
--- commands that I find useful, but that I don't necessarily need a dedicated keybind for yet.
-M.command_list = {
-   {
-      name = "Toggle display of all whitespace",
-      exec = "ToggleWhitespace",
-   },
-   {
-      name = "Toggle display of leading whitespace",
-      exec = "ToggleLeadingWhitespace",
-   },
-   {
-      name = "Save without formatting",
-      exec = "SaveWithoutFormatting",
-   },
-   {
-      name = "Find files in the current directory",
-      exec = function() Snacks.picker.files({ dirs = { vim.fn.expand("%:h") } }) end,
-   },
-   {
-      name = "Grep in the current directory",
-      exec = function() Snacks.picker.grep({ dirs = { vim.fn.expand("%:h") } }) end,
-   },
-   {
-      name = "Grep files by filetype",
-      exec = function()
-         local status = vim.system({ "rg", "--type-list" }, { text = true }):wait()
-         if status.code ~= 0 then
-            vim.notify("Failed to execute ripgrep (rg) to grab type list", vim.log.levels.ERROR)
-         end
-
-         local line_num = 1
-         local filetypes = {}
-         for line in status.stdout:gmatch("[^\n]+") do
-            local filetype = line:match("^(%w+):")
-            if filetype then
-               line_num = line_num + 1
-               table.insert(filetypes, {
-                  idx = line_num,
-                  score = line_num,
-                  text = line,
-                  ft = filetype,
-               })
-            end
-         end
-
-         Snacks.picker({
-            items = filetypes,
-            layout = { preset = "select" },
-            format = function(item)
-               local ret = {}
-               ret[#ret + 1] = { item.text, "SnacksPickerLabel" }
-               return ret
-            end,
-            confirm = function(picker, item)
-               picker:close()
-               Snacks.picker.grep({ ft = item.ft })
-            end,
-         })
-      end,
-   },
-   {
-      name = "Indent with spaces",
-      exec = function()
-         vim.ui.input({ prompt = "Number of spaces to indent with: " }, function(input)
-            local num = tonumber(input)
-            if not num then vim.notify("The provided value was not a valid number", vim.log.levels.WARN) end
-            require("util").use_spaces_local(num)
-         end)
-      end,
-   },
-   {
-      name = "Indent with tabs",
-      exec = function()
-         vim.ui.input({ prompt = "Number to use as a tab stop: " }, function(input)
-            local num = tonumber(input)
-            if not num then vim.notify("The provided value was not a valid number", vim.log.levels.WARN) end
-            require("util").use_tabs_local(num)
-         end)
-      end,
-   },
-}
-
--- This is used to cache the picker items once they've been generated. Since the list is static,
--- there's no reason to keep regenerating them.
-local command_list_items = {}
-
--- Runs a Snacks.picker that is loaded with the command list.
-function M.command_list_picker()
-   if #command_list_items ~= #M.command_list then
-      command_list_items = {}
-      for i, cmd in ipairs(M.command_list) do
-         table.insert(command_list_items, {
-            idx = i,
-            score = i,
-            text = cmd.name,
-            exec = cmd.exec,
-         })
-      end
-   end
-
-   Snacks.picker({
-      items = command_list_items,
-      layout = { preset = "select" },
-      format = function(item)
-         local ret = {}
-         ret[#ret + 1] = { item.text, "SnacksPickerLabel" }
-         return ret
-      end,
-      confirm = function(picker, item)
-         picker:close()
-         if type(item.exec) == "function" then
-            item.exec()
-         else
-            vim.cmd(item.exec)
-         end
-      end,
-   })
-end
+local utils = require("core.utils")
 
 function M.register_user_commands()
-   local commands = {
-      {
-         name = "SaveWithoutFormatting",
-         desc = "Save the file without autocommands to prevent automatic formatting",
-         cmd = "noautocmd write",
-      },
-      {
-         name = "ToggleLeadingWhitespace",
-         desc = "Toggle the display of leading whitespace",
-         cmd = function() M.toggle_whitespace("tab:→ ,lead:·") end,
-      },
-      {
-         name = "ToggleWhitespace",
-         desc = "Toggle displaying all normal whitespace (tabs, spaces, newline)",
-         cmd = function() M.toggle_whitespace("tab:→ ,space:·,eol:↩") end,
-      },
-      {
-         name = "TrimTrailingWhitespace",
-         desc = "Trim trailing whitespace in the current file",
-         cmd = function() require("mini.trailspace").trim() end,
-      },
-      {
-         name = "TrimTrailingNewlines",
-         desc = "Trim trailing newlines in the current file",
-         cmd = function() require("mini.trailspace").trim_last_lines() end,
-      },
-   }
+    local commands = {
+        {
+            name = "SaveWithoutFormatting",
+            desc = "Save the file without autocommands to prevent automatic formatting",
+            cmd = "noautocmd write",
+        },
+        {
+            name = "ToggleLeadingWhitespace",
+            desc = "Toggle the display of leading whitespace",
+            cmd = function()
+                M.toggle_whitespace("tab:→ ,lead:·")
+            end,
+        },
+        {
+            name = "ToggleWhitespace",
+            desc = "Toggle displaying all normal whitespace (tabs, spaces, newline)",
+            cmd = function()
+                M.toggle_whitespace("tab:→ ,space:·,eol:↩")
+            end,
+        },
+        {
+            name = "TrimTrailingWhitespace",
+            desc = "Trim trailing whitespace in the current file",
+            cmd = function()
+                require("mini.trailspace").trim()
+            end,
+        },
+        {
+            name = "TrimTrailingNewlines",
+            desc = "Trim trailing newlines in the current file",
+            cmd = function()
+                require("mini.trailspace").trim_last_lines()
+            end,
+        },
+    }
 
-   for _, c in ipairs(commands) do
-      vim.api.nvim_create_user_command(c.name, c.cmd, { desc = c.desc })
-   end
+    for _, c in ipairs(commands) do
+        vim.api.nvim_create_user_command(c.name, c.cmd, { desc = c.desc })
+    end
 
    -- These commands allow you to handle multiple substitutions in a single command call using a
    -- dictionary. Keys in the dictionary will be replaced with their value.
@@ -176,30 +65,199 @@ function M.register_user_commands()
    ]], { output = false })
 end
 
-function M.toggle_whitespace(listchars)
-   local enabled = M.get_option("list")
-   local current_listchars = M.get_option("listchars")
+-- This command list is used to populate a picker that I can use to run the commands. These are
+-- commands that I find useful, but that I don't necessarily need a dedicated keybind for yet.
+M.command_list = {
+    {
+        name = "Toggle display of all whitespace",
+        exec = "ToggleWhitespace",
+    },
+    {
+        name = "Toggle display of leading whitespace",
+        exec = "ToggleLeadingWhitespace",
+    },
+    {
+        name = "Save without formatting",
+        exec = "SaveWithoutFormatting",
+    },
+    {
+        name = "Disable format-on-save in this buffer",
+        exec = function()
+            -- The format on save autocommand should avoid formatting a buffer with this set
+            vim.b.formatting_disabled = true
+        end,
+    },
+    {
+        name = "Find files in the current directory",
+        exec = function()
+            Snacks.picker.files({ dirs = { vim.fn.expand("%:h") } })
+        end,
+    },
+    {
+        name = "Grep in the current directory",
+        exec = function()
+            Snacks.picker.grep({ dirs = { vim.fn.expand("%:h") } })
+        end,
+    },
+    {
+        name = "Grep files by filetype",
+        exec = function()
+            -- This ends up running vim.ui.select to allow the user to select a filetype. When
+            -- vim.schedule isn't used, that picker will open in normal mode instead of insert.
+            vim.schedule(M.grep_for_filetype)
+        end,
+    },
+    {
+        name = "Indent with spaces",
+        exec = function()
+            M.prompt_for_number("Number of spaces to indent with: ", function(num)
+                utils.use_spaces_local(num)
+            end)
+        end,
+    },
+    {
+        name = "Indent with tabs",
+        exec = function()
+            M.prompt_for_number("Number to use as a tab stop: ", function(num)
+                utils.use_tabs_local(num)
+            end)
+        end,
+    },
+    {
+        name = "Reset all marks",
+        exec = [[delmarks a-zA-Z0-9]],
+    },
+}
 
-   -- List mode is enabled, but with a different set of characters. I'm going to assume that the
-   -- user it switching between different whitespace modes and just update the characters instead.
-   -- If they want to disable the whitespace display they should be able to run it again, but if
-   -- they use the same function they called originally to toggle off this shouldn't happen.
-   if enabled and current_listchars ~= listchars then
-      vim.opt.listchars = listchars
-      return
-   end
+--- Runs a picker that allows the user to choose from the commands defined in this module's
+--- command_list variable.
+function M.command_list_picker()
+    local command_list_items = {}
+    for i, cmd in ipairs(M.command_list) do
+        table.insert(command_list_items, {
+            idx = i,
+            score = i,
+            text = cmd.name,
+            exec = cmd.exec,
+        })
+    end
 
-   vim.opt.listchars = listchars
-   vim.opt.list = not enabled
+    Snacks.picker({
+        items = command_list_items,
+        layout = { preset = "select" },
+        format = function(item)
+            return { { item.text, "SnacksPickerLabel" } }
+        end,
+        confirm = function(picker, item)
+            picker:close()
+            if type(item.exec) == "function" then
+                item.exec()
+            else
+                vim.cmd(item.exec)
+            end
+        end,
+    })
 end
 
-function M.get_option(option)
-   local info = vim.api.nvim_get_option_info(option)
-   local scopes = { buf = "bo", win = "wo", global = "o" }
-   local scope = scopes[info.scope]
-   local scope_opts = vim[scope]
-   local value = scope_opts[option]
-   return value
+--- Toggles the display of whitespace using the given set of listchars. The value of listchars
+--- should be a valid value for the 'listchars' vim option. If whitespace display is already
+--- enabled, but is using a different value for listchars, it will stay enabled but switch to the
+--- new value.
+--- @param listchars string The setting to use for the listchars vim option
+--- @return nil
+function M.toggle_whitespace(listchars)
+    local enabled = utils.get_option("list")
+    local current_listchars = utils.get_option("listchars")
+
+    -- List mode is enabled, but with a different set of characters. I'm going to assume that the
+    -- user it switching between different whitespace modes and just update the characters instead.
+    -- If they want to disable the whitespace display they should be able to run it again, but if
+    -- they use the same function they called originally to toggle off this shouldn't happen.
+    if enabled and current_listchars ~= listchars then
+        vim.opt.listchars = listchars
+        return
+    end
+
+    vim.opt.listchars = listchars
+    vim.opt.list = not enabled
+end
+
+--- @class RipgrepFiletype
+--- @field name string The name of the file type as reported by ripgrep
+--- @field detailed string The detailed info for the filetype with the name and possible extensions
+
+--- Returns a list of available file types from the local instance of ripgrep. If ripgrep is not
+--- available, or there is an issue running ripgrep, a nil table will be returned.
+--- @return RipgrepFiletype[] | nil
+function M.get_ripgrep_filetypes()
+    local status = vim.system({ "rg", "--type-list" }, { text = true }):wait()
+    if status.code ~= 0 then
+        utils.error("Failed to execute ripgrep (rg) to grab type list")
+        return nil
+    end
+
+    --- @class RipgrepFiletype
+    local filetypes = {}
+    for line in status.stdout:gmatch("[^\n]+") do
+        local filetype = line:match("^(%w+):")
+        if filetype then
+            table.insert(filetypes, {
+                name = filetype,
+                detailed = line,
+            })
+        end
+    end
+    return filetypes
+end
+
+--- Prompts the user for a specific ripgrep filetype and then runs the grep picker with that
+--- filetype. This allows searching for text in a specific file type such as a shell script.
+--- @return nil
+function M.grep_for_filetype()
+    local rg_filetypes = M.get_ripgrep_filetypes()
+    if rg_filetypes == nil or #rg_filetypes == 0 then
+        return
+    end
+
+    local items = {}
+    for i, ft in ipairs(rg_filetypes) do
+        table.insert(items, {
+            idx = i,
+            score = i,
+            text = ft.detailed,
+            filetype = ft.name,
+        })
+    end
+
+    Snacks.picker({
+        items = items,
+        layout = { preset = "select" },
+        format = function(item)
+            return { { item.text, "SnacksPickerLabel" } }
+        end,
+        confirm = function(picker, item)
+            picker:close()
+            Snacks.picker.grep({ ft = item.filetype })
+        end,
+    })
+end
+
+--- Prompts the user to input a number using the given prompt message. When successful, callback
+--- will be executed with the number. If the input is not valid, the callback will be skipped.
+--- @param prompt string The message to prompt the user with
+--- @param callback fun(number): nil
+--- @return nil
+function M.prompt_for_number(prompt, callback)
+    vim.schedule(function()
+        vim.ui.input({ prompt = prompt }, function(input)
+            local num = tonumber(input)
+            if not num then
+                utils.error("The provided value was not a valid number")
+                return
+            end
+            callback(num)
+        end)
+    end)
 end
 
 return M
