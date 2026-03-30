@@ -14,14 +14,21 @@ if test -f "$DOTS_LOCAL_CONFIG"
     source "$DOTS_LOCAL_CONFIG"
 end
 
+status --is-interactive; and begin
+    set -l aj (brew --prefix autojump 2>/dev/null)
+    test -f "$aj/share/autojump/autojump.fish"; and source "$aj/share/autojump/autojump.fish"
+end
+
 alias e="$EDITOR"
 alias dots="cd $DOTS"
 
-alias gs="git status"
+alias gst="git status"
 alias gc="git commit"
 alias gb="git branches"
 alias gbd="git branches delete"
 alias gbc="git branches checkout"
+alias ga="git add"
+alias gd="git diff"
 
 if type -q eza
     alias ls="eza --group-directories-first"
