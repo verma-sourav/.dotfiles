@@ -88,6 +88,7 @@ function M.enable_clue()
             { mode = "n", keys = "<Leader>c", desc = "+Code/LSP" },
             { mode = "n", keys = "<Leader>cg", desc = "+Goto" },
             { mode = "n", keys = "<Leader>cs", desc = "+Show" },
+            { mode = "n", keys = "<Leader>d", desc = "+Debugger" },
         },
     })
 end

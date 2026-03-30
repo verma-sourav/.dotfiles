@@ -10,7 +10,7 @@
     hash = rev-parse --short HEAD
     last = log -1 HEAD --stat
     lg = log --graph --all --pretty=format:'%C(magenta)%h %C(white) %an  %ar%C(blue)  %D%n%s%n'
-    ll = log --graph --pretty=format:'%C(magenta)%h %C(white)%an %C(reset)%s %C(white)(%ar)'
+    ll = log --graph --pretty=format:'%C(magenta)%h %C(white)%an %C(reset)%s %C(white)(%ar) %d'
     push-origin = "!f(){ git push --set-upstream origin \"$(git branch --show-current)\"; }; f"
     sm = submodule
     uncommit = reset --soft HEAD^

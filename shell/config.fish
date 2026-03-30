@@ -30,5 +30,17 @@ if type -q eza
     alias lla="eza --group-directories-first --long --all"
 end
 
+# https://learn.microsoft.com/en-us/windows/terminal/tutorials/new-tab-same-directory#fish
+function storePathForWindowsTerminal --on-variable PWD
+    if test -n "$WT_SESSION"
+      printf "\e]9;9;%s\e\\" (wslpath -w "$PWD")
+    end
+end
+
+function starship_transient_prompt_func
+  starship module character
+end
+
 ensure_ssh_agent
-oh-my-posh init fish --config "$fish_dotfiles_dir/oh-my-posh.toml" | source
+starship init fish | source
+enable_transience

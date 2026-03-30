@@ -13,7 +13,7 @@ scrollback-limit = 50_000_000
 keybind = ctrl+alt+page_up=scroll_page_up
 keybind = ctrl+alt+page_down=scroll_page_down
 
-theme = catppuccin-mocha
+theme = Catppuccin Mocha
 window-padding-x = 6
 shell-integration-features = no-cursor
 cursor-style = block

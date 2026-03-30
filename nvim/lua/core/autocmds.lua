@@ -46,6 +46,18 @@ function M.setup()
         end,
     })
 
+    vim.api.nvim_create_autocmd("FileType", {
+        group = M.augroup,
+        desc = "Automatically setup Treesitter",
+        callback = function(details)
+            local buf = details.buf
+            if pcall(vim.treesitter.start) then
+                vim.bo[buf].syntax = "on"
+                vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+            end
+        end,
+    })
+
     vim.api.nvim_create_autocmd("BufWritePre", {
         group = M.augroup,
         desc = "Format on save",

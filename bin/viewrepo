@@ -1,47 +1,66 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/usr/bin/env python3
+import argparse
+import os
+import subprocess
+from urllib.parse import urlparse
 
-GITHUB_USER=""
-REPO_NAME=""
-TEMP_DIR="/tmp/repos"
+TEMP_DIR = "/tmp/repos"
 
-print_usage() {
-    echo "USAGE $(basename "$0") GITHUB_USER REPO_NAME"
-}
 
-parse_arguments() {
-    if (($# < 2)); then
-        echo "Not enough positional arguments were provided"
-        print_usage
-        exit 1
-    fi
+def get_repo_url() -> str:
+    p = argparse.ArgumentParser()
+    p.add_argument("repo_url", help="The repo URL to clone and open")
+    args = p.parse_args()
+    return args.repo_url
 
-    if (($# > 2)); then
-        echo "Too many positional arguments were provided"
-        print_usage
-        exit 1
-    fi
 
-    GITHUB_USER="$1"
-    REPO_NAME="$2"
-}
+def get_full_url(original: str) -> str:
+    url = urlparse(original)
+    slash_count = url.path.count("/")
+    # Full URL (https://github.com/user/repo or ssh://git@github.com:user/repo)
+    if url.scheme != "":
+        return original
+    # URL without scheme (github.com/user/repo)
+    if slash_count == 2:
+        return f"https://{url.path}"
+    # Just repo path (user/repo)
+    if slash_count == 1:
+        return f"https://github.com/{url.path}"
+    return ""
 
-main() {
-    parse_arguments "$@"
 
-    local editor="${VISUAL:-${EDITOR:-vim}}"
-    local repo_dir="$TEMP_DIR/$REPO_NAME"
+def get_editor() -> str:
+    visual = os.getenv("VISUAL")
+    if visual:
+        return visual
+    editor = os.getenv("EDITOR")
+    if editor:
+        return editor
+    return "vim"
 
-    if [[ ! -d "$repo_dir" ]]; then
-        local url="https://github.com/$GITHUB_USER/$REPO_NAME"
-        echo "Creating a shallow clone of the repo. If it asks for auth info, the URL may be invalid ($url)"
-        git clone --depth 1 "$url" "$repo_dir"
-    fi
 
-    # Changing into the directory before opening it ensures the working directory is set properly
-    echo "Opening $repo_dir"
-    cd "$repo_dir"
-    $editor .
-}
+def main():
+    raw_url = get_repo_url()
+    full_url = get_full_url(raw_url)
+    if full_url == "":
+        print("Invalid URL format. Unable to determine the full URL to clone")
+        exit(1)
 
-main "$@"
+    repo_name = full_url.rsplit("/", 1)[-1]
+    dest_dir = os.path.join(TEMP_DIR, repo_name)
+
+    if not os.path.isdir(dest_dir):
+        print("Creating a shallow clone of the repository")
+        print("If it asks for auth info, the URL is probably invalid or doesn't exist")
+        print(f"  url: {full_url}")
+        print(f"  dir: {dest_dir}")
+        proc = subprocess.run(["git", "clone", "--depth", "1", full_url, dest_dir])
+        if proc.returncode != 0:
+            exit(proc.returncode)
+
+    editor = get_editor()
+    subprocess.run([editor, "."], cwd=dest_dir)
+
+
+if __name__ == "__main__":
+    main()

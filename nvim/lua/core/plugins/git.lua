@@ -1,5 +1,14 @@
 return {
-    { "akinsho/git-conflict.nvim", version = "*", config = true },
+    {
+        "sindrets/diffview.nvim",
+        opts = {
+            view = {
+                merge_tool = {
+                    layout = "diff4_mixed",
+                },
+            },
+        },
+    },
     {
         "tpope/vim-fugitive",
         dependencies = { "tpope/vim-rhubarb" },
