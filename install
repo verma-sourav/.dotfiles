@@ -14,17 +14,44 @@ source "$SCRIPTS_DIR/helpers.sh"
 # profile file and load them from there. This function configures other shells like bash and zsh to
 # also load the profile just in case the problem above happens.
 setup_profiles() {
-    local cmd="source '$BASE_DIR/shell/profile'"
     local shell_configs=("$HOME/.bash_profile" "$HOME/.zprofile" "$HOME/.profile")
+
+    local old_start="# Added by dotfiles installer"
+    local old_command="source '$BASE_DIR/shell/profile'"
+    local old_pattern="$old_start\n$old_command"
     for config in "${shell_configs[@]}"; do
-        if [[ -f "$config" ]] && grep -q "$cmd" "$config"; then
+        if [[ ! -f "$config" ]]; then
+            continue
+        fi
+
+        if ! grep --quiet --null-data "$old_pattern" "$config"; then
+            continue
+        fi
+
+        # The initial copy here is just so that our new file has the same permissions as the
+        # existing file. The chmod and chown command on macOS don't support --reference.
+        log "Removing old shell profile command from '$config'"
+        cp -p "$config" "$config.tmp"
+        sed -e "\|$old_start|d" -e "\|$old_command|d" "$config" > "$config.tmp"
+        mv "$config.tmp" "$config"
+    done
+
+    local block_start="# Start of dotfiles section"
+    local block_cmd="if [ -f '$BASE_DIR/shell/profile' ]; then source '$BASE_DIR/shell/profile'; fi"
+    local block_end="# End of dotfiles section"
+    for config in "${shell_configs[@]}"; do
+        if [[ -f "$config" ]] && grep -q "$block_start" "$config"; then
             log "Source command has already been added to '$config'"
             continue
         fi
 
         log "Adding source command to '$config'"
-        echo "# Added by dotfiles installer" >> "$config"
-        echo "$cmd" >> "$config"
+        {
+            echo
+            echo "$block_start"
+            echo "$block_cmd"
+            echo "$block_end"
+        } >> "$config"
     done
 }
 

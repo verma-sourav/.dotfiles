@@ -38,6 +38,10 @@ local function omap(key, cmd, opts)
     return map("o", key, cmd, opts)
 end
 
+-- Recenter screen when navigating up and down
+nmap("<C-u>", "<C-u>zz")
+nmap("<C-d>", "<C-d>zz")
+
 -- Faster buffer navigation
 nmap("<C-h>", "<C-w>h")
 nmap("<C-j>", "<C-w>j")
@@ -78,31 +82,30 @@ nmap("<leader>e", "<cmd>Oil<cr>", { desc = "file explorer" })
 
 -- Find (pickers)
 -- stylua: ignore start
-nmap("<leader>ff", function() require("core.plugins.snacks").project_files() end, { desc = "project files" })
-nmap("<leader>fF", function() Snacks.picker.files() end, { desc = "all files" })
-nmap("<leader>fG", function() Snacks.picker.git_files() end, { desc = "git files" })
+nmap("<leader>ff", function() Snacks.picker.files() end, { desc = "files" })
 nmap("<leader>fb", function() Snacks.picker.buffers() end, { desc = "buffers" })
-nmap("<leader>fl", function() Snacks.picker.lines() end, { desc = "buffer" })
+nmap("<leader>fl", function() Snacks.picker.lines() end, { desc = "lines (current buffer)" })
 nmap("<leader>fg", function() Snacks.picker.grep() end, { desc = "grep" })
 nmap("<leader>fh", function() Snacks.picker.help() end, { desc = "help" })
-nmap("<leader>fu", function() Snacks.picker.undo() end, { desc = "undo" })
 nmap("<leader>fs", function() Snacks.picker.lsp_symbols() end, { desc = "symbols" })
 nmap("<leader>fS", function() Snacks.picker.lsp_workspace_symbols() end, { desc = "symbols (workspace)" })
-nmap("<leader>fr", function() Snacks.picker.recent({ filter = { cwd = true } }) end, { desc = "recent" })
+nmap("<leader>fr", function() Snacks.picker.recent() end, { desc = "recent" })
+nmap("<leader>fp", function() Snacks.picker.pickers() end, { desc = "pickers" })
+nmap("<leader>pp", function() Snacks.picker.resume() end, { desc = "re-open previous picker" })
 -- stylua: ignore end
 
 -- Buffer
 nmap("<leader>bd", function()
     require("mini.bufremove").delete(0, false)
 end, { desc = "delete current buffer" })
-nmap("<leader>bz", "<cmd>tab split<cr>", { desc = "zoom current buffer (tab split)" })
+nmap("<leader>bz", "<C-w>T", { desc = "zoom current buffer (move to tab)" })
 
 -- g: git
 nmap("<leader>gd", function()
     Snacks.picker.git_diff()
 end, { desc = "git diff" })
 nmap("<leader>gl", function()
-    Snacks.picker.git_log()
+    Snacks.picker.git_log_file()
 end, { desc = "git log" })
 nmap("<leader>gs", function()
     Snacks.picker.git_status()
@@ -113,7 +116,7 @@ vmap("<leader>gro", ":GBrowse<cr>", { desc = "open remote" })
 map({ "n", "v" }, "<leader>grd", function()
     local cmd = vim.system({ "git", "symbolic-ref", "refs/remotes/origin/HEAD" }, { text = true }):wait()
     if cmd.code ~= 0 then
-        require("core.utils").error("Failed to execute git to determine the default branch")
+        require("utils").error("Failed to execute git to determine the default branch")
         return nil
     end
     local parts = vim.split(cmd.stdout, "/")
@@ -124,10 +127,6 @@ map({ "n", "v" }, "<leader>grd", function()
     local range_end = math.max(cursor_line, visual_end_line)
     vim.cmd(string.format(":%d,%dGBrowse %s:%%", range_start, range_end, def_branch_name))
 end, { desc = "open remote on default branch" })
-
-nmap("<leader>pp", function()
-    Snacks.picker.resume()
-end, { desc = "re-open previous picker" })
 
 -- x: diagnostics & errors
 nmap("<leader>xf", function()
@@ -183,11 +182,3 @@ nmap("<leader>ca", vim.lsp.buf.code_action, { desc = "code action" })
 nmap("<leader>cr", vim.lsp.buf.rename, { desc = "rename symbol" })
 nmap("<leader>cS", vim.lsp.buf.signature_help, { desc = "signature help" })
 imap("<A-s>", vim.lsp.buf.signature_help, { desc = "signature help" })
-
--- debugger
-nmap("<leader>db", "<cmd>DapToggleBreakpoint<cr>", { desc = "toggle breakpoint" })
-nmap("<leader>dC", "<cmd>DapClearBreakpoints<cr>", { desc = "clear breakpoints" })
-nmap("<leader>dn", "<cmd>DapNew<cr>", { desc = "start a new session" })
-nmap("<leader>dc", "<cmd>DapContinue<cr>", { desc = "continue execution (or start new)" })
-nmap("<leader>dd", "<cmd>DapDisconnect<cr>", { desc = "disconnect from current session" })
-nmap("<leader>dt", "<cmd>DapTerminate<cr>", { desc = "terminate current session" })

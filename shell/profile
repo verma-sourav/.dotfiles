@@ -71,6 +71,7 @@ prepend_path "$DOTS/bin"
 export EDITOR="$(which nvim)"
 export VISUAL="$EDITOR"
 export SUDO_EDITOR="$EDITOR"
+export MANPAGER="nvim +Man!"
 
 if [ -f "$DOTS_LOCAL_PROFILE" ]; then
     . "$DOTS_LOCAL_PROFILE"

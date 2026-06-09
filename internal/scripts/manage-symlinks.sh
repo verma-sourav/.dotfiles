@@ -61,7 +61,12 @@ main() {
     create_link "$REPO_ROOT/nvim" "$HOME/.config/nvim"
     create_link "$REPO_ROOT/starship/starship.toml" "$HOME/.config/starship.toml"
     create_link "$REPO_ROOT/tmux" "$HOME/.config/tmux"
-    create_link "$REPO_ROOT/wezterm" "$HOME/.config/wezterm"
+
+    # Link individual completion files, and not the entire directory. Some programs auto-install
+    # completions, and if the directory was linked they would show up as changes to this repo.
+    for f in "$REPO_ROOT/shell/completions/"*.fish; do
+        create_link "$f" "$HOME/.config/fish/completions/$(basename "$f")"
+    done
 
     create_link "$REPO_ROOT/ghostty/config" "$HOME/.config/ghostty/config"
     if on_macos; then

@@ -1,11 +1,4 @@
--- This logic to run Go tests was extracted from https://github.com/crispgm/nvim-go. All I really
--- want is the testing commands and not everything else, so this extracts just the testing stuff.
--- The specific commit was a665d79ba394e4bc7398c866ca603ebddae28641
 local M = {}
-
-local function show_warning(prefix, msg)
-    vim.api.nvim_echo({ { prefix, "WarningMsg" }, { " " .. msg } }, true, {})
-end
 
 local function show_error(prefix, msg)
     vim.api.nvim_echo({ { prefix, "ErrorMsg" }, { " " .. msg } }, true, {})
@@ -27,9 +20,7 @@ local function build_args(args, opts)
         table.insert(args, "-v")
     end
 
-    -- Redirect stderr to stdout so neovim won't crash (crispgm/nvim-go #12)
-    table.insert(args, "2>&1")
-    return table.concat(args, " ")
+    return args
 end
 
 local function valid_func_name(func_name)
@@ -45,38 +36,45 @@ local function valid_buf()
     return vim.api.nvim_buf_is_valid(buf_nr) and vim.api.nvim_get_option_value("buflisted", { buf = buf_nr })
 end
 
-local function do_test(prefix, cmd)
+local function do_test(cmd)
     if not valid_buf() then
         return
     end
 
-    local function on_event(_, data, event)
-        local outputs = {}
-        for _, v in ipairs(data) do
-            if string.len(v) > 0 then
-                table.insert(outputs, v)
-            end
+    -- Capture the buffer directory before creating and focusing on the scratch buffer and window
+    local cwd = vim.fn.expand("%:p:h")
+    local buf, win = M.create_window()
+
+    local function append_data(_, data)
+        if not data or data == "" then
+            return
         end
 
-        if #outputs > 0 then
-            M.show_output(outputs)
+        local lines = vim.split(data, "\n", { plain = true })
+        vim.schedule(function()
+            vim.api.nvim_buf_set_lines(buf, -1, -1, false, lines)
+            if vim.api.nvim_win_is_valid(win) then
+                vim.api.nvim_win_set_cursor(win, { vim.api.nvim_buf_line_count(buf), 0 })
+            end
+        end)
+    end
+
+    local function on_exit(result)
+        local ec = result.code
+        if ec == 0 then
+            append_data(nil, "PASSED")
+        else
+            append_data(nil, "FAILED (exit code: " .. ec .. ")")
         end
     end
 
-    local cwd = vim.fn.expand("%:p:h")
-    local opts = {
-        on_exit = function(_, code, _)
-            if code ~= 0 then
-                show_warning(prefix, string.format("error code: %d", code))
-            end
-        end,
+    append_data(nil, "Running command: " .. table.concat(cmd, " "))
+    vim.system(cmd, {
         cwd = cwd,
-        on_stdout = on_event,
-        on_stderr = on_event,
-        stdout_buffered = true,
-        stderr_buffered = true,
-    }
-    vim.fn.jobstart(cmd, opts)
+        text = true,
+        stdout = append_data,
+        stderr = append_data,
+    }, on_exit)
 end
 
 function M.test(opts)
@@ -84,9 +82,8 @@ function M.test(opts)
         return
     end
 
-    local prefix = "GoTest"
     local cmd = { "go", "test" }
-    do_test(prefix, build_args(cmd, opts))
+    do_test(build_args(cmd, opts))
 end
 
 function M.test_all(opts)
@@ -94,9 +91,8 @@ function M.test_all(opts)
         return
     end
 
-    local prefix = "GoTestAll"
     local cmd = { "go", "test", "./..." }
-    do_test(prefix, build_args(cmd, opts))
+    do_test(build_args(cmd, opts))
 end
 
 function M.test_func(opts)
@@ -117,15 +113,14 @@ function M.test_func(opts)
         show_error("GoTestFunc", string.format("Invalid test func: %s", func_name))
         return
     end
-    func_name = vim.fn.shellescape(string.format("^%s$", func_name))
 
     local cmd = {
         "go",
         "test",
         "-run",
-        func_name,
+        string.format("^%s$", func_name),
     }
-    do_test(prefix, build_args(cmd, opts))
+    do_test(build_args(cmd, opts))
 end
 
 function M.test_file(opts)
@@ -133,7 +128,6 @@ function M.test_file(opts)
         return
     end
 
-    local prefix = "GoTestFile"
     local pattern = vim.regex("^func [Test|Example]")
     local lines = vim.api.nvim_buf_get_lines(vim.api.nvim_get_current_buf(), 1, -1, false)
     local func_names = {}
@@ -153,22 +147,20 @@ function M.test_file(opts)
         "go",
         "test",
         "-run",
-        vim.fn.shellescape(string.format("^%s$", table.concat(func_names, "|"))),
+        string.format("^%s$", table.concat(func_names, "|")),
     }
-    do_test(prefix, build_args(cmd, opts))
+    do_test(build_args(cmd, opts))
 end
 
-function M.show_output(lines)
+function M.create_window()
     local buf = vim.api.nvim_create_buf(false, true)
-    vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
     vim.api.nvim_buf_set_keymap(buf, "n", "q", ":q!<cr>", { noremap = true, silent = true })
 
     local width = math.floor(vim.o.columns * 0.8)
     local height = math.floor(vim.o.lines * 0.8)
     local row = math.floor((vim.o.lines - height) / 2)
     local col = math.floor((vim.o.columns - width) / 2)
-
-    vim.api.nvim_open_win(buf, true, {
+    local win = vim.api.nvim_open_win(buf, true, {
         relative = "editor",
         width = width,
         height = height,
@@ -176,6 +168,36 @@ function M.show_output(lines)
         col = col,
         style = "minimal",
         border = "rounded",
+    })
+
+    return buf, win
+end
+
+function M.setup()
+    local group = vim.api.nvim_create_augroup("GoTest", { clear = true })
+    vim.api.nvim_create_autocmd("FileType", {
+        pattern = "go",
+        desc = "Add commands for running Go tests",
+        group = group,
+        callback = function(o)
+            local buf = o.buf
+
+            vim.api.nvim_buf_create_user_command(buf, "GoTest", function(opts)
+                M.test({ verbose = opts.args == "verbose" })
+            end, { nargs = "?" })
+
+            vim.api.nvim_buf_create_user_command(buf, "GoTestAll", function(opts)
+                M.test_all({ verbose = opts.args == "verbose" })
+            end, { nargs = "?" })
+
+            vim.api.nvim_buf_create_user_command(buf, "GoTestFile", function(opts)
+                M.test_file({ verbose = opts.args == "verbose" })
+            end, { nargs = "?" })
+
+            vim.api.nvim_buf_create_user_command(buf, "GoTestFunc", function(opts)
+                M.test_func({ verbose = opts.args == "verbose" })
+            end, { nargs = "?" })
+        end,
     })
 end
 
